@@ -22,10 +22,8 @@ a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar-track{background:var(--navy)}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
 
-/* SCROLL PROGRESS BAR */
 #progressBar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;z-index:999;transition:width .1s}
 
-/* LOADER */
 #loader{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;transition:opacity .6s ease}
 #loader.hide{opacity:0;pointer-events:none}
 .loader-logo{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--gold);animation:pulse 1.2s ease-in-out infinite}
@@ -34,7 +32,6 @@ a{text-decoration:none;color:inherit}
 @keyframes load{from{width:0}to{width:100%}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* BACK TO TOP */
 #backTop{position:fixed;bottom:6rem;right:1.75rem;width:42px;height:42px;border-radius:50%;background:var(--navy2);border:1px solid var(--border);color:var(--gold);display:none;align-items:center;justify-content:center;cursor:pointer;z-index:200;font-size:.9rem;transition:all .2s}
 #backTop.show{display:flex}
 #backTop:hover{background:var(--gold);color:var(--navy)}
@@ -51,21 +48,23 @@ a{text-decoration:none;color:inherit}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
-/* CURSOR TRAIL */
 .trail{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9998;animation:cursor-trail .6s ease forwards}
 
-/* DASHBOARD */
 .dashboard{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:6px;padding:10px 8px;background:var(--navy2);border-radius:0 14px 14px 0;border:1px solid var(--border);border-left:none}
 .dash-btn{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;cursor:pointer;transition:all .25s;position:relative}
 .dash-btn:hover{background:var(--gold-light);color:var(--gold)}
 .dash-btn .tip{position:absolute;left:50px;background:var(--navy);color:var(--gold);font-size:11px;padding:4px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;border:1px solid var(--border)}
 .dash-btn:hover .tip{opacity:1}
 
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,box-shadow .4s}
 nav.scrolled{background:rgba(7,17,43,.96);backdrop-filter:blur(16px);box-shadow:0 2px 24px rgba(0,0,0,.35)}
 .nav-logo{display:flex;align-items:center;gap:10px}
-.logo-box{width:40px;height:40px;background:var(--gold-light);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold)}
+
+/* LOGO — upload logo.png to assets/images/logo.png */
+.logo-img{width:40px;height:40px;border-radius:10px;object-fit:contain;display:none}
+.logo-img.loaded{display:block}
+.logo-box-fallback{width:40px;height:40px;background:var(--gold-light);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold)}
+
 .nav-brand{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--white)}
 .nav-brand span{color:var(--gold)}
 .nav-links{display:flex;align-items:center;gap:1.75rem}
@@ -79,7 +78,6 @@ nav.scrolled{background:rgba(7,17,43,.96);backdrop-filter:blur(16px);box-shadow:
 .mob-menu.open{display:flex}
 .mob-menu a{color:rgba(255,255,255,.8);font-size:1rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.07)}
 
-/* HERO */
 .hero{min-height:100vh;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 55%,#152a58 100%);display:flex;align-items:center;padding:100px 5% 60px;position:relative;overflow:hidden}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.05) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
 .hero-orb{position:absolute;right:-8%;top:15%;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.14) 0%,transparent 68%);pointer-events:none;animation:float-orb 7s ease-in-out infinite}
@@ -96,15 +94,13 @@ h1.hero-h1 em{font-style:normal;color:var(--gold)}
 .btn-gold:hover{opacity:.88}
 .btn-wht{border:1.5px solid rgba(255,255,255,.3);color:var(--white);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;transition:all .2s;display:inline-block}
 .btn-wht:hover{border-color:var(--gold);color:var(--gold)}
-.btn-gld-out{border:1.5px solid var(--gold);color:var(--gold);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;transition:all .2s;display:inline-block}
+.btn-gld-out{border:1.5px solid var(--gold);color:var(--gold);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;transition:all .2s;display:inline-block;cursor:pointer;background:transparent;font-family:'Outfit',sans-serif}
 .btn-gld-out:hover{background:var(--gold);color:var(--navy)}
 
-/* PORTFOLIO MEGA BUTTON */
 .portfolio-mega-btn{display:inline-flex;align-items:center;gap:1rem;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);padding:1.1rem 2.5rem;border-radius:10px;font-size:1.1rem;font-weight:700;font-family:'Cormorant Garamond',serif;letter-spacing:.03em;animation:breathe 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s;cursor:pointer;border:none;text-decoration:none;margin-top:1rem;box-shadow:0 8px 32px rgba(201,168,76,.3)}
 .portfolio-mega-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,168,76,.4)}
 .portfolio-mega-btn i{font-size:1.3rem}
 
-/* ORBIT */
 .hero-visual{display:flex;align-items:center;justify-content:center;height:400px;animation:fadeUp .6s ease .5s both}
 .orbit-wrap{position:relative;width:300px;height:300px}
 .orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:var(--navy2);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;z-index:3;box-shadow:0 0 30px rgba(201,168,76,.2)}
@@ -120,13 +116,11 @@ h1.hero-h1 em{font-style:normal;color:var(--gold)}
 .p3{left:-26px;top:50%;margin-top:-26px}
 .p4{right:-26px;top:50%;margin-top:-26px}
 
-/* STATS */
 .stats-strip{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2rem 5%;display:flex;justify-content:center;gap:4rem;flex-wrap:wrap}
 .sstat{text-align:center}
 .sstat-num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--gold);display:block;line-height:1}
 .sstat-lbl{font-size:.75rem;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;margin-top:5px}
 
-/* SECTIONS */
 section{padding:6rem 5%}
 .section-inner{max-width:1200px;margin:0 auto}
 .stag{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:.75rem}
@@ -138,7 +132,6 @@ section{padding:6rem 5%}
 .sec-head{margin-bottom:3.5rem}
 .center{text-align:center}.center .stag{justify-content:center}.center .ssub{margin:0 auto}
 
-/* PILLARS */
 .svc-bg{background:var(--off)}
 .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
 .pcard{background:var(--white);border:1px solid rgba(10,35,66,.08);border-radius:14px;padding:2rem 1.5rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
@@ -154,7 +147,6 @@ section{padding:6rem 5%}
 .plink{font-size:.78rem;font-weight:600;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.4rem;transition:gap .2s}
 .plink:hover{gap:.7rem}
 
-/* RESULTS */
 .res-bg{background:var(--navy2)}
 .res-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
 .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
@@ -176,7 +168,6 @@ section{padding:6rem 5%}
 .bitem .fa-times{color:#e27b7b;font-size:.65rem}
 .bitem .fa-check{color:#6fcf97;font-size:.65rem}
 
-/* PACKAGES */
 .pkg-bg{background:var(--off)}
 .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
 .pkg{background:var(--white);border:1px solid rgba(10,35,66,.1);border-radius:14px;padding:2.2rem 1.85rem;position:relative;transition:transform .3s,box-shadow .3s}
@@ -191,7 +182,6 @@ section{padding:6rem 5%}
 .pkg-btn{width:100%;padding:.88rem;border-radius:8px;font-size:.875rem;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;border:1.5px solid var(--gold);background:transparent;color:var(--gold);transition:all .2s}
 .pkg-btn:hover,.pkg.feat .pkg-btn{background:var(--gold);color:var(--navy)}
 
-/* REGISTER MODAL (Google Form) */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
 .modal-overlay.open{display:flex}
 .modal-box{background:var(--navy2);border:1px solid var(--border);border-radius:16px;width:90%;max-width:700px;max-height:90vh;overflow:hidden;position:relative}
@@ -203,7 +193,6 @@ section{padding:6rem 5%}
 .modal-body iframe{width:100%;height:520px;border:none;display:block}
 .modal-note{padding:1rem 1.5rem;font-size:.78rem;color:rgba(255,255,255,.4);border-top:1px solid var(--border);text-align:center}
 
-/* PROCESS */
 .proc-bg{background:var(--navy)}
 .proc-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;position:relative}
 .proc-steps::before{content:'';position:absolute;top:36px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
@@ -214,11 +203,14 @@ section{padding:6rem 5%}
 .pstep h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
 .pstep p{font-size:.82rem;color:rgba(255,255,255,.48);line-height:1.7}
 
-/* ABOUT */
+/* ABOUT / FOUNDER PHOTO */
 .about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
-.photo-box{aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--navy2);border:1px solid var(--border)}
-.photo-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--muted);padding:2rem;text-align:center}
+.photo-box{aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--navy2);border:1px solid var(--border);position:relative}
+/* Upload founder.jpeg to assets/images/founder.jpeg — it shows automatically */
+.founder-img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--muted);padding:2rem;text-align:center;position:absolute;inset:0}
 .photo-ph i{font-size:3rem;color:var(--border)}
+.photo-ph p{font-size:.8rem;color:rgba(255,255,255,.3)}
 .pbadge{position:absolute;bottom:-1.25rem;left:-1.25rem;background:var(--gold);color:var(--navy);padding:.95rem 1.2rem;border-radius:12px}
 .pbadge .bnum{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;display:block;line-height:1}
 .pbadge .blbl{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
@@ -228,7 +220,6 @@ section{padding:6rem 5%}
 .chips{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.5rem}
 .chip{font-size:.72rem;padding:.32rem .85rem;border-radius:20px;background:var(--gold-light);border:1px solid var(--border);color:#7a5e20;font-weight:500}
 
-/* CONTACT */
 .con-bg{background:var(--navy)}
 .con-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .clinks{display:flex;flex-direction:column;gap:.9rem;margin-top:2rem}
@@ -257,7 +248,6 @@ section{padding:6rem 5%}
 .f-success h4{color:var(--white);font-size:1.1rem;margin-bottom:.5rem;font-family:'Cormorant Garamond',serif}
 .f-success p{color:rgba(255,255,255,.55);font-size:.85rem}
 
-/* NOTION SECTION */
 .notion-bg{background:linear-gradient(135deg,var(--navy2),var(--navy3))}
 .notion-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
 .notion-steps{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
@@ -270,13 +260,10 @@ section{padding:6rem 5%}
 .ndb-title{font-size:.72rem;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
 .ndb-row{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:rgba(255,255,255,.04);border-radius:6px;margin-bottom:.4rem}
 .ndb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.ndb-dot.green{background:#6fcf97}
-.ndb-dot.gold{background:var(--gold)}
-.ndb-dot.blue{background:#56acf0}
+.ndb-dot.green{background:#6fcf97}.ndb-dot.gold{background:var(--gold)}.ndb-dot.blue{background:#56acf0}
 .ndb-label{font-size:.8rem;color:rgba(255,255,255,.6)}
 .ndb-val{margin-left:auto;font-size:.75rem;color:rgba(255,255,255,.35)}
 
-/* FOOTER */
 footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
 .foot-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--white)}
 .foot-logo span{color:var(--gold)}
@@ -285,7 +272,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 .foot-links a:hover{color:var(--gold)}
 .foot-copy{font-size:.72rem;color:rgba(255,255,255,.22)}
 
-/* AI CHAT */
 .chat-bubble{position:fixed;bottom:1.75rem;right:1.75rem;z-index:300}
 .chat-toggle{width:58px;height:58px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--navy);box-shadow:0 4px 24px rgba(201,168,76,.38);animation:breathe 3s ease-in-out infinite;transition:transform .2s}
 .chat-toggle:hover{transform:scale(1.1)!important}
@@ -318,7 +304,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 .csend:hover{opacity:.85}
 .chat-powered{font-size:.65rem;color:rgba(255,255,255,.25);text-align:center;padding:.4rem;border-top:1px solid var(--border)}
 
-/* RESPONSIVE */
 @media(max-width:1024px){
   .pillars{grid-template-columns:1fr 1fr}
   .pkg-grid{grid-template-columns:1fr;max-width:500px;margin:0 auto}
@@ -343,19 +328,13 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 </head>
 <body>
 
-<!-- LOADER -->
 <div id="loader">
   <div class="loader-logo">G</div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
 </div>
-
-<!-- SCROLL PROGRESS -->
 <div id="progressBar"></div>
-
-<!-- BACK TO TOP -->
 <div id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></div>
 
-<!-- DASHBOARD -->
 <div class="dashboard">
   <a href="#hero" class="dash-btn"><i class="fas fa-home"></i><span class="tip">Home</span></a>
   <a href="#services" class="dash-btn"><i class="fas fa-layer-group"></i><span class="tip">Services</span></a>
@@ -368,10 +347,13 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   <a href="portfolio.html" class="dash-btn"><i class="fas fa-briefcase"></i><span class="tip">Portfolio</span></a>
 </div>
 
-<!-- NAV -->
 <nav id="navbar">
   <div class="nav-logo">
-    <div class="logo-box">G</div>
+    <!-- Upload logo.png to assets/images/logo.png — shows automatically, falls back to G -->
+    <img class="logo-img" id="logoImg" src="assets/images/logo.png" alt="Growthive Systems Logo"
+         onload="this.classList.add('loaded');document.getElementById('logoFallback').style.display='none'"
+         onerror="this.style.display='none'">
+    <div class="logo-box-fallback" id="logoFallback">G</div>
     <span class="nav-brand">Growthive <span>Systems</span></span>
   </div>
   <div class="nav-links">
@@ -395,7 +377,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   <a href="#contact" onclick="toggleMob()" style="color:var(--gold);font-weight:600">Get Started →</a>
 </div>
 
-<!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-grid"></div>
   <div class="hero-orb"></div>
@@ -416,7 +397,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
         <a href="#packages" class="btn-wht">View Packages</a>
         <button class="btn-gld-out" onclick="openRegister()">Register With Us</button>
       </div>
-      <!-- OUR PORTFOLIO MEGA BUTTON -->
       <a href="portfolio.html" class="portfolio-mega-btn">
         <i class="fas fa-briefcase"></i>
         Our Portfolio — See Our Work
@@ -439,7 +419,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </section>
 
-<!-- STATS -->
 <div class="stats-strip">
   <div class="sstat"><span class="sstat-num" data-target="120">0</span><span class="sstat-lbl">Businesses Transformed</span></div>
   <div class="sstat"><span class="sstat-num" data-target="95">0</span><span class="sstat-lbl">% Client Satisfaction</span></div>
@@ -447,7 +426,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   <div class="sstat"><span class="sstat-num" data-target="3">0</span><span class="sstat-lbl">Years of Excellence</span></div>
 </div>
 
-<!-- SERVICES -->
 <section class="svc-bg" id="services">
   <div class="section-inner">
     <div class="sec-head center reveal">
@@ -508,7 +486,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </section>
 
-<!-- RESULTS -->
 <section class="res-bg" id="results">
   <div class="section-inner">
     <div class="res-inner">
@@ -560,7 +537,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </section>
 
-<!-- PACKAGES -->
 <section class="pkg-bg" id="packages">
   <div class="section-inner">
     <div class="sec-head center reveal">
@@ -617,7 +593,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </section>
 
-<!-- PROCESS -->
 <section class="proc-bg" id="process">
   <div class="section-inner">
     <div class="sec-head center reveal">
@@ -634,14 +609,18 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="section-inner">
     <div class="about-inner">
       <div class="founder-side reveal">
         <div class="photo-box">
-          <!-- ADD PHOTO: <img src="assets/images/founder.jpeg" style="width:100%;height:100%;object-fit:cover"> -->
-          <div class="photo-ph"><i class="fas fa-user-circle"></i><p>Add your photo<br><small>assets/images/founder.jpeg</small></p></div>
+          <!-- Upload founder.jpeg to assets/images/founder.jpeg — appears automatically -->
+          <img class="founder-img" src="assets/images/founder.jpeg" alt="David Ayogu — Founder & CEO"
+               onerror="this.style.display='none';document.getElementById('founderPh').style.display='flex'">
+          <div class="photo-ph" id="founderPh" style="display:none">
+            <i class="fas fa-user-circle"></i>
+            <p>Upload founder.jpeg<br>to assets/images/</p>
+          </div>
         </div>
         <div class="pbadge"><span class="bnum">3+</span><span class="blbl">Years of Impact</span></div>
       </div>
@@ -659,7 +638,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </section>
 
-<!-- NOTION INTEGRATION SECTION -->
 <section class="notion-bg" id="notion">
   <div class="section-inner">
     <div class="notion-inner">
@@ -668,26 +646,11 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
         <h2 class="stitle lt">Your business, automated.</h2>
         <p class="ssub lt">Every lead, inquiry, and client interaction is automatically captured and organised in your Notion workspace — your operational brain.</p>
         <div class="notion-steps">
-          <div class="nstep">
-            <div class="nstep-num">1</div>
-            <div class="nstep-text"><h4>Visitor submits a form</h4><p>Contact form or Google registration form on this website</p></div>
-          </div>
-          <div class="nstep">
-            <div class="nstep-num">2</div>
-            <div class="nstep-text"><h4>Make.com captures the data</h4><p>The automation engine triggers instantly — no delays</p></div>
-          </div>
-          <div class="nstep">
-            <div class="nstep-num">3</div>
-            <div class="nstep-text"><h4>Notion Leads Database updated</h4><p>Name, email, business type & message stored automatically</p></div>
-          </div>
-          <div class="nstep">
-            <div class="nstep-num">4</div>
-            <div class="nstep-text"><h4>AI generates a personalised reply</h4><p>Gemini AI reads the inquiry and sends a tailored email response</p></div>
-          </div>
-          <div class="nstep">
-            <div class="nstep-num">5</div>
-            <div class="nstep-text"><h4>You get notified</h4><p>Check your Notion dashboard and follow up with confidence</p></div>
-          </div>
+          <div class="nstep"><div class="nstep-num">1</div><div class="nstep-text"><h4>Visitor submits a form</h4><p>Contact form or Google registration form on this website</p></div></div>
+          <div class="nstep"><div class="nstep-num">2</div><div class="nstep-text"><h4>Make.com captures the data</h4><p>The automation engine triggers instantly — no delays</p></div></div>
+          <div class="nstep"><div class="nstep-num">3</div><div class="nstep-text"><h4>Notion Leads Database updated</h4><p>Name, email, business type & message stored automatically</p></div></div>
+          <div class="nstep"><div class="nstep-num">4</div><div class="nstep-text"><h4>AI generates a personalised reply</h4><p>Gemini AI reads the inquiry and sends a tailored email response</p></div></div>
+          <div class="nstep"><div class="nstep-num">5</div><div class="nstep-text"><h4>You get notified</h4><p>Check your Notion dashboard and follow up with confidence</p></div></div>
         </div>
       </div>
       <div class="reveal">
@@ -716,7 +679,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </section>
 
-<!-- CONTACT -->
 <section class="con-bg" id="contact">
   <div class="section-inner">
     <div class="con-inner">
@@ -788,7 +750,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="foot-logo">Growthive <span>Systems</span></div>
   <div class="foot-links">
@@ -803,7 +764,7 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   <p class="foot-copy">© 2026 Growthive Systems. All rights reserved.</p>
 </footer>
 
-<!-- GOOGLE FORM MODAL -->
+<!-- GOOGLE FORM MODAL — YOUR FORM IS LIVE -->
 <div class="modal-overlay" id="registerModal">
   <div class="modal-box">
     <div class="modal-head">
@@ -811,26 +772,16 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
       <button class="modal-close" onclick="closeRegister()"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
-      <!--
-        GOOGLE FORM EMBED:
-        1. Go to forms.google.com
-        2. Create your form with: Name, Email, Phone, Business Type, Service Interest, Message
-        3. Click Send → Embed → Copy the iframe src URL
-        4. Replace YOUR_GOOGLE_FORM_ID below with your actual form ID
-        The URL format is: https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true
-      -->
-      <iframe src="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">
-        <div style="padding:2rem;text-align:center;color:rgba(255,255,255,.6)">
-          <p style="margin-bottom:1rem">📋 Google Form will appear here.</p>
-          <p style="font-size:.82rem">Replace YOUR_GOOGLE_FORM_ID in the code with your real Google Form embed ID.</p>
-        </div>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfzrQc6xHyzf8Nv468PwlO31tylDgrXZ8HX2Nay9vk6xvYjuw/viewform?embedded=true"
+              frameborder="0" marginheight="0" marginwidth="0" title="Register with Growthive Systems">
+        Loading form…
       </iframe>
     </div>
     <div class="modal-note">Powered by Google Forms · Your data is secure and protected</div>
   </div>
 </div>
 
-<!-- AI CHAT (Gemini Powered) -->
+<!-- AI CHAT -->
 <div class="chat-bubble">
   <div class="cpulse"></div>
   <button class="chat-toggle" onclick="toggleChat()"><i class="fas fa-comment-dots"></i></button>
@@ -839,55 +790,130 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
       <div class="cavatar">🤖</div>
       <div class="chat-head-info">
         <h4>Growthive AI Assistant</h4>
-        <p>Powered by Gemini AI</p>
+        <p>Online — ask me anything</p>
       </div>
       <span class="ai-badge">AI</span>
       <button class="cclose" onclick="toggleChat()"><i class="fas fa-times"></i></button>
     </div>
     <div class="chat-msgs" id="chatMsgs">
-      <div class="cmsg bot">👋 Hi! I'm the Growthive AI assistant powered by Google Gemini. I know everything about Growthive Systems — ask me anything!</div>
+      <div class="cmsg bot">👋 Hi! I'm the Growthive AI assistant. I know everything about Growthive Systems — our services, packages, founder, process, and more. How can I help you?</div>
     </div>
     <div class="chat-irow">
       <input class="cinput" id="cinput" placeholder="Ask me anything about Growthive..." onkeydown="if(event.key==='Enter')sendChat()">
       <button class="csend" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
     </div>
-    <div class="chat-powered">Powered by Google Gemini AI · Growthive Systems</div>
+    <div class="chat-powered">Growthive Systems AI · Powered by Claude</div>
   </div>
 </div>
 
 <script>
-// ── GEMINI API CONFIG ──
-const GEMINI_API_KEY = 'AIzaSyBmXhj8jiYxdj_-N3eM_ek8MjBkQQOZazU';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+// ── GROWTHIVE FULL KNOWLEDGE BASE ──
+const GROWTHIVE_CONTEXT = `You are the official AI assistant for Growthive Systems. You ONLY answer questions about Growthive Systems and related topics. Be warm, professional, and concise. Always encourage visitors to book a free strategy call or register via the form on the site.
 
-const GROWTHIVE_CONTEXT = `You are the official AI assistant for Growthive Systems, a premium multi-service agency founded by David Ayogu. 
+=== ABOUT GROWTHIVE SYSTEMS ===
+Name: Growthive Systems
+Tagline: Strategy. Design. Structure.
+Mission: Help small and medium businesses grow through clarity, strategy, design, and structured systems.
+Founded by: David Ayogu
 
-About Growthive Systems:
-- Founded by David Ayogu, a psychology graduate with expertise in Industrial-Organizational Psychology, graphic design, video editing, HR analytics, and business strategy
-- Mission: Help small and medium businesses grow through clarity, strategy, design, and structured systems
-- Tagline: "Strategy. Design. Structure."
+=== FOUNDER — DAVID AYOGU ===
+- Psychology graduate (Industrial-Organizational Psychology)
+- Skills: Graphic design, video editing, HR analytics, business strategy, brand systems
+- Vision: Help SMEs grow beyond visibility — into structured, scalable, high-performing systems
+- Values: Clarity, discipline, purpose, faith, leadership
+- Quote: "Helping businesses move from scattered efforts to structured, scalable, high-performing systems."
 
-Our 4 Core Services:
-1. Digital Presence: Brand identity design (logos, visual systems, guidelines), content & media creation (graphics, videos), social media positioning (Instagram, LinkedIn, Facebook), digital visibility strategy
-2. Business Strategy: Business direction clarity, operational planning, growth roadmaps, market positioning, competitive strategy, business development frameworks
-3. Content & Visibility: Social media strategy, content calendars, post design, community management, engagement strategies, growth tracking
-4. People Structure (HR): Role & team hierarchy design, workflow & operational systems, hiring guidance, HR analytics, performance tracking, onboarding systems
+=== 4 CORE SERVICES ===
+1. DIGITAL PRESENCE
+   - Brand identity design (logos, visual systems, guidelines)
+   - Content & media creation (graphics, videos)
+   - Social media positioning (Instagram, LinkedIn, Facebook)
+   - Digital visibility & trust-building strategy
 
-Our 3 Packages:
-- Starter: Brand identity, social media setup, basic website, brand guidelines, 1 strategy session
-- Growth (Most Popular): Everything in Starter + monthly content creation, full business strategy, social media management (3 platforms), basic HR systems, monthly reports, 2 strategy sessions/month
-- Scale: Everything in Growth + full organizational structure, advanced HR analytics, custom web app development, Notion-powered dashboard, dedicated account manager, weekly sessions
+2. BUSINESS STRATEGY
+   - Business direction clarity & positioning
+   - Operational planning & growth roadmaps
+   - Market positioning & competitive strategy
+   - Business development frameworks
 
-How We Work (Process):
-1. Discovery - Learn business, audience, goals
-2. Strategy - Custom roadmap and messaging
-3. Execution - Deliver on time, on brand
-4. Growth & Optimisation - Track, refine, scale
+3. CONTENT & VISIBILITY
+   - Social media strategy & content calendars
+   - Post design & visual content creation
+   - Community management & engagement
+   - Growth tracking & performance reporting
 
-Contact: hello@growthivesystems.com | WhatsApp available | Instagram: @growthivesystems
-Website: Features portfolio page with graphic design work, video showcases, and website examples
+4. PEOPLE STRUCTURE (HR)
+   - Role & team hierarchy design
+   - Workflow & operational systems
+   - Hiring & team development guidance
+   - HR analytics & performance tracking
+   - Onboarding systems
 
-You must ALWAYS respond in a professional, warm, helpful tone that reflects Growthive's brand values of clarity, authority, and results. Keep responses concise but complete. Always encourage the user to book a free strategy call or visit the portfolio page when relevant.`;
+=== 3 PACKAGES ===
+STARTER — For businesses just getting started:
+  - Brand identity design (logo + colors)
+  - Social media page setup & optimization
+  - Basic landing page website
+  - Brand guidelines document
+  - 1 strategy session
+
+GROWTH — For businesses ready to scale (Most Popular):
+  - Everything in Starter
+  - Monthly content creation & posting
+  - Full business strategy framework
+  - Social media management (3 platforms)
+  - Basic HR systems & workflows
+  - Monthly performance reports
+  - 2 strategy sessions/month
+
+SCALE — For enterprises built for growth:
+  - Everything in Growth
+  - Full organizational structure design
+  - Advanced HR analytics & tracking
+  - Custom web application development
+  - Notion-powered business dashboard
+  - Dedicated account manager
+  - Weekly strategy sessions
+
+=== HOW WE WORK (4-STEP PROCESS) ===
+Step 1 — Discovery: We learn your business, audience, and goals in depth before building anything.
+Step 2 — Strategy: We design a custom roadmap — messaging, systems, and content aligned to your vision.
+Step 3 — Execution: We produce and implement deliverables — on time, on brand, and on target.
+Step 4 — Growth & Optimisation: We track, refine, and scale what's working — continuously, not once.
+
+=== RESULTS ===
+- 120+ businesses served
+- 95% client satisfaction rate
+- 3x average growth rate for clients
+- 200+ projects delivered
+- Client testimonial: "Growthive Systems completely transformed how we show up online and how we operate internally." — A. Okonkwo, CEO, Lumina Ventures
+
+=== NOTION INTEGRATION ===
+Growthive uses Notion + Make.com automation:
+1. Visitor submits a form on the website
+2. Make.com captures data instantly
+3. Notion Leads Database is automatically updated
+4. AI generates a personalised reply
+5. David gets notified and follows up
+
+=== PORTFOLIO ===
+Growthive's portfolio page (portfolio.html) showcases:
+- Video production: Brand story videos, social media campaigns, explainer videos
+- Graphic design: Logo design, brand identity, social media graphics, marketing flyers, brand posters, visual identity, digital banners, content graphics
+- Website development: Landing pages, agency portfolio sites, corporate web applications
+
+=== CONTACT & SOCIAL ===
+Email: hello@growthivesystems.com
+WhatsApp: Available via website
+Instagram: @growthivesystems
+LinkedIn: Growthive Systems
+Twitter: @growthivesys
+Register form: Available on the website — click "Register With Us"
+
+=== TOOLS & EXPERTISE ===
+Brand Identity, Video Editing, Web Development, HR Systems, Growth Strategy, Social Media, UI/UX Design, AI Integration, Notion Systems, Content Strategy
+
+If someone asks something not about Growthive, politely redirect them: "I'm specifically trained on Growthive Systems. For that question, I'd recommend reaching out to us at hello@growthivesystems.com — we'd love to help!"`;
 
 // ── LOADER ──
 window.addEventListener('load',()=>{
@@ -897,7 +923,7 @@ window.addEventListener('load',()=>{
   },1800);
 });
 
-// ── SCROLL PROGRESS ──
+// ── SCROLL ──
 window.addEventListener('scroll',()=>{
   const el=document.documentElement;
   const pct=(el.scrollTop/(el.scrollHeight-el.clientHeight))*100;
@@ -959,8 +985,6 @@ function submitForm(){
   const tc=document.getElementById('ftc').checked;
   if(!name||!email||!msg){alert('Please fill in Name, Email, and Message.');return;}
   if(!tc){alert('Please agree to the Terms & Conditions.');return;}
-  // NOTION WEBHOOK — replace with your Make.com URL
-  // fetch('YOUR_MAKE_COM_WEBHOOK_URL',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,phone:document.getElementById('fp').value,businessType:document.getElementById('fb').value,service:document.getElementById('fs').value,message:msg,timestamp:new Date().toISOString()})});
   document.getElementById('cForm').style.display='none';
   document.getElementById('fSuccess').style.display='block';
 }
@@ -969,7 +993,7 @@ function showTC(){
   alert('Terms & Conditions — Growthive Systems\n\nBy submitting this form, you consent to Growthive Systems storing and using your information solely to respond to your inquiry and provide relevant services. Your data will not be shared with third parties without your consent.\n\n© 2026 Growthive Systems. All rights reserved.');
 }
 
-// ── AI CHAT (GEMINI) ──
+// ── AI CHAT (Claude-powered via Anthropic API) ──
 let chatHistory=[];
 
 function toggleChat(){document.getElementById('chatBox').classList.toggle('open');}
@@ -1000,28 +1024,28 @@ async function sendChat(){
   inp.value='';
   showTyping();
 
-  chatHistory.push({role:'user',parts:[{text:txt}]});
+  chatHistory.push({role:'user',content:txt});
 
   try{
-    const res=await fetch(GEMINI_URL,{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        system_instruction:{parts:[{text:GROWTHIVE_CONTEXT}]},
-        contents:chatHistory,
-        generationConfig:{maxOutputTokens:400,temperature:0.7}
+        model:'claude-sonnet-4-20250514',
+        max_tokens:400,
+        system: GROWTHIVE_CONTEXT,
+        messages: chatHistory
       })
     });
     const data=await res.json();
-    const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'I apologize, I had trouble connecting. Please try again or email us at hello@growthivesystems.com';
+    const reply=data.content?.[0]?.text||'Sorry, I had a connection issue. Please email hello@growthivesystems.com or try again!';
     const t=document.getElementById('tind');if(t)t.remove();
     addMsg(reply,'bot');
-    chatHistory.push({role:'model',parts:[{text:reply}]});
+    chatHistory.push({role:'assistant',content:reply});
     if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
   }catch(err){
     const t=document.getElementById('tind');if(t)t.remove();
-    addMsg('Sorry, I had a connection issue. Please email us at hello@growthivesystems.com or try again!','bot');
-    console.error('Gemini error:',err);
+    addMsg('Sorry, I had a connection issue. Please email hello@growthivesystems.com or try again!','bot');
   }
 }
 </script>
