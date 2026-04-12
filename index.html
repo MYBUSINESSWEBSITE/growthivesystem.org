@@ -8,16 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
 :root{
-  --navy:#07112b;
-  --navy2:#0d1e45;
-  --navy3:#162555;
-  --gold:#c9a84c;
-  --gold2:#e8c97a;
-  --gold-light:rgba(201,168,76,0.12);
-  --white:#ffffff;
-  --off:#f8f7f4;
-  --muted:#8a97b0;
-  --text:#1a2540;
+  --navy:#07112b;--navy2:#0d1e45;--navy3:#162555;
+  --gold:#c9a84c;--gold2:#e8c97a;--gold-light:rgba(201,168,76,0.12);
+  --white:#ffffff;--off:#f8f7f4;--muted:#8a97b0;--text:#1a2540;
   --border:rgba(201,168,76,0.2);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -29,22 +22,43 @@ a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar-track{background:var(--navy)}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
 
+/* SCROLL PROGRESS BAR */
+#progressBar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;z-index:999;transition:width .1s}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;transition:opacity .6s ease}
+#loader.hide{opacity:0;pointer-events:none}
+.loader-logo{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--gold);animation:pulse 1.2s ease-in-out infinite}
+.loader-bar{width:200px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.loader-fill{height:100%;background:var(--gold);animation:load 1.8s ease forwards}
+@keyframes load{from{width:0}to{width:100%}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* BACK TO TOP */
+#backTop{position:fixed;bottom:6rem;right:1.75rem;width:42px;height:42px;border-radius:50%;background:var(--navy2);border:1px solid var(--border);color:var(--gold);display:none;align-items:center;justify-content:center;cursor:pointer;z-index:200;font-size:.9rem;transition:all .2s}
+#backTop.show{display:flex}
+#backTop:hover{background:var(--gold);color:var(--navy)}
+
 @keyframes breathe{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(201,168,76,.4)}50%{transform:scale(1.04);box-shadow:0 0 0 10px rgba(201,168,76,0)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse-ring{0%{transform:scale(.85);opacity:1}100%{transform:scale(2.2);opacity:0}}
 @keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes spin-rev{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
 @keyframes bounce-dot{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
-@keyframes float-orb{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-16px) scale(1.04)}}
+@keyframes float-orb{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes cursor-trail{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(0)}}
 
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
+/* CURSOR TRAIL */
+.trail{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9998;animation:cursor-trail .6s ease forwards}
+
 /* DASHBOARD */
-.dashboard{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:6px;padding:10px 8px;background:var(--navy2);border-radius:0 14px 14px 0;border:1px solid var(--border);border-left:none;box-shadow:4px 0 20px rgba(0,0,0,.3)}
+.dashboard{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:6px;padding:10px 8px;background:var(--navy2);border-radius:0 14px 14px 0;border:1px solid var(--border);border-left:none}
 .dash-btn{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;cursor:pointer;transition:all .25s;position:relative}
 .dash-btn:hover{background:var(--gold-light);color:var(--gold)}
-.dash-btn .tip{position:absolute;left:50px;background:var(--navy);color:var(--gold);font-size:11px;padding:4px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;border:1px solid var(--border);font-family:'Outfit',sans-serif}
+.dash-btn .tip{position:absolute;left:50px;background:var(--navy);color:var(--gold);font-size:11px;padding:4px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;border:1px solid var(--border)}
 .dash-btn:hover .tip{opacity:1}
 
 /* NAV */
@@ -52,16 +66,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:68px;dis
 nav.scrolled{background:rgba(7,17,43,.96);backdrop-filter:blur(16px);box-shadow:0 2px 24px rgba(0,0,0,.35)}
 .nav-logo{display:flex;align-items:center;gap:10px}
 .logo-box{width:40px;height:40px;background:var(--gold-light);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold)}
-.nav-logo img.logo-img{width:40px;height:40px;border-radius:10px;object-fit:contain;display:none}
 .nav-brand{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--white)}
 .nav-brand span{color:var(--gold)}
-.nav-links{display:flex;align-items:center;gap:2rem}
-.nav-links a{font-size:.875rem;font-weight:400;color:rgba(255,255,255,.7);transition:color .2s}
+.nav-links{display:flex;align-items:center;gap:1.75rem}
+.nav-links a{font-size:.85rem;font-weight:400;color:rgba(255,255,255,.7);transition:color .2s}
 .nav-links a:hover{color:var(--gold)}
-.nav-cta{border:1.5px solid var(--gold)!important;color:var(--gold)!important;padding:.45rem 1.3rem;border-radius:6px;font-weight:500!important;animation:breathe 3s ease-in-out infinite}
+.nav-cta{border:1.5px solid var(--gold)!important;color:var(--gold)!important;padding:.42rem 1.2rem;border-radius:6px;font-weight:500!important;animation:breathe 3s ease-in-out infinite}
 .nav-cta:hover{background:var(--gold)!important;color:var(--navy)!important}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
-.hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px;transition:all .3s}
+.hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px}
 .mob-menu{display:none;position:fixed;top:68px;left:0;right:0;background:rgba(13,30,69,.98);padding:1.5rem 5%;flex-direction:column;gap:1rem;border-bottom:1px solid var(--border);z-index:99;backdrop-filter:blur(12px)}
 .mob-menu.open{display:flex}
 .mob-menu a{color:rgba(255,255,255,.8);font-size:1rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.07)}
@@ -81,29 +94,33 @@ h1.hero-h1 em{font-style:normal;color:var(--gold)}
 .hero-btns{display:flex;gap:.85rem;flex-wrap:wrap;animation:fadeUp .6s ease .7s both}
 .btn-gold{background:var(--gold);color:var(--navy);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;font-weight:600;animation:breathe 3.5s ease-in-out infinite;transition:opacity .2s;cursor:pointer;border:none;display:inline-block;font-family:'Outfit',sans-serif}
 .btn-gold:hover{opacity:.88}
-.btn-wht{border:1.5px solid rgba(255,255,255,.3);color:var(--white);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;transition:all .2s;display:inline-block;font-family:'Outfit',sans-serif}
+.btn-wht{border:1.5px solid rgba(255,255,255,.3);color:var(--white);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;transition:all .2s;display:inline-block}
 .btn-wht:hover{border-color:var(--gold);color:var(--gold)}
-.btn-gld-out{border:1.5px solid var(--gold);color:var(--gold);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;transition:all .2s;display:inline-block;font-family:'Outfit',sans-serif}
+.btn-gld-out{border:1.5px solid var(--gold);color:var(--gold);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;transition:all .2s;display:inline-block}
 .btn-gld-out:hover{background:var(--gold);color:var(--navy)}
 
-/* HERO ORBIT */
+/* PORTFOLIO MEGA BUTTON */
+.portfolio-mega-btn{display:inline-flex;align-items:center;gap:1rem;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);padding:1.1rem 2.5rem;border-radius:10px;font-size:1.1rem;font-weight:700;font-family:'Cormorant Garamond',serif;letter-spacing:.03em;animation:breathe 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s;cursor:pointer;border:none;text-decoration:none;margin-top:1rem;box-shadow:0 8px 32px rgba(201,168,76,.3)}
+.portfolio-mega-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,168,76,.4)}
+.portfolio-mega-btn i{font-size:1.3rem}
+
+/* ORBIT */
 .hero-visual{display:flex;align-items:center;justify-content:center;height:400px;animation:fadeUp .6s ease .5s both}
 .orbit-wrap{position:relative;width:300px;height:300px}
 .orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:var(--navy2);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;z-index:3;box-shadow:0 0 30px rgba(201,168,76,.2)}
-.orbit-center img{width:48px;height:48px;border-radius:50%;object-fit:contain;display:none}
 .orbit-center-label{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold)}
 .ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px dashed var(--border)}
 .r1{width:168px;height:168px;animation:spin-slow 14s linear infinite}
 .r2{width:268px;height:268px;animation:spin-rev 22s linear infinite}
-.odot{position:absolute;width:52px;height:52px;border-radius:50%;background:var(--navy2);border:1.5px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:1.2rem;cursor:default;transition:border-color .3s,background .3s}
-.odot:hover{border-color:var(--gold);background:var(--gold-light)}
-.odot span{font-size:.55rem;color:var(--gold);font-weight:600;letter-spacing:.04em;text-transform:uppercase;line-height:1}
+.odot{position:absolute;width:52px;height:52px;border-radius:50%;background:var(--navy2);border:1.5px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:1.2rem;transition:border-color .3s}
+.odot:hover{border-color:var(--gold)}
+.odot span{font-size:.55rem;color:var(--gold);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
 .p1{top:-26px;left:50%;margin-left:-26px}
 .p2{bottom:-26px;left:50%;margin-left:-26px}
 .p3{left:-26px;top:50%;margin-top:-26px}
 .p4{right:-26px;top:50%;margin-top:-26px}
 
-/* STATS STRIP */
+/* STATS */
 .stats-strip{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2rem 5%;display:flex;justify-content:center;gap:4rem;flex-wrap:wrap}
 .sstat{text-align:center}
 .sstat-num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--gold);display:block;line-height:1}
@@ -115,15 +132,11 @@ section{padding:6rem 5%}
 .stag{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:.75rem}
 .stag::before{content:'';width:22px;height:1px;background:var(--gold)}
 .stitle{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.15;margin-bottom:1rem}
-.stitle.dk{color:var(--navy)}
-.stitle.lt{color:var(--white)}
+.stitle.dk{color:var(--navy)}.stitle.lt{color:var(--white)}
 .ssub{font-size:.975rem;font-weight:300;line-height:1.8;max-width:560px}
-.ssub.dk{color:#5a6a88}
-.ssub.lt{color:rgba(255,255,255,.62)}
+.ssub.dk{color:#5a6a88}.ssub.lt{color:rgba(255,255,255,.62)}
 .sec-head{margin-bottom:3.5rem}
-.center{text-align:center}
-.center .stag{justify-content:center}
-.center .ssub{margin:0 auto}
+.center{text-align:center}.center .stag{justify-content:center}.center .ssub{margin:0 auto}
 
 /* PILLARS */
 .svc-bg{background:var(--off)}
@@ -133,35 +146,13 @@ section{padding:6rem 5%}
 .pcard:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(10,35,66,.1)}
 .pcard:hover::after{transform:scaleX(1)}
 .picon{width:52px;height:52px;border-radius:10px;background:var(--gold-light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:1.2rem}
-.picon img{width:30px;height:30px;object-fit:contain;display:none}
 .pcard h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:.6rem}
 .pcard>p{font-size:.85rem;font-weight:300;color:#5a6a88;line-height:1.7;margin-bottom:1.1rem}
 .plist{list-style:none;margin-bottom:1.25rem}
 .plist li{font-size:.8rem;color:#5a6a88;padding:.28rem 0;display:flex;align-items:flex-start;gap:.5rem;line-height:1.5}
-.plist li::before{content:'›';color:var(--gold);font-size:.95rem;flex-shrink:0;line-height:1.45}
+.plist li::before{content:'›';color:var(--gold);font-size:.95rem;flex-shrink:0}
 .plink{font-size:.78rem;font-weight:600;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.4rem;transition:gap .2s}
 .plink:hover{gap:.7rem}
-
-/* PORTFOLIO */
-.port-bg{background:var(--navy)}
-.filter-bar{display:flex;gap:.65rem;flex-wrap:wrap;margin-bottom:2.5rem;justify-content:center}
-.fbtn{padding:.42rem 1.05rem;border-radius:20px;border:1px solid var(--border);background:transparent;color:rgba(255,255,255,.6);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
-.fbtn.active,.fbtn:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
-.port-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem}
-.pitem{border-radius:10px;overflow:hidden;position:relative;aspect-ratio:4/3;background:var(--navy2);border:1px solid var(--border);cursor:pointer}
-.pitem img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}
-.pitem-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:var(--muted);font-size:.78rem;background:var(--navy3);text-align:center;padding:1rem}
-.pitem-ph i{font-size:1.4rem;color:var(--border);margin-bottom:.25rem}
-.poverlay{position:absolute;inset:0;background:rgba(7,17,43,.85);opacity:0;transition:opacity .35s;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.4rem}
-.pitem:hover img{transform:scale(1.08)}
-.pitem:hover .poverlay{opacity:1}
-.poverlay span{color:var(--white);font-size:.82rem;font-weight:500}
-.poverlay i{color:var(--gold);font-size:1.1rem}
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:1000;align-items:center;justify-content:center}
-.lightbox.open{display:flex}
-.lightbox img{max-width:90vw;max-height:88vh;border-radius:8px;object-fit:contain}
-.lb-x{position:absolute;top:1.5rem;right:1.5rem;color:var(--white);font-size:1.5rem;cursor:pointer;background:rgba(255,255,255,.1);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.lb-x:hover{background:var(--gold);color:var(--navy)}
 
 /* RESULTS */
 .res-bg{background:var(--navy2)}
@@ -179,10 +170,9 @@ section{padding:6rem 5%}
 .ba-cols{display:grid;grid-template-columns:1fr 1px 1fr}
 .ba-col{padding:1.4rem}
 .ba-col h4{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.85rem}
-.h4-bef{color:#e27b7b}
-.h4-aft{color:#6fcf97}
+.h4-bef{color:#e27b7b}.h4-aft{color:#6fcf97}
 .ba-div{background:var(--border)}
-.bitem{font-size:.8rem;color:rgba(255,255,255,.58);padding:.3rem 0;display:flex;align-items:center;gap:.45rem;line-height:1.45}
+.bitem{font-size:.8rem;color:rgba(255,255,255,.58);padding:.3rem 0;display:flex;align-items:center;gap:.45rem}
 .bitem .fa-times{color:#e27b7b;font-size:.65rem}
 .bitem .fa-check{color:#6fcf97;font-size:.65rem}
 
@@ -201,6 +191,18 @@ section{padding:6rem 5%}
 .pkg-btn{width:100%;padding:.88rem;border-radius:8px;font-size:.875rem;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;border:1.5px solid var(--gold);background:transparent;color:var(--gold);transition:all .2s}
 .pkg-btn:hover,.pkg.feat .pkg-btn{background:var(--gold);color:var(--navy)}
 
+/* REGISTER MODAL (Google Form) */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--navy2);border:1px solid var(--border);border-radius:16px;width:90%;max-width:700px;max-height:90vh;overflow:hidden;position:relative}
+.modal-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-head h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--white)}
+.modal-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;transition:color .2s}
+.modal-close:hover{color:var(--white)}
+.modal-body{padding:0}
+.modal-body iframe{width:100%;height:520px;border:none;display:block}
+.modal-note{padding:1rem 1.5rem;font-size:.78rem;color:rgba(255,255,255,.4);border-top:1px solid var(--border);text-align:center}
+
 /* PROCESS */
 .proc-bg{background:var(--navy)}
 .proc-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;position:relative}
@@ -214,15 +216,13 @@ section{padding:6rem 5%}
 
 /* ABOUT */
 .about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
-.founder-side{position:relative}
 .photo-box{aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--navy2);border:1px solid var(--border)}
-.photo-box img.fp{width:100%;height:100%;object-fit:cover;display:none}
 .photo-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--muted);padding:2rem;text-align:center}
 .photo-ph i{font-size:3rem;color:var(--border)}
-.photo-ph p{font-size:.78rem;line-height:1.6;color:var(--muted)}
 .pbadge{position:absolute;bottom:-1.25rem;left:-1.25rem;background:var(--gold);color:var(--navy);padding:.95rem 1.2rem;border-radius:12px}
 .pbadge .bnum{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;display:block;line-height:1}
 .pbadge .blbl{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.founder-side{position:relative}
 .about-q{border-left:3px solid var(--gold);padding-left:1.2rem;margin:1.5rem 0}
 .about-q p{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--navy);line-height:1.6}
 .chips{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.5rem}
@@ -257,6 +257,25 @@ section{padding:6rem 5%}
 .f-success h4{color:var(--white);font-size:1.1rem;margin-bottom:.5rem;font-family:'Cormorant Garamond',serif}
 .f-success p{color:rgba(255,255,255,.55);font-size:.85rem}
 
+/* NOTION SECTION */
+.notion-bg{background:linear-gradient(135deg,var(--navy2),var(--navy3))}
+.notion-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.notion-steps{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
+.nstep{display:flex;align-items:flex-start;gap:1rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem}
+.nstep-num{width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--navy);font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nstep-text h4{font-size:.88rem;font-weight:600;color:var(--white);margin-bottom:.25rem}
+.nstep-text p{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.6}
+.notion-visual{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:2rem}
+.notion-db{margin-bottom:1rem}
+.ndb-title{font-size:.72rem;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.ndb-row{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:rgba(255,255,255,.04);border-radius:6px;margin-bottom:.4rem}
+.ndb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ndb-dot.green{background:#6fcf97}
+.ndb-dot.gold{background:var(--gold)}
+.ndb-dot.blue{background:#56acf0}
+.ndb-label{font-size:.8rem;color:rgba(255,255,255,.6)}
+.ndb-val{margin-left:auto;font-size:.75rem;color:rgba(255,255,255,.35)}
+
 /* FOOTER */
 footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
 .foot-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--white)}
@@ -266,25 +285,26 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 .foot-links a:hover{color:var(--gold)}
 .foot-copy{font-size:.72rem;color:rgba(255,255,255,.22)}
 
-/* CHAT */
+/* AI CHAT */
 .chat-bubble{position:fixed;bottom:1.75rem;right:1.75rem;z-index:300}
 .chat-toggle{width:58px;height:58px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--navy);box-shadow:0 4px 24px rgba(201,168,76,.38);animation:breathe 3s ease-in-out infinite;transition:transform .2s}
 .chat-toggle:hover{transform:scale(1.1)!important}
 .cpulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--gold);animation:pulse-ring 2.2s ease-out infinite}
-.chat-box{display:none;position:absolute;bottom:72px;right:0;width:340px;background:var(--navy2);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 20px 64px rgba(0,0,0,.45)}
+.chat-box{display:none;position:absolute;bottom:72px;right:0;width:360px;background:var(--navy2);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 20px 64px rgba(0,0,0,.45)}
 .chat-box.open{display:block}
 .chat-head{background:var(--navy3);padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem;border-bottom:1px solid var(--border)}
 .cavatar{width:36px;height:36px;border-radius:50%;background:var(--gold-light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem}
 .chat-head-info h4{font-size:.875rem;font-weight:600;color:var(--white)}
 .chat-head-info p{font-size:.7rem;color:#6fcf97;display:flex;align-items:center;gap:4px}
 .chat-head-info p::before{content:'';width:5px;height:5px;border-radius:50%;background:#6fcf97}
-.cclose{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.95rem;transition:color .2s}
+.ai-badge{margin-left:auto;font-size:.65rem;background:var(--gold-light);border:1px solid var(--border);color:var(--gold);padding:2px 8px;border-radius:10px}
+.cclose{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.95rem;transition:color .2s}
 .cclose:hover{color:var(--white)}
-.chat-msgs{height:255px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.7rem}
+.chat-msgs{height:300px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.7rem}
 .chat-msgs::-webkit-scrollbar{width:3px}
 .chat-msgs::-webkit-scrollbar-thumb{background:var(--border)}
-.cmsg{max-width:85%;padding:.62rem .88rem;border-radius:12px;font-size:.82rem;line-height:1.6}
-.cmsg.bot{background:var(--navy3);color:rgba(255,255,255,.82);align-self:flex-start;border-bottom-left-radius:4px}
+.cmsg{max-width:88%;padding:.65rem .9rem;border-radius:12px;font-size:.83rem;line-height:1.65}
+.cmsg.bot{background:var(--navy3);color:rgba(255,255,255,.85);align-self:flex-start;border-bottom-left-radius:4px}
 .cmsg.usr{background:var(--gold);color:var(--navy);align-self:flex-end;border-bottom-right-radius:4px;font-weight:500}
 .cmsg.typ{background:var(--navy3);align-self:flex-start}
 .tdots{display:flex;gap:4px;padding:.2rem 0}
@@ -292,10 +312,11 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 .tdots span:nth-child(2){animation-delay:.15s}
 .tdots span:nth-child(3){animation-delay:.3s}
 .chat-irow{display:flex;gap:.5rem;padding:.72rem 1rem;border-top:1px solid var(--border)}
-.cinput{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:.58rem .88rem;color:var(--white);font-family:'Outfit',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s}
+.cinput{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:.58rem .88rem;color:var(--white);font-family:'Outfit',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s}
 .cinput:focus{border-color:var(--gold)}
 .csend{background:var(--gold);border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:.85rem;flex-shrink:0;transition:opacity .2s}
 .csend:hover{opacity:.85}
+.chat-powered{font-size:.65rem;color:rgba(255,255,255,.25);text-align:center;padding:.4rem;border-top:1px solid var(--border)}
 
 /* RESPONSIVE */
 @media(max-width:1024px){
@@ -304,7 +325,7 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   .pkg.feat{transform:none}
   .proc-steps{grid-template-columns:1fr 1fr}
   .proc-steps::before{display:none}
-  .res-inner,.about-inner,.con-inner{grid-template-columns:1fr;gap:2.5rem}
+  .res-inner,.about-inner,.con-inner,.notion-inner{grid-template-columns:1fr;gap:2.5rem}
   .hero-inner{grid-template-columns:1fr}
   .hero-visual{display:none}
 }
@@ -314,7 +335,7 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   .pillars{grid-template-columns:1fr}
   .frow{grid-template-columns:1fr}
   .stats-strip{gap:1.5rem}
-  .chat-box{width:295px}
+  .chat-box{width:300px}
   .dashboard{display:none}
   .sgrid{grid-template-columns:1fr 1fr}
 }
@@ -322,31 +343,43 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 </head>
 <body>
 
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">G</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- SCROLL PROGRESS -->
+<div id="progressBar"></div>
+
+<!-- BACK TO TOP -->
+<div id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></div>
+
 <!-- DASHBOARD -->
 <div class="dashboard">
   <a href="#hero" class="dash-btn"><i class="fas fa-home"></i><span class="tip">Home</span></a>
   <a href="#services" class="dash-btn"><i class="fas fa-layer-group"></i><span class="tip">Services</span></a>
-  <a href="#portfolio" class="dash-btn"><i class="fas fa-briefcase"></i><span class="tip">Portfolio</span></a>
   <a href="#results" class="dash-btn"><i class="fas fa-chart-line"></i><span class="tip">Results</span></a>
   <a href="#packages" class="dash-btn"><i class="fas fa-box"></i><span class="tip">Packages</span></a>
   <a href="#process" class="dash-btn"><i class="fas fa-route"></i><span class="tip">Process</span></a>
   <a href="#about" class="dash-btn"><i class="fas fa-user"></i><span class="tip">About</span></a>
+  <a href="#notion" class="dash-btn"><i class="fas fa-database"></i><span class="tip">Notion</span></a>
   <a href="#contact" class="dash-btn"><i class="fas fa-envelope"></i><span class="tip">Contact</span></a>
+  <a href="portfolio.html" class="dash-btn"><i class="fas fa-briefcase"></i><span class="tip">Portfolio</span></a>
 </div>
 
 <!-- NAV -->
 <nav id="navbar">
   <div class="nav-logo">
-    <!-- TO ADD LOGO: set display:block on .logo-img and display:none on .logo-box -->
-    <!-- <img class="logo-img" src="assets/images/logo.png" alt="Growthive Systems"> -->
     <div class="logo-box">G</div>
     <span class="nav-brand">Growthive <span>Systems</span></span>
   </div>
   <div class="nav-links">
     <a href="#hero">Home</a>
     <a href="#services">Services</a>
-    <a href="#portfolio">Portfolio</a>
+    <a href="#packages">Packages</a>
     <a href="#about">About</a>
+    <a href="portfolio.html">Portfolio</a>
     <a href="#contact">Contact</a>
     <a href="#contact" class="nav-cta">Get Started</a>
   </div>
@@ -355,8 +388,9 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 <div class="mob-menu" id="mobMenu">
   <a href="#hero" onclick="toggleMob()">Home</a>
   <a href="#services" onclick="toggleMob()">Services</a>
-  <a href="#portfolio" onclick="toggleMob()">Portfolio</a>
+  <a href="#packages" onclick="toggleMob()">Packages</a>
   <a href="#about" onclick="toggleMob()">About</a>
+  <a href="portfolio.html" onclick="toggleMob()">Portfolio</a>
   <a href="#contact" onclick="toggleMob()">Contact</a>
   <a href="#contact" onclick="toggleMob()" style="color:var(--gold);font-weight:600">Get Started →</a>
 </div>
@@ -379,9 +413,15 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
       </div>
       <div class="hero-btns">
         <a href="#contact" class="btn-gold">Get a Free Strategy Call</a>
-        <a href="#portfolio" class="btn-wht">View Our Work</a>
-        <a href="#contact" class="btn-gld-out">Register With Us</a>
+        <a href="#packages" class="btn-wht">View Packages</a>
+        <button class="btn-gld-out" onclick="openRegister()">Register With Us</button>
       </div>
+      <!-- OUR PORTFOLIO MEGA BUTTON -->
+      <a href="portfolio.html" class="portfolio-mega-btn">
+        <i class="fas fa-briefcase"></i>
+        Our Portfolio — See Our Work
+        <i class="fas fa-arrow-right"></i>
+      </a>
     </div>
     <div class="hero-visual">
       <div class="orbit-wrap">
@@ -393,16 +433,13 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
           <div class="odot p3"><span style="font-size:1.4rem">👥</span><span>HR</span></div>
           <div class="odot p4"><span style="font-size:1.4rem">📱</span><span>Media</span></div>
         </div>
-        <div class="orbit-center">
-          <!-- TO ADD LOGO ICON: <img src="assets/images/icon.jpeg" style="display:block"> -->
-          <span class="orbit-center-label">G</span>
-        </div>
+        <div class="orbit-center"><span class="orbit-center-label">G</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- STATS STRIP -->
+<!-- STATS -->
 <div class="stats-strip">
   <div class="sstat"><span class="sstat-num" data-target="120">0</span><span class="sstat-lbl">Businesses Transformed</span></div>
   <div class="sstat"><span class="sstat-num" data-target="95">0</span><span class="sstat-lbl">% Client Satisfaction</span></div>
@@ -410,142 +447,66 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   <div class="sstat"><span class="sstat-num" data-target="3">0</span><span class="sstat-lbl">Years of Excellence</span></div>
 </div>
 
-<!-- SERVICES / PILLARS -->
+<!-- SERVICES -->
 <section class="svc-bg" id="services">
   <div class="section-inner">
     <div class="sec-head center reveal">
       <p class="stag">What We Do</p>
       <h2 class="stitle dk">Four pillars. One unified system.</h2>
-      <p class="ssub dk">Branding, strategy, content, and organizational structure — everything your business needs to grow, in one place.</p>
+      <p class="ssub dk">Branding, strategy, content, and organizational structure — everything your business needs to grow.</p>
     </div>
     <div class="pillars">
-
       <div class="pcard reveal">
-        <div class="picon">
-          <!-- TO ADD ICON IMAGE: <img src="assets/images/icons/DigPres.jpeg"> -->
-          🌐
-        </div>
+        <div class="picon">🌐</div>
         <h3>Digital Presence</h3>
         <p>We build powerful digital identities that position your business for visibility, credibility, and consistent growth.</p>
         <ul class="plist">
-          <li>Brand identity design — logos &amp; visual systems</li>
-          <li>Content &amp; media creation — graphics and video</li>
-          <li>Social media positioning (Instagram, LinkedIn, Facebook)</li>
-          <li>Digital visibility &amp; trust-building strategy</li>
-          <li>Brand guidelines for long-term recognition</li>
+          <li>Brand identity design — logos & visual systems</li>
+          <li>Content & media creation — graphics and video</li>
+          <li>Social media positioning across platforms</li>
+          <li>Digital visibility & trust-building strategy</li>
         </ul>
-        <a href="#portfolio" class="plink">Explore Digital Presence <i class="fas fa-arrow-right"></i></a>
+        <a href="portfolio.html" class="plink">See Our Work <i class="fas fa-arrow-right"></i></a>
       </div>
-
       <div class="pcard reveal">
-        <div class="picon">
-          <!-- TO ADD ICON IMAGE: <img src="assets/images/icons/BizStrat.jpeg"> -->
-          📈
-        </div>
+        <div class="picon">📈</div>
         <h3>Business Strategy</h3>
         <p>We bring structure, goals, and scalable systems to ensure your business is strategically aligned for expansion.</p>
         <ul class="plist">
-          <li>Clarity in business direction &amp; market positioning</li>
-          <li>Operational planning &amp; growth roadmaps</li>
+          <li>Clarity in business direction & positioning</li>
+          <li>Operational planning & growth roadmaps</li>
+          <li>Market positioning & competitive strategy</li>
           <li>Business development frameworks</li>
-          <li>Competitive strategy &amp; market analysis</li>
-          <li>Revenue structure &amp; scaling systems</li>
         </ul>
-        <a href="#packages" class="plink">Explore Strategy <i class="fas fa-arrow-right"></i></a>
+        <a href="#packages" class="plink">Explore Packages <i class="fas fa-arrow-right"></i></a>
       </div>
-
       <div class="pcard reveal">
-        <div class="picon">
-          <!-- TO ADD ICON IMAGE: <img src="assets/images/icons/Content.jpeg"> -->
-          📣
-        </div>
-        <h3>Content &amp; Visibility</h3>
+        <div class="picon">📣</div>
+        <h3>Content & Visibility</h3>
         <p>Being invisible online means losing clients. We manage your presence so you're seen by the right people at the right time.</p>
         <ul class="plist">
-          <li>Social media strategy &amp; content calendars</li>
-          <li>Post design &amp; visual content creation</li>
-          <li>Community management &amp; engagement</li>
-          <li>Growth tracking &amp; performance reporting</li>
-          <li>Platform-specific posting strategies</li>
+          <li>Social media strategy & content calendars</li>
+          <li>Post design & visual content creation</li>
+          <li>Community management & engagement</li>
+          <li>Growth tracking & performance reporting</li>
         </ul>
-        <a href="#portfolio" class="plink">See Content Work <i class="fas fa-arrow-right"></i></a>
+        <a href="portfolio.html" class="plink">See Content Work <i class="fas fa-arrow-right"></i></a>
       </div>
-
       <div class="pcard reveal">
-        <div class="picon">
-          <!-- TO ADD ICON IMAGE: <img src="assets/images/icons/PeopleStr.jpeg"> -->
-          👥
-        </div>
+        <div class="picon">👥</div>
         <h3>People Structure</h3>
         <p>We design the internal structure your business needs to grow sustainably — from roles to workflow to team performance.</p>
         <ul class="plist">
-          <li>Role &amp; team hierarchy design</li>
-          <li>Workflow &amp; operational systems</li>
-          <li>Hiring &amp; team development guidance</li>
-          <li>HR analytics &amp; performance tracking</li>
-          <li>Onboarding systems &amp; accountability structures</li>
+          <li>Role & team hierarchy design</li>
+          <li>Workflow & operational systems</li>
+          <li>Hiring & team development guidance</li>
+          <li>HR analytics & performance tracking</li>
         </ul>
-        <a href="#contact" class="plink">Learn About HR Systems <i class="fas fa-arrow-right"></i></a>
+        <a href="#contact" class="plink">Learn More <i class="fas fa-arrow-right"></i></a>
       </div>
-
     </div>
   </div>
 </section>
-
-<!-- PORTFOLIO -->
-<section class="port-bg" id="portfolio">
-  <div class="section-inner">
-    <div class="sec-head center reveal">
-      <p class="stag">Our Work</p>
-      <h2 class="stitle lt">Built with purpose. Designed for impact.</h2>
-      <p class="ssub lt">A structured visual proof of our capability across branding, strategy, content, and HR systems.</p>
-    </div>
-    <div class="filter-bar reveal">
-      <button class="fbtn active" data-filter="all">All Work</button>
-      <button class="fbtn" data-filter="branding">Branding</button>
-      <button class="fbtn" data-filter="strategy">Strategy</button>
-      <button class="fbtn" data-filter="content">Content</button>
-      <button class="fbtn" data-filter="hr">HR Systems</button>
-    </div>
-    <div class="port-grid" id="portGrid">
-      <!--
-      ╔══════════════════════════════════════════════════════════════╗
-      ║  HOW TO ADD YOUR PORTFOLIO IMAGES                           ║
-      ║                                                              ║
-      ║  1. Create folder: assets/images/portfolio/                 ║
-      ║  2. Name your images: img-01.jpeg, img-02.jpeg, etc.        ║
-      ║  3. Replace placeholder divs below with:                    ║
-      ║                                                              ║
-      ║  <div class="pitem" data-cat="branding">                    ║
-      ║    <img src="assets/images/portfolio/img-01.jpeg"           ║
-      ║         alt="Brand Identity — Client Name" loading="lazy">  ║
-      ║    <div class="poverlay">                                    ║
-      ║      <i class="fas fa-expand"></i>                          ║
-      ║      <span>Brand Identity — Client Name</span>              ║
-      ║    </div>                                                    ║
-      ║  </div>                                                      ║
-      ║                                                              ║
-      ║  Categories: branding | strategy | content | hr             ║
-      ║  Add up to 50 images (img-01 to img-50)                     ║
-      ╚══════════════════════════════════════════════════════════════╝
-      -->
-      <div class="pitem" data-cat="branding"><div class="pitem-ph"><i class="fas fa-image"></i><span>img-01.jpeg<br><small>Branding Work</small></span></div><div class="poverlay"><i class="fas fa-expand"></i><span>Brand Identity</span></div></div>
-      <div class="pitem" data-cat="content"><div class="pitem-ph"><i class="fas fa-image"></i><span>img-02.jpeg<br><small>Social Content</small></span></div><div class="poverlay"><i class="fas fa-expand"></i><span>Social Campaign</span></div></div>
-      <div class="pitem" data-cat="strategy"><div class="pitem-ph"><i class="fas fa-image"></i><span>img-03.jpeg<br><small>Strategy Work</small></span></div><div class="poverlay"><i class="fas fa-expand"></i><span>Growth Strategy</span></div></div>
-      <div class="pitem" data-cat="hr"><div class="pitem-ph"><i class="fas fa-image"></i><span>img-04.jpeg<br><small>HR Framework</small></span></div><div class="poverlay"><i class="fas fa-expand"></i><span>HR System Design</span></div></div>
-      <div class="pitem" data-cat="branding"><div class="pitem-ph"><i class="fas fa-image"></i><span>img-05.jpeg<br><small>Logo Design</small></span></div><div class="poverlay"><i class="fas fa-expand"></i><span>Logo &amp; Brand Mark</span></div></div>
-      <div class="pitem" data-cat="content"><div class="pitem-ph"><i class="fas fa-image"></i><span>img-06.jpeg<br><small>Media Campaign</small></span></div><div class="poverlay"><i class="fas fa-expand"></i><span>Media Campaign</span></div></div>
-      <div class="pitem" data-cat="strategy"><div class="pitem-ph"><i class="fas fa-image"></i><span>img-07.jpeg<br><small>Business Plan</small></span></div><div class="poverlay"><i class="fas fa-expand"></i><span>Business Plan</span></div></div>
-      <div class="pitem" data-cat="branding"><div class="pitem-ph"><i class="fas fa-image"></i><span>img-08.jpeg<br><small>Brand Guidelines</small></span></div><div class="poverlay"><i class="fas fa-expand"></i><span>Brand Guidelines</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLB()">
-  <div class="lb-x"><i class="fas fa-times"></i></div>
-  <img id="lbImg" src="" alt="">
-</div>
 
 <!-- RESULTS -->
 <section class="res-bg" id="results">
@@ -555,7 +516,7 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
         <div class="reveal">
           <p class="stag">Results</p>
           <h2 class="stitle lt">Real impact for real businesses.</h2>
-          <p class="ssub lt" style="margin-bottom:2rem">We don't just show up — we deliver measurable transformation across branding, strategy, and systems.</p>
+          <p class="ssub lt" style="margin-bottom:2rem">We deliver measurable transformation across branding, strategy, and systems.</p>
         </div>
         <div class="sgrid reveal">
           <div class="scard"><span class="num">120+</span><span class="lbl">Businesses Served</span></div>
@@ -581,7 +542,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
               <div class="bitem"><i class="fas fa-times"></i> Disorganized team</div>
               <div class="bitem"><i class="fas fa-times"></i> No systems in place</div>
               <div class="bitem"><i class="fas fa-times"></i> Low client trust</div>
-              <div class="bitem"><i class="fas fa-times"></i> Inconsistent content</div>
             </div>
             <div class="ba-div"></div>
             <div class="ba-col">
@@ -589,10 +549,9 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
               <div class="bitem"><i class="fas fa-check"></i> Strong brand identity</div>
               <div class="bitem"><i class="fas fa-check"></i> Clear growth roadmap</div>
               <div class="bitem"><i class="fas fa-check"></i> Active digital presence</div>
-              <div class="bitem"><i class="fas fa-check"></i> Structured team &amp; roles</div>
+              <div class="bitem"><i class="fas fa-check"></i> Structured team & roles</div>
               <div class="bitem"><i class="fas fa-check"></i> Automated systems</div>
-              <div class="bitem"><i class="fas fa-check"></i> Authority &amp; trust built</div>
-              <div class="bitem"><i class="fas fa-check"></i> Consistent visibility</div>
+              <div class="bitem"><i class="fas fa-check"></i> Authority & trust built</div>
             </div>
           </div>
         </div>
@@ -613,50 +572,46 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
       <div class="pkg reveal">
         <div class="pkg-ico">🟢</div>
         <h3>Starter</h3>
-        <p class="pkg-sub">For businesses just getting started with presence &amp; identity</p>
+        <p class="pkg-sub">For businesses just getting started</p>
         <ul class="pkg-feats">
-          <li>Brand identity design (logo + color system)</li>
-          <li>Social media page setup &amp; optimization</li>
+          <li>Brand identity design (logo + colors)</li>
+          <li>Social media page setup & optimization</li>
           <li>Basic landing page website</li>
           <li>Brand guidelines document</li>
           <li>1 strategy session</li>
-          <li>Basic HR role structure template</li>
         </ul>
-        <button class="pkg-btn" onclick="scrollTo('contact')">Get Started</button>
+        <button class="pkg-btn" onclick="openRegister()">Register Now</button>
       </div>
       <div class="pkg feat reveal">
         <div class="pkg-badge">Most Popular</div>
         <div class="pkg-ico">🔵</div>
         <h3>Growth</h3>
-        <p class="pkg-sub">For businesses ready to scale with strategy &amp; content systems</p>
+        <p class="pkg-sub">For businesses ready to scale</p>
         <ul class="pkg-feats">
           <li>Everything in Starter</li>
-          <li>Monthly content creation &amp; posting (3 platforms)</li>
+          <li>Monthly content creation & posting</li>
           <li>Full business strategy framework</li>
-          <li>Social media management &amp; growth tracking</li>
-          <li>Basic HR systems &amp; workflow design</li>
+          <li>Social media management (3 platforms)</li>
+          <li>Basic HR systems & workflows</li>
           <li>Monthly performance reports</li>
-          <li>2 strategy sessions per month</li>
-          <li>Multi-page website development</li>
+          <li>2 strategy sessions/month</li>
         </ul>
-        <button class="pkg-btn" onclick="scrollTo('contact')">Get Started</button>
+        <button class="pkg-btn" onclick="openRegister()">Register Now</button>
       </div>
       <div class="pkg reveal">
         <div class="pkg-ico">🟣</div>
         <h3>Scale</h3>
-        <p class="pkg-sub">For enterprises building for long-term, high-performance growth</p>
+        <p class="pkg-sub">For enterprises built for growth</p>
         <ul class="pkg-feats">
           <li>Everything in Growth</li>
           <li>Full organizational structure design</li>
-          <li>Advanced HR analytics &amp; performance tracking</li>
-          <li>Team hierarchy &amp; hiring guidance</li>
+          <li>Advanced HR analytics & tracking</li>
           <li>Custom web application development</li>
-          <li>Ongoing strategy &amp; systems support</li>
+          <li>Notion-powered business dashboard</li>
           <li>Dedicated account manager</li>
           <li>Weekly strategy sessions</li>
-          <li>Notion-powered business dashboard</li>
         </ul>
-        <button class="pkg-btn" onclick="scrollTo('contact')">Get Started</button>
+        <button class="pkg-btn" onclick="openRegister()">Register Now</button>
       </div>
     </div>
   </div>
@@ -671,26 +626,10 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
       <p class="ssub lt" style="margin:0 auto">A clear, structured process built for results — no guesswork, no wasted time.</p>
     </div>
     <div class="proc-steps">
-      <div class="pstep reveal">
-        <div class="pstep-circle"><span>01</span></div>
-        <h3>Discovery</h3>
-        <p>We learn your business, audience, and goals in depth before building anything.</p>
-      </div>
-      <div class="pstep reveal">
-        <div class="pstep-circle"><span>02</span></div>
-        <h3>Strategy</h3>
-        <p>We design a custom roadmap — messaging, systems, and content aligned to your vision.</p>
-      </div>
-      <div class="pstep reveal">
-        <div class="pstep-circle"><span>03</span></div>
-        <h3>Execution</h3>
-        <p>We produce and implement deliverables — on time, on brand, and on target.</p>
-      </div>
-      <div class="pstep reveal">
-        <div class="pstep-circle"><span>04</span></div>
-        <h3>Growth &amp; Optimisation</h3>
-        <p>We track, refine, and scale what's working — continuously, not once.</p>
-      </div>
+      <div class="pstep reveal"><div class="pstep-circle"><span>01</span></div><h3>Discovery</h3><p>We learn your business, audience, and goals in depth before building anything.</p></div>
+      <div class="pstep reveal"><div class="pstep-circle"><span>02</span></div><h3>Strategy</h3><p>We design a custom roadmap — messaging, systems, and content aligned to your vision.</p></div>
+      <div class="pstep reveal"><div class="pstep-circle"><span>03</span></div><h3>Execution</h3><p>We produce and implement deliverables — on time, on brand, and on target.</p></div>
+      <div class="pstep reveal"><div class="pstep-circle"><span>04</span></div><h3>Growth & Optimisation</h3><p>We track, refine, and scale what's working — continuously, not once.</p></div>
     </div>
   </div>
 </section>
@@ -701,38 +640,76 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
     <div class="about-inner">
       <div class="founder-side reveal">
         <div class="photo-box">
-          <!--
-          TO ADD YOUR PHOTO:
-          1. Save your photo as: assets/images/founder.jpeg
-          2. Uncomment the img tag below and remove the photo-ph div
-          -->
-          <!-- <img class="fp" src="assets/images/founder.jpeg" alt="David Ayogu — Founder, Growthive Systems" style="display:block"> -->
-          <div class="photo-ph">
-            <i class="fas fa-user-circle"></i>
-            <p>Add your photo here.<br><small>File: assets/images/founder.jpeg</small></p>
-          </div>
+          <!-- ADD PHOTO: <img src="assets/images/founder.jpeg" style="width:100%;height:100%;object-fit:cover"> -->
+          <div class="photo-ph"><i class="fas fa-user-circle"></i><p>Add your photo<br><small>assets/images/founder.jpeg</small></p></div>
         </div>
-        <div class="pbadge">
-          <span class="bnum">3+</span>
-          <span class="blbl">Years of Impact</span>
-        </div>
+        <div class="pbadge"><span class="bnum">3+</span><span class="blbl">Years of Impact</span></div>
       </div>
       <div class="reveal">
-        <p class="stag">Meet the Founder &amp; CEO</p>
+        <p class="stag">Meet the Founder & CEO</p>
         <h2 class="stitle dk">David Ayogu</h2>
-        <div class="about-q">
-          <p>"Helping businesses move from scattered efforts to structured, scalable, high-performing systems."</p>
-        </div>
+        <div class="about-q"><p>"Helping businesses move from scattered efforts to structured, scalable, high-performing systems."</p></div>
         <p class="ssub dk">Growthive Systems was founded by David Ayogu, a psychology graduate and creative strategist driven by a vision to help small and medium businesses grow beyond just visibility. With a background in Industrial-Organizational Psychology, graphic design, video editing, human resource analytics, and business operations, he combines creativity, strategy, and people-focused systems to build brands that are not only seen but also organized for long-term success.</p>
         <p class="ssub dk" style="margin-top:1rem">His approach is rooted in clarity, discipline, and purpose — integrating digital presence, business strategy, and human structure into one unified system. Beyond business, his foundation in faith and leadership continues to shape a mission centered on growth, value creation, and meaningful impact.</p>
         <div class="chips">
-          <span class="chip">IO Psychology</span>
-          <span class="chip">Graphic Design</span>
-          <span class="chip">Video Editing</span>
-          <span class="chip">HR Analytics</span>
-          <span class="chip">Business Strategy</span>
-          <span class="chip">Brand Systems</span>
-          <span class="chip">Faith-Driven Leadership</span>
+          <span class="chip">IO Psychology</span><span class="chip">Graphic Design</span><span class="chip">Video Editing</span><span class="chip">HR Analytics</span><span class="chip">Business Strategy</span><span class="chip">Brand Systems</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTION INTEGRATION SECTION -->
+<section class="notion-bg" id="notion">
+  <div class="section-inner">
+    <div class="notion-inner">
+      <div class="reveal">
+        <p class="stag">Notion Integration</p>
+        <h2 class="stitle lt">Your business, automated.</h2>
+        <p class="ssub lt">Every lead, inquiry, and client interaction is automatically captured and organised in your Notion workspace — your operational brain.</p>
+        <div class="notion-steps">
+          <div class="nstep">
+            <div class="nstep-num">1</div>
+            <div class="nstep-text"><h4>Visitor submits a form</h4><p>Contact form or Google registration form on this website</p></div>
+          </div>
+          <div class="nstep">
+            <div class="nstep-num">2</div>
+            <div class="nstep-text"><h4>Make.com captures the data</h4><p>The automation engine triggers instantly — no delays</p></div>
+          </div>
+          <div class="nstep">
+            <div class="nstep-num">3</div>
+            <div class="nstep-text"><h4>Notion Leads Database updated</h4><p>Name, email, business type & message stored automatically</p></div>
+          </div>
+          <div class="nstep">
+            <div class="nstep-num">4</div>
+            <div class="nstep-text"><h4>AI generates a personalised reply</h4><p>Gemini AI reads the inquiry and sends a tailored email response</p></div>
+          </div>
+          <div class="nstep">
+            <div class="nstep-num">5</div>
+            <div class="nstep-text"><h4>You get notified</h4><p>Check your Notion dashboard and follow up with confidence</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="notion-visual">
+          <div class="notion-db">
+            <div class="ndb-title"><i class="fas fa-database"></i> Leads Database</div>
+            <div class="ndb-row"><div class="ndb-dot green"></div><div class="ndb-label">Chioma Obi — Digital Presence</div><div class="ndb-val">New</div></div>
+            <div class="ndb-row"><div class="ndb-dot gold"></div><div class="ndb-label">Emeka Ltd — Scale Package</div><div class="ndb-val">In Progress</div></div>
+            <div class="ndb-row"><div class="ndb-dot blue"></div><div class="ndb-label">StartupNG — Business Strategy</div><div class="ndb-val">Closed</div></div>
+          </div>
+          <div class="notion-db">
+            <div class="ndb-title"><i class="fas fa-folder"></i> Portfolio Database</div>
+            <div class="ndb-row"><div class="ndb-dot gold"></div><div class="ndb-label">Brand Identity — Lumina</div><div class="ndb-val">Branding</div></div>
+            <div class="ndb-row"><div class="ndb-dot green"></div><div class="ndb-label">HR System — TechCo</div><div class="ndb-val">HR</div></div>
+          </div>
+          <div class="notion-db">
+            <div class="ndb-title"><i class="fas fa-users"></i> Team Database</div>
+            <div class="ndb-row"><div class="ndb-dot green"></div><div class="ndb-label">David Ayogu — CEO & Strategist</div><div class="ndb-val">Active</div></div>
+          </div>
+          <div style="margin-top:1.5rem;padding:1rem;background:rgba(201,168,76,.08);border-radius:8px;border:1px solid var(--border)">
+            <p style="font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.6">To connect: Go to <strong style="color:var(--gold)">make.com</strong> → Create Scenario → Webhook → Notion "Create Item" → map fields → replace webhook URL in this site's code.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -748,18 +725,17 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
         <h2 class="stitle lt">Ready to grow?<br>Let's talk.</h2>
         <p class="ssub lt">Tell us about your business and we'll be in touch within 24 hours to set up your free strategy call.</p>
         <div class="clinks">
-          <!-- UPDATE THESE WITH YOUR REAL DETAILS -->
           <a href="mailto:hello@growthivesystems.com" class="clink"><div class="clink-ico"><i class="fas fa-envelope"></i></div> hello@growthivesystems.com</a>
           <a href="https://wa.me/2340000000000" class="clink" target="_blank"><div class="clink-ico"><i class="fab fa-whatsapp"></i></div> Chat on WhatsApp</a>
           <a href="https://instagram.com/growthivesystems" class="clink" target="_blank"><div class="clink-ico"><i class="fab fa-instagram"></i></div> @growthivesystems</a>
-          <a href="https://linkedin.com/company/growthivesystems" class="clink" target="_blank"><div class="clink-ico"><i class="fab fa-linkedin"></i></div> Growthive Systems on LinkedIn</a>
+          <a href="https://linkedin.com/company/growthivesystems" class="clink" target="_blank"><div class="clink-ico"><i class="fab fa-linkedin"></i></div> Growthive Systems</a>
         </div>
         <div class="soc-row">
           <a href="https://instagram.com/growthivesystems" class="socbtn" target="_blank"><i class="fab fa-instagram"></i></a>
           <a href="https://linkedin.com/company/growthivesystems" class="socbtn" target="_blank"><i class="fab fa-linkedin"></i></a>
-          <a href="https://twitter.com/growthivesystems" class="socbtn" target="_blank"><i class="fab fa-x-twitter"></i></a>
-          <a href="mailto:foundationhecares@gmail.com" class="socbtn"><i class="fas fa-envelope"></i></a>
-          <a href="https://wa.me/2349019875292" class="socbtn" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://twitter.com/growthivesys" class="socbtn" target="_blank"><i class="fab fa-x-twitter"></i></a>
+          <a href="mailto:hello@growthivesystems.com" class="socbtn"><i class="fas fa-envelope"></i></a>
+          <a href="https://wa.me/2340000000000" class="socbtn" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="reveal">
@@ -771,7 +747,7 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
             </div>
             <div class="frow">
               <div class="fg"><label>Phone / WhatsApp</label><input type="tel" id="fp" placeholder="+234 000 0000 000"></div>
-              <div class="fg"><label>Business Type *</label>
+              <div class="fg"><label>Business Type</label>
                 <select id="fb">
                   <option value="">Select type...</option>
                   <option>Startup / New Business</option>
@@ -785,10 +761,10 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
             <div class="fg"><label>Service Interest</label>
               <select id="fs">
                 <option value="">What are you looking for?</option>
-                <option>Digital Presence &amp; Branding</option>
+                <option>Digital Presence & Branding</option>
                 <option>Business Strategy</option>
-                <option>Content &amp; Social Media</option>
-                <option>HR &amp; People Structure</option>
+                <option>Content & Social Media</option>
+                <option>HR & People Structure</option>
                 <option>Web / App Development</option>
                 <option>Full Growth Package</option>
                 <option>Not sure — need guidance</option>
@@ -797,24 +773,14 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
             <div class="fg"><label>Your Message *</label><textarea id="fm" placeholder="Tell us about your business and what you'd like to achieve..."></textarea></div>
             <div class="tc-row">
               <input type="checkbox" id="ftc" required>
-              <label for="ftc">I agree to the <a href="#" onclick="alert('Terms & Conditions — Growthive Systems.\n\nBy submitting this form, you consent to Growthive Systems storing and using your information solely to respond to your inquiry and provide relevant services. Your data will not be shared with third parties without your consent.');return false">Terms &amp; Conditions</a> and consent to Growthive Systems storing and processing my information to respond to my inquiry.</label>
+              <label for="ftc">I agree to the <a href="#" onclick="showTC();return false">Terms & Conditions</a> and consent to Growthive Systems storing my information to respond to my inquiry.</label>
             </div>
-            <!--
-            NOTION INTEGRATION POINT:
-            When connected to Make.com, this button sends data to your Notion Leads Database.
-            Steps:
-            1. Create a Make.com account (free)
-            2. Create a new Scenario with a Webhook trigger
-            3. Add a Notion "Create a database item" action
-            4. Map: Name, Email, Phone, Business Type, Service, Message, Timestamp
-            5. Replace 'YOUR_MAKE_WEBHOOK_URL' below with your webhook URL
-            -->
             <button class="sub-btn" onclick="submitForm()">Send Message — Let's Grow Together</button>
           </div>
           <div class="f-success" id="fSuccess">
             <i class="fas fa-check-circle"></i>
             <h4>Message received!</h4>
-            <p>We'll be in touch within 24 hours. Check your email for a confirmation from Growthive Systems.</p>
+            <p>We'll be in touch within 24 hours. Check your email for a confirmation.</p>
           </div>
         </div>
       </div>
@@ -828,15 +794,43 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   <div class="foot-links">
     <a href="#hero">Home</a>
     <a href="#services">Services</a>
-    <a href="#portfolio">Portfolio</a>
+    <a href="#packages">Packages</a>
     <a href="#process">Process</a>
     <a href="#about">About</a>
+    <a href="portfolio.html">Portfolio</a>
     <a href="#contact">Contact</a>
   </div>
-  <p class="foot-copy">© 2025 Growthive Systems. All rights reserved. Built with purpose.</p>
+  <p class="foot-copy">© 2026 Growthive Systems. All rights reserved.</p>
 </footer>
 
-<!-- AI CHAT WIDGET -->
+<!-- GOOGLE FORM MODAL -->
+<div class="modal-overlay" id="registerModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Register With Growthive Systems</h3>
+      <button class="modal-close" onclick="closeRegister()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <!--
+        GOOGLE FORM EMBED:
+        1. Go to forms.google.com
+        2. Create your form with: Name, Email, Phone, Business Type, Service Interest, Message
+        3. Click Send → Embed → Copy the iframe src URL
+        4. Replace YOUR_GOOGLE_FORM_ID below with your actual form ID
+        The URL format is: https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true
+      -->
+      <iframe src="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">
+        <div style="padding:2rem;text-align:center;color:rgba(255,255,255,.6)">
+          <p style="margin-bottom:1rem">📋 Google Form will appear here.</p>
+          <p style="font-size:.82rem">Replace YOUR_GOOGLE_FORM_ID in the code with your real Google Form embed ID.</p>
+        </div>
+      </iframe>
+    </div>
+    <div class="modal-note">Powered by Google Forms · Your data is secure and protected</div>
+  </div>
+</div>
+
+<!-- AI CHAT (Gemini Powered) -->
 <div class="chat-bubble">
   <div class="cpulse"></div>
   <button class="chat-toggle" onclick="toggleChat()"><i class="fas fa-comment-dots"></i></button>
@@ -844,58 +838,99 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
     <div class="chat-head">
       <div class="cavatar">🤖</div>
       <div class="chat-head-info">
-        <h4>Growthive Assistant</h4>
-        <p>Online now</p>
+        <h4>Growthive AI Assistant</h4>
+        <p>Powered by Gemini AI</p>
       </div>
+      <span class="ai-badge">AI</span>
       <button class="cclose" onclick="toggleChat()"><i class="fas fa-times"></i></button>
     </div>
     <div class="chat-msgs" id="chatMsgs">
-      <div class="cmsg bot">👋 Hi! I'm the Growthive AI assistant. How can I help your business today?</div>
-      <div class="cmsg bot">You can ask me about our services, packages, pricing, or how we can help you grow.</div>
+      <div class="cmsg bot">👋 Hi! I'm the Growthive AI assistant powered by Google Gemini. I know everything about Growthive Systems — ask me anything!</div>
     </div>
     <div class="chat-irow">
-      <input class="cinput" id="cinput" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendChat()">
+      <input class="cinput" id="cinput" placeholder="Ask me anything about Growthive..." onkeydown="if(event.key==='Enter')sendChat()">
       <button class="csend" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
     </div>
+    <div class="chat-powered">Powered by Google Gemini AI · Growthive Systems</div>
   </div>
 </div>
 
 <script>
-// NAV SCROLL
-window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>55);
+// ── GEMINI API CONFIG ──
+const GEMINI_API_KEY = 'AIzaSyBmXhj8jiYxdj_-N3eM_ek8MjBkQQOZazU';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+const GROWTHIVE_CONTEXT = `You are the official AI assistant for Growthive Systems, a premium multi-service agency founded by David Ayogu. 
+
+About Growthive Systems:
+- Founded by David Ayogu, a psychology graduate with expertise in Industrial-Organizational Psychology, graphic design, video editing, HR analytics, and business strategy
+- Mission: Help small and medium businesses grow through clarity, strategy, design, and structured systems
+- Tagline: "Strategy. Design. Structure."
+
+Our 4 Core Services:
+1. Digital Presence: Brand identity design (logos, visual systems, guidelines), content & media creation (graphics, videos), social media positioning (Instagram, LinkedIn, Facebook), digital visibility strategy
+2. Business Strategy: Business direction clarity, operational planning, growth roadmaps, market positioning, competitive strategy, business development frameworks
+3. Content & Visibility: Social media strategy, content calendars, post design, community management, engagement strategies, growth tracking
+4. People Structure (HR): Role & team hierarchy design, workflow & operational systems, hiring guidance, HR analytics, performance tracking, onboarding systems
+
+Our 3 Packages:
+- Starter: Brand identity, social media setup, basic website, brand guidelines, 1 strategy session
+- Growth (Most Popular): Everything in Starter + monthly content creation, full business strategy, social media management (3 platforms), basic HR systems, monthly reports, 2 strategy sessions/month
+- Scale: Everything in Growth + full organizational structure, advanced HR analytics, custom web app development, Notion-powered dashboard, dedicated account manager, weekly sessions
+
+How We Work (Process):
+1. Discovery - Learn business, audience, goals
+2. Strategy - Custom roadmap and messaging
+3. Execution - Deliver on time, on brand
+4. Growth & Optimisation - Track, refine, scale
+
+Contact: hello@growthivesystems.com | WhatsApp available | Instagram: @growthivesystems
+Website: Features portfolio page with graphic design work, video showcases, and website examples
+
+You must ALWAYS respond in a professional, warm, helpful tone that reflects Growthive's brand values of clarity, authority, and results. Keep responses concise but complete. Always encourage the user to book a free strategy call or visit the portfolio page when relevant.`;
+
+// ── LOADER ──
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hide');
+    setTimeout(()=>document.getElementById('loader').style.display='none',700);
+  },1800);
 });
 
-// MOBILE MENU
-function toggleMob(){
-  document.getElementById('mobMenu').classList.toggle('open');
-}
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll',()=>{
+  const el=document.documentElement;
+  const pct=(el.scrollTop/(el.scrollHeight-el.clientHeight))*100;
+  document.getElementById('progressBar').style.width=pct+'%';
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>55);
+  document.getElementById('backTop').classList.toggle('show',window.scrollY>400);
+});
 
-// SCROLL TO
-function scrollTo(id){
-  document.getElementById(id).scrollIntoView({behavior:'smooth'});
-}
+// ── CURSOR TRAIL ──
+document.addEventListener('mousemove',e=>{
+  const t=document.createElement('div');
+  t.className='trail';
+  t.style.cssText=`left:${e.clientX-4}px;top:${e.clientY-4}px`;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),600);
+});
 
-// REVEAL
-const reveals=document.querySelectorAll('.reveal');
+// ── MOBILE MENU ──
+function toggleMob(){document.getElementById('mobMenu').classList.toggle('open');}
+
+// ── REVEAL ──
 const rObs=new IntersectionObserver((entries)=>{
   entries.forEach((e,i)=>{
-    if(e.isIntersecting){
-      setTimeout(()=>e.target.classList.add('visible'),i*85);
-      rObs.unobserve(e.target);
-    }
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*85);rObs.unobserve(e.target);}
   });
 },{threshold:.1});
-reveals.forEach(el=>rObs.observe(el));
+document.querySelectorAll('.reveal').forEach(el=>rObs.observe(el));
 
-// COUNTER ANIMATION
+// ── COUNTERS ──
 function runCounter(el){
   const target=parseInt(el.dataset.target);
-  const hasPct=el.closest('.sstat').querySelector('.sstat-lbl').textContent.includes('%');
-  const hasx=el.closest('.sstat').querySelector('.sstat-lbl').textContent.includes('x');
-  let suffix=target>10?'+':(hasPct?'%':(hasx?'x':'+'));
-  if(hasPct)suffix='%';
-  if(hasx)suffix='x';
+  const lbl=el.closest('.sstat').querySelector('.sstat-lbl').textContent;
+  const suffix=lbl.includes('%')?'%':lbl.includes('x')?'x':'+';
   let start=0;const dur=1800;
   const go=ts=>{
     if(!start)start=ts;
@@ -907,100 +942,48 @@ function runCounter(el){
   requestAnimationFrame(go);
 }
 const cObs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){runCounter(e.target);cObs.unobserve(e.target);}
-  });
+  entries.forEach(e=>{if(e.isIntersecting){runCounter(e.target);cObs.unobserve(e.target);}});
 },{threshold:.5});
 document.querySelectorAll('[data-target]').forEach(el=>cObs.observe(el));
 
-// PORTFOLIO FILTER
-document.querySelectorAll('.fbtn').forEach(btn=>{
-  btn.addEventListener('click',function(){
-    document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
-    this.classList.add('active');
-    const f=this.dataset.filter;
-    document.querySelectorAll('.pitem').forEach(item=>{
-      item.style.display=(f==='all'||item.dataset.cat===f)?'block':'none';
-    });
-  });
-});
+// ── GOOGLE FORM MODAL ──
+function openRegister(){document.getElementById('registerModal').classList.add('open');}
+function closeRegister(){document.getElementById('registerModal').classList.remove('open');}
+document.getElementById('registerModal').addEventListener('click',function(e){if(e.target===this)closeRegister();});
 
-// LIGHTBOX
-document.querySelectorAll('.pitem').forEach(item=>{
-  item.addEventListener('click',()=>{
-    const img=item.querySelector('img');
-    if(img){
-      document.getElementById('lbImg').src=img.src;
-      document.getElementById('lightbox').classList.add('open');
-    }
-  });
-});
-function closeLB(){document.getElementById('lightbox').classList.remove('open');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
-
-// FORM SUBMIT
+// ── CONTACT FORM ──
 function submitForm(){
   const name=document.getElementById('fn').value.trim();
   const email=document.getElementById('fe').value.trim();
   const msg=document.getElementById('fm').value.trim();
   const tc=document.getElementById('ftc').checked;
-  if(!name||!email||!msg){alert('Please fill in all required fields (Name, Email, Message).');return;}
-  if(!tc){alert('Please agree to the Terms & Conditions to continue.');return;}
-
-  // NOTION AUTOMATION — Replace URL below with your Make.com webhook
-  const WEBHOOK='YOUR_MAKE_COM_WEBHOOK_URL_HERE';
-  const payload={
-    name,email,
-    phone:document.getElementById('fp').value,
-    businessType:document.getElementById('fb').value,
-    service:document.getElementById('fs').value,
-    message:msg,
-    timestamp:new Date().toISOString(),
-    source:'Growthive Systems Website'
-  };
-  // Uncomment when webhook is ready:
-  // fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-  //   .catch(err=>console.log('Webhook error:',err));
-
+  if(!name||!email||!msg){alert('Please fill in Name, Email, and Message.');return;}
+  if(!tc){alert('Please agree to the Terms & Conditions.');return;}
+  // NOTION WEBHOOK — replace with your Make.com URL
+  // fetch('YOUR_MAKE_COM_WEBHOOK_URL',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,phone:document.getElementById('fp').value,businessType:document.getElementById('fb').value,service:document.getElementById('fs').value,message:msg,timestamp:new Date().toISOString()})});
   document.getElementById('cForm').style.display='none';
   document.getElementById('fSuccess').style.display='block';
 }
 
-// CHAT
-function toggleChat(){
-  document.getElementById('chatBox').classList.toggle('open');
+function showTC(){
+  alert('Terms & Conditions — Growthive Systems\n\nBy submitting this form, you consent to Growthive Systems storing and using your information solely to respond to your inquiry and provide relevant services. Your data will not be shared with third parties without your consent.\n\n© 2026 Growthive Systems. All rights reserved.');
 }
 
-const replies={
-  hello:['Hello! Welcome to Growthive Systems 👋 How can I help your business today?'],
-  hi:['Hi there! How can we help you grow your business?'],
-  service:['We offer 4 core services: 🌐 Digital Presence, 📈 Business Strategy, 📣 Content & Visibility, and 👥 People Structure (HR). Which interests you most?'],
-  brand:['Our branding service includes logo design, brand guidelines, visual identity systems, and content creation that makes your business unforgettable.'],
-  strategy:['Our Business Strategy service covers growth roadmaps, market positioning, operational planning, and business development frameworks.'],
-  hr:['Our HR & People Structure service covers team hierarchy design, workflow systems, hiring guidance, and performance tracking.'],
-  content:['We handle social media strategy, content calendars, post design, community management, and growth tracking across all major platforms.'],
-  price:['We have 3 packages: 🟢 Starter (branding + basic web), 🔵 Growth (strategy + content management), 🟣 Scale (enterprise systems + HR + custom apps). Want to book a free call?'],
-  pricing:['We have 3 packages: 🟢 Starter, 🔵 Growth, 🟣 Scale. Each is customized to your business size and goals. Book a free strategy call for a tailored quote!'],
-  package:['Our packages are: 🟢 Starter — identity & presence. 🔵 Growth — strategy, content & systems. 🟣 Scale — full enterprise structure. Which stage is your business at?'],
-  contact:['You can reach us at hello@growthivesystems.com, WhatsApp, or use the contact form on this page!'],
-  founder:['Growthive was founded by David Ayogu, a psychology graduate and creative strategist with expertise in IO Psychology, graphic design, HR analytics, and business strategy.'],
-  david:['David Ayogu is the founder and CEO of Growthive Systems. His background combines psychology, design, strategy, and HR into one unified approach to business growth.'],
-  notion:['Yes! Our Scale package includes a Notion-powered business dashboard that connects your website forms, portfolio, and lead management into one central system.'],
-  web:['We build custom websites and applications for SMEs and enterprises — from landing pages to full web apps, optimized for performance and conversion.'],
-  default:['Thanks for your message! For detailed answers, I\'d recommend booking a free strategy call with our team. You can use the contact form on this page — we respond within 24 hours! 🚀']
-};
+// ── AI CHAT (GEMINI) ──
+let chatHistory=[];
 
-function getReply(txt){
-  const t=txt.toLowerCase();
-  for(const k in replies){if(t.includes(k))return replies[k][0];}
-  return replies.default[0];
-}
+function toggleChat(){document.getElementById('chatBox').classList.toggle('open');}
+
 function addMsg(text,type){
   const msgs=document.getElementById('chatMsgs');
   const d=document.createElement('div');
-  d.className='cmsg '+type;d.textContent=text;
-  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+  d.className='cmsg '+type;
+  d.textContent=text;
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+  return d;
 }
+
 function showTyping(){
   const msgs=document.getElementById('chatMsgs');
   const d=document.createElement('div');
@@ -1008,14 +991,38 @@ function showTyping(){
   d.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';
   msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
 }
-function sendChat(){
+
+async function sendChat(){
   const inp=document.getElementById('cinput');
-  const txt=inp.value.trim();if(!txt)return;
-  addMsg(txt,'usr');inp.value='';showTyping();
-  setTimeout(()=>{
+  const txt=inp.value.trim();
+  if(!txt)return;
+  addMsg(txt,'usr');
+  inp.value='';
+  showTyping();
+
+  chatHistory.push({role:'user',parts:[{text:txt}]});
+
+  try{
+    const res=await fetch(GEMINI_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system_instruction:{parts:[{text:GROWTHIVE_CONTEXT}]},
+        contents:chatHistory,
+        generationConfig:{maxOutputTokens:400,temperature:0.7}
+      })
+    });
+    const data=await res.json();
+    const reply=data.candidates?.[0]?.content?.parts?.[0]?.text||'I apologize, I had trouble connecting. Please try again or email us at hello@growthivesystems.com';
     const t=document.getElementById('tind');if(t)t.remove();
-    addMsg(getReply(txt),'bot');
-  },1300);
+    addMsg(reply,'bot');
+    chatHistory.push({role:'model',parts:[{text:reply}]});
+    if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
+  }catch(err){
+    const t=document.getElementById('tind');if(t)t.remove();
+    addMsg('Sorry, I had a connection issue. Please email us at hello@growthivesystems.com or try again!','bot');
+    console.error('Gemini error:',err);
+  }
 }
 </script>
 </body>
