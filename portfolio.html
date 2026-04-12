@@ -27,7 +27,6 @@ a{text-decoration:none;color:inherit}
 @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes scrollX{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@keyframes bounce-dot{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
 
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
@@ -62,16 +61,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:68px;dis
 .ptab{padding:.5rem 1.25rem;border-radius:24px;border:1px solid var(--border);background:transparent;color:rgba(255,255,255,.6);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
 .ptab.active,.ptab:hover{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:600}
 
-/* SECTIONS */
-.port-section{padding:5rem 5%;max-width:1300px;margin:0 auto}
-.sec-head{margin-bottom:3rem}
-.stag{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:.75rem}
-.stag::before{content:'';width:22px;height:1px;background:var(--gold)}
-.stitle{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:var(--white);line-height:1.15;margin-bottom:.75rem}
-.ssub{font-size:.95rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1.8}
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:3rem 0}
-
-/* ── VIDEOS SECTION ── */
+/* VIDEOS */
 .videos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
 .video-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--navy2);transition:transform .3s,box-shadow .3s}
 .video-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.4)}
@@ -82,44 +72,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:68px;dis
 .play-btn{width:60px;height:60px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--navy);transition:transform .2s;box-shadow:0 4px 20px rgba(201,168,76,.3)}
 .video-ph:hover .play-btn{transform:scale(1.1)}
 .video-ph p{font-size:.85rem;color:rgba(255,255,255,.6)}
-.video-ph small{font-size:.72rem;color:rgba(255,255,255,.35)}
 .video-info{padding:1.25rem}
 .video-info h3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.35rem}
 .video-info p{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.6}
 .video-tag{display:inline-block;font-size:.65rem;font-weight:600;padding:.2rem .7rem;border-radius:10px;background:var(--gold-light);border:1px solid var(--border);color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.75rem}
 
-/* ── GRAPHICS GALLERY ── */
+/* GRAPHICS */
 .graphics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.gitem{border-radius:10px;overflow:hidden;position:relative;aspect-ratio:1;background:var(--navy2);border:1px solid var(--border);cursor:pointer;transition:transform .3s}
-.gitem:nth-child(3){grid-row:span 2;aspect-ratio:auto}
-.gitem:nth-child(3) .gph{height:100%}
+.gitem{border-radius:10px;overflow:hidden;position:relative;background:var(--navy2);border:1px solid var(--border);cursor:pointer;transition:transform .3s}
+.gitem:nth-child(3){grid-row:span 2}
 .gitem:hover{transform:scale(1.02)}
 .gitem img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
 .gitem:hover img{transform:scale(1.08)}
-.gph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;background:linear-gradient(135deg,var(--navy2),var(--navy3));text-align:center;padding:1rem;min-height:180px}
-.gph i{font-size:1.8rem;color:var(--border);margin-bottom:.25rem}
-.gph p{font-size:.75rem;color:rgba(255,255,255,.4)}
-.gph small{font-size:.65rem;color:rgba(255,255,255,.25)}
 .goverlay{position:absolute;inset:0;background:rgba(7,17,43,.85);opacity:0;transition:opacity .35s;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.4rem}
 .gitem:hover .goverlay{opacity:1}
 .goverlay span{color:var(--white);font-size:.82rem;font-weight:500}
 .goverlay i{color:var(--gold);font-size:1.1rem}
 
-/* ── WEBSITES AUTO-SCROLL ── */
+/* WEBSITES */
 .websites-section{background:var(--navy2);padding:5rem 5%;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .websites-inner{max-width:1300px;margin:0 auto}
 .web-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem}
 .web-card{border-radius:16px;overflow:hidden;border:1px solid var(--border);background:var(--navy);transition:transform .3s,box-shadow .3s;cursor:pointer}
 .web-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.5)}
 .web-preview{height:240px;overflow:hidden;position:relative;background:var(--navy3)}
-.web-preview iframe{width:200%;height:200%;border:none;transform:scale(0.5);transform-origin:top left;pointer-events:none}
-.web-preview-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;background:linear-gradient(135deg,var(--navy3),#1a2f5e)}
-.web-preview-ph i{font-size:2rem;color:var(--border)}
-.web-preview-ph p{font-size:.8rem;color:rgba(255,255,255,.35);text-align:center;padding:0 1rem}
-/* AUTO SCROLL EFFECT */
-.web-card.scroll-preview .web-preview-ph{animation:none}
-.scroll-animation{animation:scrollPageDown 8s ease-in-out infinite}
-@keyframes scrollPageDown{0%,100%{transform:translateY(0) scale(0.5);transform-origin:top left}50%{transform:translateY(-30%) scale(0.5);transform-origin:top left}}
+.web-preview iframe{width:200%;height:200%;border:none;transform:scale(0.5);transform-origin:top left;pointer-events:none;animation:scrollPageDown 8s ease-in-out infinite}
+@keyframes scrollPageDown{0%,100%{transform:scale(0.5) translateY(0);transform-origin:top left}50%{transform:scale(0.5) translateY(-30%);transform-origin:top left}}
 .web-info{padding:1.25rem}
 .web-url{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;margin-bottom:.5rem}
 .web-url i{color:var(--gold);font-size:.7rem}
@@ -127,10 +105,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:68px;dis
 .web-card p{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem}
 .web-tags{display:flex;gap:.4rem;flex-wrap:wrap}
 .wtag{font-size:.65rem;padding:.2rem .65rem;border-radius:10px;background:var(--gold-light);border:1px solid var(--border);color:var(--gold);font-weight:500}
-.web-link{display:flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:600;color:var(--gold);letter-spacing:.05em;text-transform:uppercase;margin-top:.75rem;transition:gap .2s}
+.web-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:600;color:var(--gold);letter-spacing:.05em;text-transform:uppercase;margin-top:.75rem;transition:gap .2s}
 .web-link:hover{gap:.7rem}
 
-/* AUTO-SCROLL MARQUEE (logos/clients) */
+/* MARQUEE */
 .marquee-section{padding:3rem 5%;overflow:hidden;border-bottom:1px solid var(--border);background:var(--navy)}
 .marquee-label{text-align:center;font-size:.72rem;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem}
 .marquee-track{display:flex;gap:2rem;width:max-content;animation:scrollX 20s linear infinite}
@@ -144,7 +122,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:68px;dis
 .lb-x{position:absolute;top:1.5rem;right:1.5rem;color:var(--white);font-size:1.4rem;cursor:pointer;background:rgba(255,255,255,.1);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
 .lb-x:hover{background:var(--gold);color:var(--navy)}
 
-/* CTA SECTION */
+/* SECTION HELPERS */
+.sec-head{margin-bottom:3rem}
+.stag{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:.75rem}
+.stag::before{content:'';width:22px;height:1px;background:var(--gold)}
+.stitle{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:var(--white);line-height:1.15;margin-bottom:.75rem}
+.ssub{font-size:.95rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1.8}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0}
+
+/* CTA */
 .port-cta{padding:5rem 5%;text-align:center;background:linear-gradient(135deg,var(--navy2),var(--navy3))}
 .port-cta h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;color:var(--white);margin-bottom:1rem}
 .port-cta h2 em{font-style:normal;color:var(--gold)}
@@ -165,7 +151,7 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 .foot-copy{font-size:.72rem;color:rgba(255,255,255,.22)}
 
 /* RESPONSIVE */
-@media(max-width:1024px){.videos-grid{grid-template-columns:1fr 1fr}.graphics-grid{grid-template-columns:repeat(2,1fr)}.gitem:nth-child(3){grid-row:auto;aspect-ratio:1}.web-cards{grid-template-columns:1fr}}
+@media(max-width:1024px){.videos-grid{grid-template-columns:1fr 1fr}.graphics-grid{grid-template-columns:repeat(2,1fr)}.gitem:nth-child(3){grid-row:auto}.web-cards{grid-template-columns:1fr}}
 @media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}.videos-grid{grid-template-columns:1fr}.graphics-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -205,17 +191,17 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
     <h1>Built with purpose.<br><em>Designed for impact.</em></h1>
     <p>A curated showcase of our work across video production, graphic design, branding, and digital product development.</p>
     <div class="port-tabs">
-      <button class="ptab active" onclick="scrollToSection('videos')"><i class="fas fa-play"></i> Videos</button>
-      <button class="ptab" onclick="scrollToSection('graphics')"><i class="fas fa-palette"></i> Graphic Design</button>
-      <button class="ptab" onclick="scrollToSection('websites')"><i class="fas fa-globe"></i> Websites</button>
+      <button class="ptab active" onclick="scrollToSection('videos',event)"><i class="fas fa-play"></i> Videos</button>
+      <button class="ptab" onclick="scrollToSection('graphics',event)"><i class="fas fa-palette"></i> Graphic Design</button>
+      <button class="ptab" onclick="scrollToSection('websites',event)"><i class="fas fa-globe"></i> Websites</button>
     </div>
   </div>
 </div>
 
-<!-- MARQUEE (Tools / Skills) -->
+<!-- MARQUEE -->
 <div class="marquee-section">
   <p class="marquee-label">Tools & Expertise</p>
-  <div class="marquee-track" id="marquee">
+  <div class="marquee-track">
     <div class="marquee-item"><i class="fas fa-paint-brush"></i> Brand Identity</div>
     <div class="marquee-item"><i class="fas fa-video"></i> Video Editing</div>
     <div class="marquee-item"><i class="fas fa-code"></i> Web Development</div>
@@ -226,7 +212,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
     <div class="marquee-item"><i class="fas fa-robot"></i> AI Integration</div>
     <div class="marquee-item"><i class="fas fa-database"></i> Notion Systems</div>
     <div class="marquee-item"><i class="fas fa-bullhorn"></i> Content Strategy</div>
-    <!-- Duplicate for seamless loop -->
     <div class="marquee-item"><i class="fas fa-paint-brush"></i> Brand Identity</div>
     <div class="marquee-item"><i class="fas fa-video"></i> Video Editing</div>
     <div class="marquee-item"><i class="fas fa-code"></i> Web Development</div>
@@ -240,7 +225,11 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </div>
 
-<!-- VIDEOS SECTION -->
+<!-- ═══════════════════════════════════════════
+     VIDEOS SECTION
+     REPLACE: swap each YouTube ID below (3 total)
+     How to find your ID: youtube.com/watch?v=YOURID  ← that last part
+════════════════════════════════════════════ -->
 <section id="videos" style="padding:5rem 5%;background:var(--navy)">
   <div style="max-width:1300px;margin:0 auto">
     <div class="sec-head reveal">
@@ -250,20 +239,12 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
     </div>
     <div class="videos-grid">
 
-      <!-- VIDEO 1 -->
+      <!-- VIDEO 1 — REPLACE: change YOUTUBE_ID_1 to your real YouTube video ID -->
       <div class="video-card reveal">
         <div class="video-wrap">
-          <!--
-            TO ADD YOUR VIDEO:
-            Option A (YouTube): Replace src with your YouTube embed URL
-            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
-            Option B (Vimeo): <iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID"></iframe>
-            Option C (Direct file): <video src="assets/videos/video1.mp4" controls></video>
-          -->
-          <div class="video-ph" onclick="playVideo(this,'YOUR_YOUTUBE_VIDEO_ID_1')">
+          <div class="video-ph" onclick="playVideo(this,'YOUTUBE_ID_1')">
             <div class="play-btn"><i class="fas fa-play" style="margin-left:3px"></i></div>
             <p>Brand Story Video</p>
-            <small>Click to play · Add your YouTube link</small>
           </div>
         </div>
         <div class="video-info">
@@ -273,13 +254,12 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
         </div>
       </div>
 
-      <!-- VIDEO 2 -->
+      <!-- VIDEO 2 — REPLACE: change YOUTUBE_ID_2 to your real YouTube video ID -->
       <div class="video-card reveal">
         <div class="video-wrap">
-          <div class="video-ph" onclick="playVideo(this,'YOUR_YOUTUBE_VIDEO_ID_2')">
+          <div class="video-ph" onclick="playVideo(this,'YOUTUBE_ID_2')">
             <div class="play-btn"><i class="fas fa-play" style="margin-left:3px"></i></div>
             <p>Social Media Campaign</p>
-            <small>Click to play · Add your YouTube link</small>
           </div>
         </div>
         <div class="video-info">
@@ -289,13 +269,12 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
         </div>
       </div>
 
-      <!-- VIDEO 3 -->
+      <!-- VIDEO 3 — REPLACE: change YOUTUBE_ID_3 to your real YouTube video ID -->
       <div class="video-card reveal">
         <div class="video-wrap">
-          <div class="video-ph" onclick="playVideo(this,'YOUR_YOUTUBE_VIDEO_ID_3')">
+          <div class="video-ph" onclick="playVideo(this,'YOUTUBE_ID_3')">
             <div class="play-btn"><i class="fas fa-play" style="margin-left:3px"></i></div>
-            <p>HR & Systems Explainer</p>
-            <small>Click to play · Add your YouTube link</small>
+            <p>Systems Explainer</p>
           </div>
         </div>
         <div class="video-info">
@@ -309,9 +288,15 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   </div>
 </section>
 
-<div class="divider" style="margin:0;padding:0 5%"></div>
+<div class="divider"></div>
 
-<!-- GRAPHICS SECTION -->
+<!-- ═══════════════════════════════════════════
+     GRAPHICS SECTION
+     REPLACE: images are already wired to assets/images/portfolio/
+     Just upload your files named exactly:
+     img-01.jpeg, img-02.jpeg ... img-08.jpeg
+     to the assets/images/portfolio/ folder — nothing else to change here.
+════════════════════════════════════════════ -->
 <section id="graphics" style="padding:5rem 5%;background:var(--navy)">
   <div style="max-width:1300px;margin:0 auto">
     <div class="sec-head reveal">
@@ -320,53 +305,44 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
       <p class="ssub">Brand identities, social media graphics, marketing materials, and digital assets — all crafted to make your business unforgettable.</p>
     </div>
     <div class="graphics-grid">
-      <!--
-        TO ADD YOUR GRAPHICS:
-        Replace each .gph div with:
-        <img src="assets/images/portfolio/img-01.jpeg" alt="Description" loading="lazy">
-        Add the .goverlay div after the img tag.
 
-        File naming: assets/images/portfolio/img-01.jpeg through img-08.jpeg
-        Recommended sizes: 800x800px (square) or 800x600px (landscape)
-      -->
-
-      <div class="gitem reveal" onclick="openLB('')">
-        <div class="gph"><i class="fas fa-image"></i><p>img-01.jpeg</p><small>Logo Design Work</small></div>
+      <div class="gitem reveal" onclick="openLB('assets/images/portfolio/img-01.jpeg')">
+        <img src="assets/images/portfolio/img-01.jpeg" alt="Logo Design" loading="lazy">
         <div class="goverlay"><i class="fas fa-expand"></i><span>Logo Design</span></div>
       </div>
 
-      <div class="gitem reveal" onclick="openLB('')">
-        <div class="gph"><i class="fas fa-image"></i><p>img-02.jpeg</p><small>Brand Identity</small></div>
+      <div class="gitem reveal" onclick="openLB('assets/images/portfolio/img-02.jpeg')">
+        <img src="assets/images/portfolio/img-02.jpeg" alt="Brand Identity" loading="lazy">
         <div class="goverlay"><i class="fas fa-expand"></i><span>Brand Identity</span></div>
       </div>
 
-      <div class="gitem reveal" onclick="openLB('')">
-        <div class="gph" style="min-height:380px"><i class="fas fa-image"></i><p>img-03.jpeg</p><small>Social Media Graphics</small></div>
+      <div class="gitem reveal" onclick="openLB('assets/images/portfolio/img-03.jpeg')">
+        <img src="assets/images/portfolio/img-03.jpeg" alt="Social Media Graphics" loading="lazy">
         <div class="goverlay"><i class="fas fa-expand"></i><span>Social Graphics</span></div>
       </div>
 
-      <div class="gitem reveal" onclick="openLB('')">
-        <div class="gph"><i class="fas fa-image"></i><p>img-04.jpeg</p><small>Marketing Flyer</small></div>
+      <div class="gitem reveal" onclick="openLB('assets/images/portfolio/img-04.jpeg')">
+        <img src="assets/images/portfolio/img-04.jpeg" alt="Marketing Flyer" loading="lazy">
         <div class="goverlay"><i class="fas fa-expand"></i><span>Marketing Flyer</span></div>
       </div>
 
-      <div class="gitem reveal" onclick="openLB('')">
-        <div class="gph"><i class="fas fa-image"></i><p>img-05.jpeg</p><small>Brand Poster</small></div>
+      <div class="gitem reveal" onclick="openLB('assets/images/portfolio/img-05.jpeg')">
+        <img src="assets/images/portfolio/img-05.jpeg" alt="Brand Poster" loading="lazy">
         <div class="goverlay"><i class="fas fa-expand"></i><span>Brand Poster</span></div>
       </div>
 
-      <div class="gitem reveal" onclick="openLB('')">
-        <div class="gph"><i class="fas fa-image"></i><p>img-06.jpeg</p><small>Visual Identity</small></div>
+      <div class="gitem reveal" onclick="openLB('assets/images/portfolio/img-06.jpeg')">
+        <img src="assets/images/portfolio/img-06.jpeg" alt="Visual Identity" loading="lazy">
         <div class="goverlay"><i class="fas fa-expand"></i><span>Visual Identity</span></div>
       </div>
 
-      <div class="gitem reveal" onclick="openLB('')">
-        <div class="gph"><i class="fas fa-image"></i><p>img-07.jpeg</p><small>Digital Banner</small></div>
+      <div class="gitem reveal" onclick="openLB('assets/images/portfolio/img-07.jpeg')">
+        <img src="assets/images/portfolio/img-07.jpeg" alt="Digital Banner" loading="lazy">
         <div class="goverlay"><i class="fas fa-expand"></i><span>Digital Banner</span></div>
       </div>
 
-      <div class="gitem reveal" onclick="openLB('')">
-        <div class="gph"><i class="fas fa-image"></i><p>img-08.jpeg</p><small>Content Graphics</small></div>
+      <div class="gitem reveal" onclick="openLB('assets/images/portfolio/img-08.jpeg')">
+        <img src="assets/images/portfolio/img-08.jpeg" alt="Content Graphics" loading="lazy">
         <div class="goverlay"><i class="fas fa-expand"></i><span>Content Graphics</span></div>
       </div>
 
@@ -377,34 +353,32 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLB()">
   <div class="lb-x"><i class="fas fa-times"></i></div>
-  <img id="lbImg" src="" alt="">
+  <img id="lbImg" src="" alt="Portfolio image">
 </div>
 
-<!-- WEBSITES SECTION -->
+<!-- ═══════════════════════════════════════════
+     WEBSITES SECTION
+     REPLACE (3 things per card, 3 cards = 9 replacements total):
+     1. iframe src="YOUR_WEBSITE_URL_1"  ← your live site URL
+     2. The display URL text e.g. yourwebsite1.com
+     3. The href on the Visit Site link e.g. https://yourwebsite1.com
+════════════════════════════════════════════ -->
 <div class="websites-section" id="websites">
   <div class="websites-inner">
-    <div class="sec-head center reveal" style="text-align:center">
+    <div class="sec-head reveal" style="text-align:center">
       <p class="stag" style="justify-content:center">Web Development</p>
       <h2 class="stitle">Websites that work as hard as you do.</h2>
       <p class="ssub" style="margin:0 auto;max-width:520px">Custom-built websites and digital products for businesses that need more than just a beautiful page — they need results.</p>
     </div>
     <div class="web-cards">
 
-      <!-- WEBSITE 1 -->
+      <!-- WEBSITE 1 — REPLACE: YOUR_WEBSITE_URL_1 in both places below -->
       <div class="web-card reveal">
         <div class="web-preview">
-          <!--
-            TO ADD LIVE WEBSITE PREVIEW:
-            Replace ph div with:
-            <iframe src="https://yourwebsite.com" class="scroll-animation" sandbox="allow-same-origin"></iframe>
-            The iframe will auto-scroll to show the full site.
-          -->
-          <div class="web-preview-ph">
-            <i class="fas fa-globe"></i>
-            <p>Website 1 Preview<br><small>Add: &lt;iframe src="https://yoursite.com"&gt;</small></p>
-          </div>
+          <iframe src="YOUR_WEBSITE_URL_1" sandbox="allow-same-origin" title="Website preview 1"></iframe>
         </div>
         <div class="web-info">
+          <!-- REPLACE: yourwebsite1.com with your real domain -->
           <div class="web-url"><i class="fas fa-link"></i> yourwebsite1.com</div>
           <h3>Business Landing Page</h3>
           <p>A high-converting landing page designed to capture leads, communicate value, and drive business growth for an SME client.</p>
@@ -413,19 +387,18 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
             <span class="wtag">Responsive</span>
             <span class="wtag">Lead Gen</span>
           </div>
-          <a href="#" class="web-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
+          <!-- REPLACE: YOUR_WEBSITE_URL_1 with your real URL -->
+          <a href="YOUR_WEBSITE_URL_1" class="web-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
         </div>
       </div>
 
-      <!-- WEBSITE 2 -->
+      <!-- WEBSITE 2 — REPLACE: YOUR_WEBSITE_URL_2 in both places below -->
       <div class="web-card reveal">
         <div class="web-preview">
-          <div class="web-preview-ph">
-            <i class="fas fa-globe"></i>
-            <p>Website 2 Preview<br><small>Add: &lt;iframe src="https://yoursite.com"&gt;</small></p>
-          </div>
+          <iframe src="YOUR_WEBSITE_URL_2" sandbox="allow-same-origin" title="Website preview 2"></iframe>
         </div>
         <div class="web-info">
+          <!-- REPLACE: yourwebsite2.com with your real domain -->
           <div class="web-url"><i class="fas fa-link"></i> yourwebsite2.com</div>
           <h3>Agency Portfolio Site</h3>
           <p>A premium multi-page agency website with portfolio system, contact forms, and full brand integration for a creative firm.</p>
@@ -434,19 +407,18 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
             <span class="wtag">Portfolio</span>
             <span class="wtag">Animations</span>
           </div>
-          <a href="#" class="web-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
+          <!-- REPLACE: YOUR_WEBSITE_URL_2 with your real URL -->
+          <a href="YOUR_WEBSITE_URL_2" class="web-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
         </div>
       </div>
 
-      <!-- WEBSITE 3 -->
+      <!-- WEBSITE 3 — REPLACE: YOUR_WEBSITE_URL_3 in both places below -->
       <div class="web-card reveal">
         <div class="web-preview">
-          <div class="web-preview-ph">
-            <i class="fas fa-globe"></i>
-            <p>Website 3 Preview<br><small>Add: &lt;iframe src="https://yoursite.com"&gt;</small></p>
-          </div>
+          <iframe src="YOUR_WEBSITE_URL_3" sandbox="allow-same-origin" title="Website preview 3"></iframe>
         </div>
         <div class="web-info">
+          <!-- REPLACE: yourwebsite3.com with your real domain -->
           <div class="web-url"><i class="fas fa-link"></i> yourwebsite3.com</div>
           <h3>Corporate Web Application</h3>
           <p>A full-featured web application with user authentication, dashboard, and automated workflows built for an enterprise client.</p>
@@ -455,7 +427,8 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
             <span class="wtag">Dashboard</span>
             <span class="wtag">Automation</span>
           </div>
-          <a href="#" class="web-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
+          <!-- REPLACE: YOUR_WEBSITE_URL_3 with your real URL -->
+          <a href="YOUR_WEBSITE_URL_3" class="web-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
         </div>
       </div>
 
@@ -503,29 +476,28 @@ window.addEventListener('scroll',()=>{
   document.getElementById('progressBar').style.width=pct+'%';
 });
 
-// REVEAL
+// REVEAL ON SCROLL
 const rObs=new IntersectionObserver((entries)=>{
   entries.forEach((e,i)=>{
-    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);rObs.unobserve(e.target);}
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),i*80);
+      rObs.unobserve(e.target);
+    }
   });
 },{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>rObs.observe(el));
 
 // SCROLL TO SECTION
-function scrollToSection(id){
+function scrollToSection(id,event){
   document.getElementById(id).scrollIntoView({behavior:'smooth'});
   document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
+  event.target.closest('.ptab').classList.add('active');
 }
 
-// VIDEO PLAYER
+// VIDEO PLAYER — replaces placeholder with live YouTube embed on click
 function playVideo(el,videoId){
-  if(!videoId||videoId.includes('YOUR_')){
-    el.innerHTML='<div style="padding:2rem;text-align:center;color:rgba(255,255,255,.5)"><i class="fas fa-info-circle" style="font-size:2rem;margin-bottom:1rem;display:block;color:var(--gold)"></i><p>Replace YOUR_YOUTUBE_VIDEO_ID in portfolio.html<br>with your real YouTube video ID</p></div>';
-    return;
-  }
   const iframe=document.createElement('iframe');
-  iframe.src=`https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  iframe.src='https://www.youtube.com/embed/'+videoId+'?autoplay=1';
   iframe.allow='autoplay;encrypted-media';
   iframe.allowFullscreen=true;
   iframe.style.cssText='width:100%;height:100%;border:none';
@@ -534,14 +506,13 @@ function playVideo(el,videoId){
 
 // LIGHTBOX
 function openLB(src){
-  if(!src){
-    // placeholder — no image yet
-    return;
-  }
   document.getElementById('lbImg').src=src;
   document.getElementById('lightbox').classList.add('open');
 }
-function closeLB(){document.getElementById('lightbox').classList.remove('open');}
+function closeLB(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lbImg').src='';
+}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
 </script>
 </body>
