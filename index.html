@@ -59,12 +59,9 @@ a{text-decoration:none;color:inherit}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,box-shadow .4s}
 nav.scrolled{background:rgba(7,17,43,.96);backdrop-filter:blur(16px);box-shadow:0 2px 24px rgba(0,0,0,.35)}
 .nav-logo{display:flex;align-items:center;gap:10px}
-
-/* LOGO — upload logo.png to assets/images/logo.png */
 .logo-img{width:40px;height:40px;border-radius:10px;object-fit:contain;display:none}
 .logo-img.loaded{display:block}
 .logo-box-fallback{width:40px;height:40px;background:var(--gold-light);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold)}
-
 .nav-brand{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--white)}
 .nav-brand span{color:var(--gold)}
 .nav-links{display:flex;align-items:center;gap:1.75rem}
@@ -203,10 +200,8 @@ section{padding:6rem 5%}
 .pstep h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
 .pstep p{font-size:.82rem;color:rgba(255,255,255,.48);line-height:1.7}
 
-/* ABOUT / FOUNDER PHOTO */
 .about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
 .photo-box{aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--navy2);border:1px solid var(--border);position:relative}
-/* Upload founder.jpeg to assets/images/founder.jpeg — it shows automatically */
 .founder-img{width:100%;height:100%;object-fit:cover;display:block}
 .photo-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--muted);padding:2rem;text-align:center;position:absolute;inset:0}
 .photo-ph i{font-size:3rem;color:var(--border)}
@@ -243,11 +238,14 @@ section{padding:6rem 5%}
 .tc-row a{color:var(--gold);text-decoration:underline}
 .sub-btn{width:100%;padding:1rem;background:var(--gold);color:var(--navy);border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:opacity .2s;animation:breathe 3.2s ease-in-out infinite}
 .sub-btn:hover{opacity:.88}
+.sub-btn:disabled{opacity:.6;cursor:not-allowed;animation:none}
 .f-success{display:none;text-align:center;padding:2rem}
 .f-success i{font-size:2rem;color:var(--gold);display:block;margin-bottom:.75rem}
 .f-success h4{color:var(--white);font-size:1.1rem;margin-bottom:.5rem;font-family:'Cormorant Garamond',serif}
 .f-success p{color:rgba(255,255,255,.55);font-size:.85rem}
+.f-error{display:none;background:rgba(226,123,123,.1);border:1px solid rgba(226,123,123,.3);border-radius:8px;padding:.85rem 1rem;margin-bottom:1rem;color:#e27b7b;font-size:.82rem}
 
+/* ── ANIMATED NOTION SECTION ── */
 .notion-bg{background:linear-gradient(135deg,var(--navy2),var(--navy3))}
 .notion-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
 .notion-steps{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
@@ -255,14 +253,37 @@ section{padding:6rem 5%}
 .nstep-num{width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--navy);font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .nstep-text h4{font-size:.88rem;font-weight:600;color:var(--white);margin-bottom:.25rem}
 .nstep-text p{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.6}
-.notion-visual{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:2rem}
-.notion-db{margin-bottom:1rem}
+
+/* Notion live dashboard */
+.notion-visual{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:1.5rem;overflow:hidden}
+.notion-db{margin-bottom:1.25rem}
 .ndb-title{font-size:.72rem;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
-.ndb-row{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:rgba(255,255,255,.04);border-radius:6px;margin-bottom:.4rem}
-.ndb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.ndb-dot.green{background:#6fcf97}.ndb-dot.gold{background:var(--gold)}.ndb-dot.blue{background:#56acf0}
-.ndb-label{font-size:.8rem;color:rgba(255,255,255,.6)}
-.ndb-val{margin-left:auto;font-size:.75rem;color:rgba(255,255,255,.35)}
+.ndb-rows{display:flex;flex-direction:column;gap:.4rem;min-height:80px}
+.ndb-row{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:rgba(255,255,255,.04);border-radius:6px;border:1px solid transparent;transition:all .4s ease;opacity:1;transform:translateX(0)}
+.ndb-row.slide-in{animation:slideInRow .5s ease forwards}
+.ndb-row.highlight{border-color:rgba(201,168,76,.35);background:rgba(201,168,76,.07)}
+@keyframes slideInRow{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
+.ndb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:all .3s}
+.ndb-dot.green{background:#6fcf97}
+.ndb-dot.gold{background:var(--gold)}
+.ndb-dot.blue{background:#56acf0}
+.ndb-dot.pulse{animation:dotPulse 1.5s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(111,207,151,.5)}50%{box-shadow:0 0 0 5px rgba(111,207,151,0)}}
+.ndb-label{font-size:.8rem;color:rgba(255,255,255,.6);flex:1}
+.ndb-val{font-size:.72rem;color:rgba(255,255,255,.32);white-space:nowrap}
+.ndb-val.new-badge{color:#6fcf97;font-weight:600;background:rgba(111,207,151,.12);padding:2px 8px;border-radius:10px}
+
+/* Counter stats inside notion visual */
+.notion-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-bottom:1.25rem}
+.nstat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:.7rem;text-align:center}
+.nstat-num{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold);display:block;line-height:1}
+.nstat-lbl{font-size:.62rem;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+
+/* Live feed ticker */
+.live-feed{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;display:flex;align-items:center;gap:.65rem;margin-top:.5rem}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#6fcf97;animation:dotPulse 1.5s ease-in-out infinite;flex-shrink:0}
+.live-text{font-size:.75rem;color:rgba(255,255,255,.5);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.live-label{font-size:.65rem;font-weight:600;color:#6fcf97;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0}
 
 footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
 .foot-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--white)}
@@ -323,6 +344,7 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
   .chat-box{width:300px}
   .dashboard{display:none}
   .sgrid{grid-template-columns:1fr 1fr}
+  .notion-stats-row{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
@@ -349,7 +371,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
 
 <nav id="navbar">
   <div class="nav-logo">
-    <!-- Upload logo.png to assets/images/logo.png — shows automatically, falls back to G -->
     <img class="logo-img" id="logoImg" src="assets/images/logo.png" alt="Growthive Systems Logo"
          onload="this.classList.add('loaded');document.getElementById('logoFallback').style.display='none'"
          onerror="this.style.display='none'">
@@ -604,7 +625,7 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
       <div class="pstep reveal"><div class="pstep-circle"><span>01</span></div><h3>Discovery</h3><p>We learn your business, audience, and goals in depth before building anything.</p></div>
       <div class="pstep reveal"><div class="pstep-circle"><span>02</span></div><h3>Strategy</h3><p>We design a custom roadmap — messaging, systems, and content aligned to your vision.</p></div>
       <div class="pstep reveal"><div class="pstep-circle"><span>03</span></div><h3>Execution</h3><p>We produce and implement deliverables — on time, on brand, and on target.</p></div>
-      <div class="pstep reveal"><div class="pstep-circle"><span>04</span></div><h3>Growth & Optimisation</h3><p>We track, refine, and scale what's working — continuously, not once.</p></div>`
+      <div class="pstep reveal"><div class="pstep-circle"><span>04</span></div><h3>Growth & Optimisation</h3><p>We track, refine, and scale what's working — continuously, not once.</p></div>
     </div>
   </div>
 </section>
@@ -614,7 +635,6 @@ footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--bor
     <div class="about-inner">
       <div class="founder-side reveal">
         <div class="photo-box">
-          <!-- Upload founder.jpeg to assets/images/founder.jpeg — appears automatically -->
           <img class="founder-img" src="assets/images/founder.jpeg" alt="David Ayogu — Founder & CEO"
                onerror="this.style.display='none';document.getElementById('founderPh').style.display='flex'">
           <div class="photo-ph" id="founderPh" style="display:none">
@@ -646,6 +666,9 @@ Driven by discipline, purpose, and a commitment to excellence, David is focused 
   </div>
 </section>
 
+<!-- ══════════════════════════════════════════
+     NOTION SECTION — ANIMATED LIVE DASHBOARD
+     ══════════════════════════════════════════ -->
 <section class="notion-bg" id="notion">
   <div class="section-inner">
     <div class="notion-inner">
@@ -661,32 +684,57 @@ Driven by discipline, purpose, and a commitment to excellence, David is focused 
           <div class="nstep"><div class="nstep-num">5</div><div class="nstep-text"><h4>You get notified</h4><p>Check your Notion dashboard and follow up with confidence</p></div></div>
         </div>
       </div>
+
+      <!-- ANIMATED NOTION VISUAL -->
       <div class="reveal">
         <div class="notion-visual">
-          <div class="notion-db">
-            <div class="ndb-title"><i class="fas fa-database"></i> Leads Database</div>
-            <div class="ndb-row"><div class="ndb-dot green"></div><div class="ndb-label">Chioma Obi — Digital Presence</div><div class="ndb-val">New</div></div>
-            <div class="ndb-row"><div class="ndb-dot gold"></div><div class="ndb-label">Emeka Ltd — Scale Package</div><div class="ndb-val">In Progress</div></div>
-            <div class="ndb-row"><div class="ndb-dot blue"></div><div class="ndb-label">StartupNG — Business Strategy</div><div class="ndb-val">Closed</div></div>
+
+          <!-- Animated counter stats -->
+          <div class="notion-stats-row">
+            <div class="nstat">
+              <span class="nstat-num" id="nCount1">0</span>
+              <span class="nstat-lbl">Total Leads</span>
+            </div>
+            <div class="nstat">
+              <span class="nstat-num" id="nCount2">0</span>
+              <span class="nstat-lbl">Active</span>
+            </div>
+            <div class="nstat">
+              <span class="nstat-num" id="nCount3">0%</span>
+              <span class="nstat-lbl">Conversion</span>
+            </div>
           </div>
+
+          <!-- Leads database — rows slide in and new ones appear -->
+          <div class="notion-db">
+            <div class="ndb-title"><i class="fas fa-database"></i> Leads Database — Live</div>
+            <div class="ndb-rows" id="leadsRows"></div>
+          </div>
+
+          <!-- Portfolio database -->
           <div class="notion-db">
             <div class="ndb-title"><i class="fas fa-folder"></i> Portfolio Database</div>
-            <div class="ndb-row"><div class="ndb-dot gold"></div><div class="ndb-label">Brand Identity — Lumina</div><div class="ndb-val">Branding</div></div>
-            <div class="ndb-row"><div class="ndb-dot green"></div><div class="ndb-label">HR System — TechCo</div><div class="ndb-val">HR</div></div>
+            <div class="ndb-rows" id="portfolioRows"></div>
           </div>
-          <div class="notion-db">
-            <div class="ndb-title"><i class="fas fa-users"></i> Team Database</div>
-            <div class="ndb-row"><div class="ndb-dot green"></div><div class="ndb-label">David Ayogu — CEO & Strategist</div><div class="ndb-val">Active</div></div>
+
+          <!-- Live feed ticker -->
+          <div class="live-feed">
+            <div class="live-dot"></div>
+            <span class="live-label">Live</span>
+            <span class="live-text" id="liveFeedText">Waiting for new leads...</span>
           </div>
-          <div style="margin-top:1.5rem;padding:1rem;background:rgba(201,168,76,.08);border-radius:8px;border:1px solid var(--border)">
-            <p style="font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.6">To connect: Go to <strong style="color:var(--gold)">make.com</strong> → Create Scenario → Webhook → Notion "Create Item" → map fields → replace webhook URL in this site's code.</p>
-          </div>
+
         </div>
       </div>
+      <!-- END ANIMATED NOTION VISUAL -->
+
     </div>
   </div>
 </section>
 
+<!-- ══════════════════════════════════════════
+     CONTACT SECTION — FORMSPREE POWERED
+     ══════════════════════════════════════════ -->
 <section class="con-bg" id="contact">
   <div class="section-inner">
     <div class="con-inner">
@@ -711,14 +759,15 @@ Driven by discipline, purpose, and a commitment to excellence, David is focused 
       <div class="reveal">
         <div class="cform-wrap">
           <div id="cForm">
+            <div class="f-error" id="fError">Something went wrong. Please try again or email us directly.</div>
             <div class="frow">
-              <div class="fg"><label>Full Name *</label><input type="text" id="fn" placeholder="Your full name" required></div>
-              <div class="fg"><label>Email Address *</label><input type="email" id="fe" placeholder="your@email.com" required></div>
+              <div class="fg"><label>Full Name *</label><input type="text" id="fn" name="name" placeholder="Your full name" required></div>
+              <div class="fg"><label>Email Address *</label><input type="email" id="fe" name="email" placeholder="your@email.com" required></div>
             </div>
             <div class="frow">
-              <div class="fg"><label>Phone / WhatsApp</label><input type="tel" id="fp" placeholder="+234 000 0000 000"></div>
+              <div class="fg"><label>Phone / WhatsApp</label><input type="tel" id="fp" name="phone" placeholder="+234 000 0000 000"></div>
               <div class="fg"><label>Business Type</label>
-                <select id="fb">
+                <select id="fb" name="business_type">
                   <option value="">Select type...</option>
                   <option>Startup / New Business</option>
                   <option>Small Business (SME)</option>
@@ -729,7 +778,7 @@ Driven by discipline, purpose, and a commitment to excellence, David is focused 
               </div>
             </div>
             <div class="fg"><label>Service Interest</label>
-              <select id="fs">
+              <select id="fs" name="service_interest">
                 <option value="">What are you looking for?</option>
                 <option>Digital Presence & Branding</option>
                 <option>Business Strategy</option>
@@ -740,12 +789,12 @@ Driven by discipline, purpose, and a commitment to excellence, David is focused 
                 <option>Not sure — need guidance</option>
               </select>
             </div>
-            <div class="fg"><label>Your Message *</label><textarea id="fm" placeholder="Tell us about your business and what you'd like to achieve..."></textarea></div>
+            <div class="fg"><label>Your Message *</label><textarea id="fm" name="message" placeholder="Tell us about your business and what you'd like to achieve..."></textarea></div>
             <div class="tc-row">
               <input type="checkbox" id="ftc" required>
               <label for="ftc">I agree to the <a href="#" onclick="showTC();return false">Terms & Conditions</a> and consent to Growthive Systems storing my information to respond to my inquiry.</label>
             </div>
-            <button class="sub-btn" onclick="submitForm()">Send Message — Let's Grow Together</button>
+            <button class="sub-btn" id="submitBtn" onclick="submitForm()">Send Message — Let's Grow Together</button>
           </div>
           <div class="f-success" id="fSuccess">
             <i class="fas fa-check-circle"></i>
@@ -772,7 +821,7 @@ Driven by discipline, purpose, and a commitment to excellence, David is focused 
   <p class="foot-copy">© 2026 Growthive Systems. All rights reserved.</p>
 </footer>
 
-<!-- GOOGLE FORM MODAL — YOUR FORM IS LIVE -->
+<!-- GOOGLE FORM MODAL -->
 <div class="modal-overlay" id="registerModal">
   <div class="modal-box">
     <div class="modal-head">
@@ -896,20 +945,6 @@ Step 4 — Growth & Optimisation: We track, refine, and scale what's working —
 - 200+ projects delivered
 - Client testimonial: "Growthive Systems completely transformed how we show up online and how we operate internally." — A. Okonkwo, CEO, Lumina Ventures
 
-=== NOTION INTEGRATION ===
-Growthive uses Notion + Make.com automation:
-1. Visitor submits a form on the website
-2. Make.com captures data instantly
-3. Notion Leads Database is automatically updated
-4. AI generates a personalised reply
-5. David gets notified and follows up
-
-=== PORTFOLIO ===
-Growthive's portfolio page (portfolio.html) showcases:
-- Video production: Brand story videos, social media campaigns, explainer videos
-- Graphic design: Logo design, brand identity, social media graphics, marketing flyers, brand posters, visual identity, digital banners, content graphics
-- Website development: Landing pages, agency portfolio sites, corporate web applications
-
 === CONTACT & SOCIAL ===
 Email: hello@growthivesystems.com
 WhatsApp: Available via website
@@ -917,9 +952,6 @@ Instagram: @growthivesystems
 LinkedIn: Growthive Systems
 Twitter: @growthivesys
 Register form: Available on the website — click "Register With Us"
-
-=== TOOLS & EXPERTISE ===
-Brand Identity, Video Editing, Web Development, HR Systems, Growth Strategy, Social Media, UI/UX Design, AI Integration, Notion Systems, Content Strategy
 
 If someone asks something not about Growthive, politely redirect them: "I'm specifically trained on Growthive Systems. For that question, I'd recommend reaching out to us at hello@growthivesystems.com — we'd love to help!"`;
 
@@ -985,21 +1017,216 @@ function openRegister(){document.getElementById('registerModal').classList.add('
 function closeRegister(){document.getElementById('registerModal').classList.remove('open');}
 document.getElementById('registerModal').addEventListener('click',function(e){if(e.target===this)closeRegister();});
 
-// ── CONTACT FORM ──
-function submitForm(){
-  const name=document.getElementById('fn').value.trim();
-  const email=document.getElementById('fe').value.trim();
-  const msg=document.getElementById('fm').value.trim();
-  const tc=document.getElementById('ftc').checked;
-  if(!name||!email||!msg){alert('Please fill in Name, Email, and Message.');return;}
+// ══════════════════════════════════════════
+// CONTACT FORM — FORMSPREE INTEGRATION
+// ══════════════════════════════════════════
+async function submitForm(){
+  const name    = document.getElementById('fn').value.trim();
+  const email   = document.getElementById('fe').value.trim();
+  const phone   = document.getElementById('fp').value.trim();
+  const bizType = document.getElementById('fb').value;
+  const service = document.getElementById('fs').value;
+  const message = document.getElementById('fm').value.trim();
+  const tc      = document.getElementById('ftc').checked;
+
+  // Validation
+  if(!name||!email||!message){alert('Please fill in Name, Email, and Message.');return;}
   if(!tc){alert('Please agree to the Terms & Conditions.');return;}
-  document.getElementById('cForm').style.display='none';
-  document.getElementById('fSuccess').style.display='block';
+
+  const btn = document.getElementById('submitBtn');
+  const errDiv = document.getElementById('fError');
+  errDiv.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  try {
+    const res = await fetch('https://formspree.io/f/xnjljdpq', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name:             name,
+        email:            email,
+        phone:            phone || 'Not provided',
+        business_type:    bizType || 'Not specified',
+        service_interest: service || 'Not specified',
+        message:          message
+      })
+    });
+
+    if(res.ok){
+      document.getElementById('cForm').style.display='none';
+      document.getElementById('fSuccess').style.display='block';
+    } else {
+      const data = await res.json();
+      throw new Error(data.error || 'Submission failed');
+    }
+  } catch(err){
+    errDiv.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Send Message — Let\'s Grow Together';
+  }
 }
 
 function showTC(){
   alert('Terms & Conditions — Growthive Systems\n\nBy submitting this form, you consent to Growthive Systems storing and using your information solely to respond to your inquiry and provide relevant services. Your data will not be shared with third parties without your consent.\n\n© 2026 Growthive Systems. All rights reserved.');
 }
+
+// ══════════════════════════════════════════
+// NOTION ANIMATED DASHBOARD
+// ══════════════════════════════════════════
+(function(){
+  // Seed leads data
+  const allLeads = [
+    {label:'Chioma Obi — Digital Presence',   val:'New',         dot:'green'},
+    {label:'Emeka Ltd — Scale Package',        val:'In Progress', dot:'gold'},
+    {label:'StartupNG — Business Strategy',    val:'Closed',      dot:'blue'},
+    {label:'Adaeze Corp — Branding',           val:'New',         dot:'green'},
+    {label:'BizHive — Growth Package',         val:'In Progress', dot:'gold'},
+    {label:'Zara Interiors — Web Dev',         val:'New',         dot:'green'},
+    {label:'TechPrime — HR Systems',           val:'Closed',      dot:'blue'},
+    {label:'Oluwaseun Ltd — Full Scale',       val:'In Progress', dot:'gold'},
+  ];
+
+  const portfolioData = [
+    {label:'Brand Identity — Lumina',  val:'Branding', dot:'gold'},
+    {label:'HR System — TechCo',       val:'HR',        dot:'green'},
+    {label:'Web App — BizHive',        val:'Dev',       dot:'blue'},
+  ];
+
+  const feedMessages = [
+    'New lead: Chioma Obi submitted a contact form',
+    'Emeka Ltd moved to "In Progress" stage',
+    'Strategy session booked — Adaeze Corp',
+    'New inquiry: Zara Interiors — Web Development',
+    'Lead converted: TechPrime — HR Package',
+    'New lead: BizHive registered via website',
+    'Follow-up sent: Oluwaseun Ltd — Scale Package',
+    'New lead: StartupNG — Business Strategy',
+  ];
+
+  let leadsVisible = 0;
+  let feedIdx = 0;
+  let totalLeads = 0;
+  let activeLeads = 0;
+  let notionStarted = false;
+
+  function makeRow(data, animate){
+    const div = document.createElement('div');
+    div.className = 'ndb-row' + (animate ? ' slide-in' : '');
+    const isNew = data.val === 'New';
+    div.innerHTML = `
+      <div class="ndb-dot ${data.dot}${isNew?' pulse':''}"></div>
+      <div class="ndb-label">${data.label}</div>
+      <div class="ndb-val${isNew?' new-badge':''}">${data.val}</div>`;
+    if(isNew) setTimeout(()=>div.classList.add('highlight'),300);
+    return div;
+  }
+
+  function animateNotionCounter(elId, target, suffix){
+    const el = document.getElementById(elId);
+    if(!el) return;
+    let val = 0;
+    const step = Math.ceil(target / 40);
+    const t = setInterval(()=>{
+      val = Math.min(val + step, target);
+      el.textContent = val + (suffix||'');
+      if(val >= target) clearInterval(t);
+    }, 35);
+  }
+
+  function startNotionAnimation(){
+    if(notionStarted) return;
+    notionStarted = true;
+
+    // Build portfolio rows immediately (static)
+    const pRows = document.getElementById('portfolioRows');
+    portfolioData.forEach((d,i)=>{
+      setTimeout(()=>{
+        pRows.appendChild(makeRow(d, true));
+      }, i*200);
+    });
+
+    // Slide in first 3 leads immediately
+    const lRows = document.getElementById('leadsRows');
+    for(let i=0;i<3;i++){
+      setTimeout(()=>{
+        lRows.appendChild(makeRow(allLeads[i], true));
+        leadsVisible++;
+        totalLeads++;
+        if(allLeads[i].dot==='gold') activeLeads++;
+        updateNotionStats();
+      }, i*300);
+    }
+
+    // Animate stats
+    setTimeout(()=>{
+      animateNotionCounter('nCount1', 47, '+');
+      animateNotionCounter('nCount2', 18, '');
+      animateNotionCounter('nCount3', 62, '%');
+    }, 600);
+
+    // Add new leads periodically (live feed effect)
+    setInterval(()=>{
+      if(leadsVisible < allLeads.length){
+        const lead = allLeads[leadsVisible];
+        // Limit rows shown to 4 — remove oldest if > 4
+        if(lRows.children.length >= 4){
+          lRows.removeChild(lRows.firstChild);
+        }
+        lRows.appendChild(makeRow(lead, true));
+        leadsVisible++;
+        totalLeads++;
+        if(lead.dot==='gold') activeLeads++;
+        updateNotionStats();
+      } else {
+        // Loop: reset to keep simulating new leads
+        leadsVisible = 3;
+      }
+      // Update live feed text
+      const feedEl = document.getElementById('liveFeedText');
+      if(feedEl){
+        feedEl.style.opacity='0';
+        setTimeout(()=>{
+          feedEl.textContent = feedMessages[feedIdx % feedMessages.length];
+          feedEl.style.opacity='1';
+          feedIdx++;
+        },300);
+      }
+    }, 2800);
+
+    // Pulse dots randomly
+    setInterval(()=>{
+      const dots = document.querySelectorAll('#leadsRows .ndb-dot.green');
+      dots.forEach(d=>{
+        d.classList.add('pulse');
+        setTimeout(()=>d.classList.remove('pulse'), 1500);
+      });
+    }, 3500);
+  }
+
+  function updateNotionStats(){
+    const n1 = document.getElementById('nCount1');
+    const n2 = document.getElementById('nCount2');
+    if(n1) n1.textContent = (47 + totalLeads) + '+';
+    if(n2) n2.textContent = (18 + activeLeads);
+  }
+
+  // Trigger when notion section scrolls into view
+  const notionSection = document.getElementById('notion');
+  if(notionSection){
+    const notionObs = new IntersectionObserver((entries)=>{
+      if(entries[0].isIntersecting){
+        startNotionAnimation();
+        notionObs.disconnect();
+      }
+    },{threshold:0.2});
+    notionObs.observe(notionSection);
+  }
+
+  // Smooth live feed text transition
+  const feedEl = document.getElementById('liveFeedText');
+  if(feedEl) feedEl.style.transition = 'opacity 0.3s ease';
+})();
 
 // ── AI CHAT (Claude-powered via Anthropic API) ──
 let chatHistory=[];
