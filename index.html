@@ -678,9 +678,9 @@ Driven by discipline, purpose, and a commitment to excellence, David is focused 
         <p class="ssub lt">Most lead, inquiry, and client interaction is automatically captured and organised in our Notion workspace  strictly on permisioms — Tracking real time Success.</p>
         <div class="notion-steps">
           <div class="nstep"><div class="nstep-num">1</div><div class="nstep-text"><h4>Client has submitted a form</h4><p>Contact form or Google registration form on this website</p></div></div>
-          <div class="nstep"><div class="nstep-num">2</div><div class="nstep-text"><h4>We captures the needed data</h4><p>The automation engine triggers instantly and request private or public report</p></div></div>
+          <div class="nstep"><div class="nstep-num">2</div><div class="nstep-text"><h4>We capture the needed data</h4><p>The automation engine triggers instantly and request private or public report</p></div></div>
           <div class="nstep"><div class="nstep-num">3</div><div class="nstep-text"><h4>Progress Leads Database updated</h4><p>Name, email, business type & message stored automatically</p></div></div>
-          <div class="nstep"><div class="nstep-num">4</div><div class="nstep-text"><h4>We deliver while you monitor progrss/h4><p>Check our Live dashboard and follow up with confidence</p></div></div>
+          <div class="nstep"><div class="nstep-num">4</div><div class="nstep-text"><h4>We deliver while you monitor progrss</h4><p>Check our Live dashboard and follow up with confidence</p></div></div>
           <div class="nstep"><div class="nstep-num">5</div><div class="nstep-text"><h4>You get notified and project is executed</h4><p> Check our Notion dashboard and follow up with confidence</p></div></div>
         </div>
       </div>
@@ -752,7 +752,7 @@ Driven by discipline, purpose, and a commitment to excellence, David is focused 
           <a href="https://instagram.com/growthivesystems" class="socbtn" target="_blank"><i class="fab fa-instagram"></i></a>
           <a href="https://linkedin.com/company/growthivesystems" class="socbtn" target="_blank"><i class="fab fa-linkedin"></i></a>
           <a href="https://twitter.com/growthivesys" class="socbtn" target="_blank"><i class="fab fa-x-twitter"></i></a>
-          <a href="mailto:hello@growthivesystems.com" class="socbtn"><i class="fas fa-envelope"></i></a>
+          <a href="mailto:growthivesystem@gmail.com" class="socbtn"><i class="fas fa-envelope"></i></a>
           <a href="https://wa.me/23481320279127" class="socbtn" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
@@ -946,14 +946,14 @@ Step 4 — Growth & Optimisation: We track, refine, and scale what's working —
 - Client testimonial: "Growthive Systems completely transformed how we show up online and how we operate internally." — A. Okonkwo, CEO, Lumina Ventures
 
 === CONTACT & SOCIAL ===
-Email: hello@growthivesystems.com
+Email: growthivesystem@gmail.com
 WhatsApp: Available via website
 Instagram: @growthivesystems
 LinkedIn: Growthive Systems
 Twitter: @growthivesys
 Register form: Available on the website — click "Register With Us"
 
-If someone asks something not about Growthive, politely redirect them: "I'm specifically trained on Growthive Systems. For that question, I'd recommend reaching out to us at hello@growthivesystems.com — we'd love to help!"`;
+If someone asks something not about Growthive, politely redirect them: "I'm specifically trained on Growthive Systems. For that question, I'd recommend reaching out to us at growthivesystem@gmail.com — we'd love to help!"`;
 
 // ── LOADER ──
 window.addEventListener('load',()=>{
@@ -1273,14 +1273,14 @@ async function sendChat(){
       })
     });
     const data=await res.json();
-    const reply=data.content?.[0]?.text||'Sorry, I had a connection issue. Please email hello@growthivesystems.com or try again!';
+    const reply=data.content?.[0]?.text||'Sorry, I had a connection issue. Please email growthivesystem@gmail.com or try again!';
     const t=document.getElementById('tind');if(t)t.remove();
     addMsg(reply,'bot');
     chatHistory.push({role:'assistant',content:reply});
     if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
   }catch(err){
     const t=document.getElementById('tind');if(t)t.remove();
-    addMsg('Sorry, I had a connection issue. Please email hello@growthivesystems.com or try again!','bot');
+    addMsg('Sorry, I had a connection issue. Please email growthivesystem@gmail.com or try again!','bot');
   }
 }
 </script>
