@@ -12,7 +12,7 @@ Static website for Growthive Systems. Plain HTML, CSS and JavaScript for GitHub 
 ## Deploy
 1. Replace the contents of the `growthivesystem.org` repo with this folder (keep the `.git` folder).
 2. Repo Settings > Pages: Deploy from a branch, `main`, `/ (root)`.
-3. The `CNAME` file sets the custom domain to growthivesystems.com. At your domain registrar add:
+3. Custom domain (only after DNS is set up): add a file named `CNAME` containing `growthivesystems.com`, or enter it in Settings > Pages. At your domain registrar add:
    - A records for `@`: 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153
    - CNAME record for `www`: growthivesystems.github.io
 4. Once the domain verifies, tick "Enforce HTTPS" in Settings > Pages.
