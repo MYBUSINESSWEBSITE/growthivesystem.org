@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://growthivesystems.com/sitemap.xml

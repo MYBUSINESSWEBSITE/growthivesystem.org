@@ -1,1288 +1,290 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-GB">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Growthive Systems an Agency for; Strategy. Design. Structure.</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-<style>
-:root{
-  --navy:#07112b;--navy2:#0d1e45;--navy3:#162555;
-  --gold:#c9a84c;--gold2:#e8c97a;--gold-light:rgba(201,168,76,0.12);
-  --white:#ffffff;--off:#f8f7f4;--muted:#8a97b0;--text:#1a2540;
-  --border:rgba(201,168,76,0.2);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Outfit',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden}
-img{max-width:100%;display:block}
-a{text-decoration:none;color:inherit}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--navy)}
-::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
-
-#progressBar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;z-index:999;transition:width .1s}
-
-#loader{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;transition:opacity .6s ease}
-#loader.hide{opacity:0;pointer-events:none}
-.loader-logo{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--gold);animation:pulse 1.2s ease-in-out infinite}
-.loader-bar{width:200px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
-.loader-fill{height:100%;background:var(--gold);animation:load 1.8s ease forwards}
-@keyframes load{from{width:0}to{width:100%}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-#backTop{position:fixed;bottom:6rem;right:1.75rem;width:42px;height:42px;border-radius:50%;background:var(--navy2);border:1px solid var(--border);color:var(--gold);display:none;align-items:center;justify-content:center;cursor:pointer;z-index:200;font-size:.9rem;transition:all .2s}
-#backTop.show{display:flex}
-#backTop:hover{background:var(--gold);color:var(--navy)}
-
-@keyframes breathe{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(201,168,76,.4)}50%{transform:scale(1.04);box-shadow:0 0 0 10px rgba(201,168,76,0)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse-ring{0%{transform:scale(.85);opacity:1}100%{transform:scale(2.2);opacity:0}}
-@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@keyframes spin-rev{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-@keyframes bounce-dot{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
-@keyframes float-orb{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
-@keyframes cursor-trail{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(0)}}
-
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-.trail{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9998;animation:cursor-trail .6s ease forwards}
-
-.dashboard{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:6px;padding:10px 8px;background:var(--navy2);border-radius:0 14px 14px 0;border:1px solid var(--border);border-left:none}
-.dash-btn{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;cursor:pointer;transition:all .25s;position:relative}
-.dash-btn:hover{background:var(--gold-light);color:var(--gold)}
-.dash-btn .tip{position:absolute;left:50px;background:var(--navy);color:var(--gold);font-size:11px;padding:4px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;border:1px solid var(--border)}
-.dash-btn:hover .tip{opacity:1}
-
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,box-shadow .4s}
-nav.scrolled{background:rgba(7,17,43,.96);backdrop-filter:blur(16px);box-shadow:0 2px 24px rgba(0,0,0,.35)}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.logo-img{width:40px;height:40px;border-radius:10px;object-fit:contain;display:none}
-.logo-img.loaded{display:block}
-.logo-box-fallback{width:40px;height:40px;background:var(--gold-light);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold)}
-.nav-brand{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--white)}
-.nav-brand span{color:var(--gold)}
-.nav-links{display:flex;align-items:center;gap:1.75rem}
-.nav-links a{font-size:.85rem;font-weight:400;color:rgba(255,255,255,.7);transition:color .2s}
-.nav-links a:hover{color:var(--gold)}
-.nav-cta{border:1.5px solid var(--gold)!important;color:var(--gold)!important;padding:.42rem 1.2rem;border-radius:6px;font-weight:500!important;animation:breathe 3s ease-in-out infinite}
-.nav-cta:hover{background:var(--gold)!important;color:var(--navy)!important}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
-.hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px}
-.mob-menu{display:none;position:fixed;top:68px;left:0;right:0;background:rgba(13,30,69,.98);padding:1.5rem 5%;flex-direction:column;gap:1rem;border-bottom:1px solid var(--border);z-index:99;backdrop-filter:blur(12px)}
-.mob-menu.open{display:flex}
-.mob-menu a{color:rgba(255,255,255,.8);font-size:1rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.07)}
-
-.hero{min-height:100vh;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 55%,#152a58 100%);display:flex;align-items:center;padding:100px 5% 60px;position:relative;overflow:hidden}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.05) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
-.hero-orb{position:absolute;right:-8%;top:15%;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.14) 0%,transparent 68%);pointer-events:none;animation:float-orb 7s ease-in-out infinite}
-.hero-inner{display:grid;grid-template-columns:58% 42%;gap:3rem;align-items:center;position:relative;max-width:1200px;margin:0 auto;width:100%}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border);padding:.4rem 1rem;border-radius:20px;margin-bottom:1.75rem;animation:fadeUp .6s ease .15s both}
-.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);animation:breathe 2.5s ease-in-out infinite}
-h1.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5.2vw,4.2rem);font-weight:700;line-height:1.1;color:var(--white);margin-bottom:1.25rem;animation:fadeUp .6s ease .3s both}
-h1.hero-h1 em{font-style:normal;color:var(--gold)}
-.hero-sub{font-size:1rem;font-weight:300;color:rgba(255,255,255,.7);line-height:1.8;max-width:500px;margin-bottom:1.5rem;animation:fadeUp .6s ease .45s both}
-.hero-pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.25rem;animation:fadeUp .6s ease .55s both}
-.hpill{font-size:.72rem;font-weight:500;padding:.3rem .85rem;border-radius:20px;background:rgba(201,168,76,.1);border:1px solid var(--border);color:var(--gold)}
-.hero-btns{display:flex;gap:.85rem;flex-wrap:wrap;animation:fadeUp .6s ease .7s both}
-.btn-gold{background:var(--gold);color:var(--navy);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;font-weight:600;animation:breathe 3.5s ease-in-out infinite;transition:opacity .2s;cursor:pointer;border:none;display:inline-block;font-family:'Outfit',sans-serif}
-.btn-gold:hover{opacity:.88}
-.btn-wht{border:1.5px solid rgba(255,255,255,.3);color:var(--white);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;transition:all .2s;display:inline-block}
-.btn-wht:hover{border-color:var(--gold);color:var(--gold)}
-.btn-gld-out{border:1.5px solid var(--gold);color:var(--gold);padding:.8rem 1.6rem;border-radius:6px;font-size:.875rem;transition:all .2s;display:inline-block;cursor:pointer;background:transparent;font-family:'Outfit',sans-serif}
-.btn-gld-out:hover{background:var(--gold);color:var(--navy)}
-
-.portfolio-mega-btn{display:inline-flex;align-items:center;gap:1rem;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);padding:1.1rem 2.5rem;border-radius:10px;font-size:1.1rem;font-weight:700;font-family:'Cormorant Garamond',serif;letter-spacing:.03em;animation:breathe 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s;cursor:pointer;border:none;text-decoration:none;margin-top:1rem;box-shadow:0 8px 32px rgba(201,168,76,.3)}
-.portfolio-mega-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,168,76,.4)}
-.portfolio-mega-btn i{font-size:1.3rem}
-
-.hero-visual{display:flex;align-items:center;justify-content:center;height:400px;animation:fadeUp .6s ease .5s both}
-.orbit-wrap{position:relative;width:300px;height:300px}
-.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:var(--navy2);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;z-index:3;box-shadow:0 0 30px rgba(201,168,76,.2)}
-.orbit-center-label{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold)}
-.ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px dashed var(--border)}
-.r1{width:168px;height:168px;animation:spin-slow 14s linear infinite}
-.r2{width:268px;height:268px;animation:spin-rev 22s linear infinite}
-.odot{position:absolute;width:52px;height:52px;border-radius:50%;background:var(--navy2);border:1.5px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:1.2rem;transition:border-color .3s}
-.odot:hover{border-color:var(--gold)}
-.odot span{font-size:.55rem;color:var(--gold);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
-.p1{top:-26px;left:50%;margin-left:-26px}
-.p2{bottom:-26px;left:50%;margin-left:-26px}
-.p3{left:-26px;top:50%;margin-top:-26px}
-.p4{right:-26px;top:50%;margin-top:-26px}
-
-.stats-strip{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2rem 5%;display:flex;justify-content:center;gap:4rem;flex-wrap:wrap}
-.sstat{text-align:center}
-.sstat-num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--gold);display:block;line-height:1}
-.sstat-lbl{font-size:.75rem;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;margin-top:5px}
-
-section{padding:6rem 5%}
-.section-inner{max-width:1200px;margin:0 auto}
-.stag{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:.75rem}
-.stag::before{content:'';width:22px;height:1px;background:var(--gold)}
-.stitle{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.15;margin-bottom:1rem}
-.stitle.dk{color:var(--navy)}.stitle.lt{color:var(--white)}
-.ssub{font-size:.975rem;font-weight:300;line-height:1.8;max-width:560px}
-.ssub.dk{color:#5a6a88}.ssub.lt{color:rgba(255,255,255,.62)}
-.sec-head{margin-bottom:3.5rem}
-.center{text-align:center}.center .stag{justify-content:center}.center .ssub{margin:0 auto}
-
-.svc-bg{background:var(--off)}
-.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-.pcard{background:var(--white);border:1px solid rgba(10,35,66,.08);border-radius:14px;padding:2rem 1.5rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
-.pcard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s}
-.pcard:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(10,35,66,.1)}
-.pcard:hover::after{transform:scaleX(1)}
-.picon{width:52px;height:52px;border-radius:10px;background:var(--gold-light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:1.2rem}
-.pcard h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:.6rem}
-.pcard>p{font-size:.85rem;font-weight:300;color:#5a6a88;line-height:1.7;margin-bottom:1.1rem}
-.plist{list-style:none;margin-bottom:1.25rem}
-.plist li{font-size:.8rem;color:#5a6a88;padding:.28rem 0;display:flex;align-items:flex-start;gap:.5rem;line-height:1.5}
-.plist li::before{content:'›';color:var(--gold);font-size:.95rem;flex-shrink:0}
-.plink{font-size:.78rem;font-weight:600;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.4rem;transition:gap .2s}
-.plink:hover{gap:.7rem}
-
-.res-bg{background:var(--navy2)}
-.res-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
-.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
-.scard{background:var(--navy3);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center}
-.scard .num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--gold);display:block;line-height:1}
-.scard .lbl{font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:.07em;text-transform:uppercase;margin-top:5px}
-.tcard{background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:1.75rem}
-.tcard p{font-size:.9rem;font-style:italic;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:1rem}
-.tname{font-size:.82rem;font-weight:600;color:var(--gold)}
-.trole{font-size:.75rem;color:var(--muted)}
-.ba-box{background:var(--navy3);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.ba-top{background:var(--gold-light);padding:.85rem 1.4rem;border-bottom:1px solid var(--border);font-size:.75rem;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
-.ba-cols{display:grid;grid-template-columns:1fr 1px 1fr}
-.ba-col{padding:1.4rem}
-.ba-col h4{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.85rem}
-.h4-bef{color:#e27b7b}.h4-aft{color:#6fcf97}
-.ba-div{background:var(--border)}
-.bitem{font-size:.8rem;color:rgba(255,255,255,.58);padding:.3rem 0;display:flex;align-items:center;gap:.45rem}
-.bitem .fa-times{color:#e27b7b;font-size:.65rem}
-.bitem .fa-check{color:#6fcf97;font-size:.65rem}
-
-.pkg-bg{background:var(--off)}
-.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.pkg{background:var(--white);border:1px solid rgba(10,35,66,.1);border-radius:14px;padding:2.2rem 1.85rem;position:relative;transition:transform .3s,box-shadow .3s}
-.pkg.feat{border:2px solid var(--gold);transform:translateY(-8px);box-shadow:0 16px 48px rgba(201,168,76,.12)}
-.pkg-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:.68rem;font-weight:700;padding:.28rem .95rem;border-radius:20px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
-.pkg-ico{font-size:1.7rem;margin-bottom:.9rem}
-.pkg h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-bottom:.25rem}
-.pkg-sub{font-size:.82rem;color:var(--muted);margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid rgba(10,35,66,.08)}
-.pkg-feats{list-style:none;margin-bottom:1.75rem}
-.pkg-feats li{font-size:.845rem;color:#5a6a88;padding:.38rem 0;display:flex;align-items:flex-start;gap:.55rem;line-height:1.5}
-.pkg-feats li::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0}
-.pkg-btn{width:100%;padding:.88rem;border-radius:8px;font-size:.875rem;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;border:1.5px solid var(--gold);background:transparent;color:var(--gold);transition:all .2s}
-.pkg-btn:hover,.pkg.feat .pkg-btn{background:var(--gold);color:var(--navy)}
-
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
-.modal-overlay.open{display:flex}
-.modal-box{background:var(--navy2);border:1px solid var(--border);border-radius:16px;width:90%;max-width:700px;max-height:90vh;overflow:hidden;position:relative}
-.modal-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.modal-head h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--white)}
-.modal-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;transition:color .2s}
-.modal-close:hover{color:var(--white)}
-.modal-body{padding:0}
-.modal-body iframe{width:100%;height:520px;border:none;display:block}
-.modal-note{padding:1rem 1.5rem;font-size:.78rem;color:rgba(255,255,255,.4);border-top:1px solid var(--border);text-align:center}
-
-.proc-bg{background:var(--navy)}
-.proc-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;position:relative}
-.proc-steps::before{content:'';position:absolute;top:36px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.pstep{text-align:center}
-.pstep-circle{width:72px;height:72px;border-radius:50%;background:var(--navy2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;transition:border-color .3s,box-shadow .3s}
-.pstep-circle:hover{border-color:var(--gold);box-shadow:0 0 20px rgba(201,168,76,.2)}
-.pstep-circle span{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold)}
-.pstep h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
-.pstep p{font-size:.82rem;color:rgba(255,255,255,.48);line-height:1.7}
-
-.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
-.photo-box{aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--navy2);border:1px solid var(--border);position:relative}
-.founder-img{width:100%;height:100%;object-fit:cover;display:block}
-.photo-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--muted);padding:2rem;text-align:center;position:absolute;inset:0}
-.photo-ph i{font-size:3rem;color:var(--border)}
-.photo-ph p{font-size:.8rem;color:rgba(255,255,255,.3)}
-.pbadge{position:absolute;bottom:-1.25rem;left:-1.25rem;background:var(--gold);color:var(--navy);padding:.95rem 1.2rem;border-radius:12px}
-.pbadge .bnum{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;display:block;line-height:1}
-.pbadge .blbl{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
-.founder-side{position:relative}
-.about-q{border-left:3px solid var(--gold);padding-left:1.2rem;margin:1.5rem 0}
-.about-q p{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--navy);line-height:1.6}
-.chips{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.5rem}
-.chip{font-size:.72rem;padding:.32rem .85rem;border-radius:20px;background:var(--gold-light);border:1px solid var(--border);color:#7a5e20;font-weight:500}
-
-.con-bg{background:var(--navy)}
-.con-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
-.clinks{display:flex;flex-direction:column;gap:.9rem;margin-top:2rem}
-.clink{display:flex;align-items:center;gap:.8rem;color:rgba(255,255,255,.68);font-size:.88rem;transition:color .2s}
-.clink:hover{color:var(--gold)}
-.clink-ico{width:36px;height:36px;border-radius:8px;background:var(--gold-light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.85rem;flex-shrink:0}
-.soc-row{display:flex;gap:.65rem;margin-top:2rem}
-.socbtn{width:42px;height:42px;border-radius:8px;background:var(--navy2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.95rem;transition:all .2s}
-.socbtn:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
-.cform-wrap{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:2.4rem}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
-.fg{margin-bottom:1rem;display:flex;flex-direction:column;gap:.45rem}
-.fg label{font-size:.78rem;font-weight:500;color:rgba(255,255,255,.68);letter-spacing:.04em}
-.fg input,.fg select,.fg textarea{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.72rem 1rem;color:var(--white);font-family:'Outfit',sans-serif;font-size:.855rem;outline:none;transition:border-color .2s;width:100%}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold)}
-.fg textarea{resize:vertical;min-height:108px}
-.fg select option{background:var(--navy2);color:var(--white)}
-.tc-row{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:1.2rem}
-.tc-row input{width:16px;height:16px;margin-top:2px;accent-color:var(--gold);flex-shrink:0}
-.tc-row label{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.55}
-.tc-row a{color:var(--gold);text-decoration:underline}
-.sub-btn{width:100%;padding:1rem;background:var(--gold);color:var(--navy);border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:opacity .2s;animation:breathe 3.2s ease-in-out infinite}
-.sub-btn:hover{opacity:.88}
-.sub-btn:disabled{opacity:.6;cursor:not-allowed;animation:none}
-.f-success{display:none;text-align:center;padding:2rem}
-.f-success i{font-size:2rem;color:var(--gold);display:block;margin-bottom:.75rem}
-.f-success h4{color:var(--white);font-size:1.1rem;margin-bottom:.5rem;font-family:'Cormorant Garamond',serif}
-.f-success p{color:rgba(255,255,255,.55);font-size:.85rem}
-.f-error{display:none;background:rgba(226,123,123,.1);border:1px solid rgba(226,123,123,.3);border-radius:8px;padding:.85rem 1rem;margin-bottom:1rem;color:#e27b7b;font-size:.82rem}
-
-/* ── ANIMATED NOTION SECTION ── */
-.notion-bg{background:linear-gradient(135deg,var(--navy2),var(--navy3))}
-.notion-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
-.notion-steps{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
-.nstep{display:flex;align-items:flex-start;gap:1rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem}
-.nstep-num{width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--navy);font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.nstep-text h4{font-size:.88rem;font-weight:600;color:var(--white);margin-bottom:.25rem}
-.nstep-text p{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.6}
-
-/* Notion live dashboard */
-.notion-visual{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:1.5rem;overflow:hidden}
-.notion-db{margin-bottom:1.25rem}
-.ndb-title{font-size:.72rem;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
-.ndb-rows{display:flex;flex-direction:column;gap:.4rem;min-height:80px}
-.ndb-row{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:rgba(255,255,255,.04);border-radius:6px;border:1px solid transparent;transition:all .4s ease;opacity:1;transform:translateX(0)}
-.ndb-row.slide-in{animation:slideInRow .5s ease forwards}
-.ndb-row.highlight{border-color:rgba(201,168,76,.35);background:rgba(201,168,76,.07)}
-@keyframes slideInRow{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
-.ndb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:all .3s}
-.ndb-dot.green{background:#6fcf97}
-.ndb-dot.gold{background:var(--gold)}
-.ndb-dot.blue{background:#56acf0}
-.ndb-dot.pulse{animation:dotPulse 1.5s ease-in-out infinite}
-@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(111,207,151,.5)}50%{box-shadow:0 0 0 5px rgba(111,207,151,0)}}
-.ndb-label{font-size:.8rem;color:rgba(255,255,255,.6);flex:1}
-.ndb-val{font-size:.72rem;color:rgba(255,255,255,.32);white-space:nowrap}
-.ndb-val.new-badge{color:#6fcf97;font-weight:600;background:rgba(111,207,151,.12);padding:2px 8px;border-radius:10px}
-
-/* Counter stats inside notion visual */
-.notion-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-bottom:1.25rem}
-.nstat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:.7rem;text-align:center}
-.nstat-num{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold);display:block;line-height:1}
-.nstat-lbl{font-size:.62rem;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
-
-/* Live feed ticker */
-.live-feed{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;display:flex;align-items:center;gap:.65rem;margin-top:.5rem}
-.live-dot{width:7px;height:7px;border-radius:50%;background:#6fcf97;animation:dotPulse 1.5s ease-in-out infinite;flex-shrink:0}
-.live-text{font-size:.75rem;color:rgba(255,255,255,.5);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.live-label{font-size:.65rem;font-weight:600;color:#6fcf97;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0}
-
-footer{background:var(--navy2);padding:1.75rem 5%;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.foot-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--white)}
-.foot-logo span{color:var(--gold)}
-.foot-links{display:flex;gap:1.4rem;flex-wrap:wrap}
-.foot-links a{font-size:.78rem;color:rgba(255,255,255,.38);transition:color .2s}
-.foot-links a:hover{color:var(--gold)}
-.foot-copy{font-size:.72rem;color:rgba(255,255,255,.22)}
-
-.chat-bubble{position:fixed;bottom:1.75rem;right:1.75rem;z-index:300}
-.chat-toggle{width:58px;height:58px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--navy);box-shadow:0 4px 24px rgba(201,168,76,.38);animation:breathe 3s ease-in-out infinite;transition:transform .2s}
-.chat-toggle:hover{transform:scale(1.1)!important}
-.cpulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--gold);animation:pulse-ring 2.2s ease-out infinite}
-.chat-box{display:none;position:absolute;bottom:72px;right:0;width:360px;background:var(--navy2);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 20px 64px rgba(0,0,0,.45)}
-.chat-box.open{display:block}
-.chat-head{background:var(--navy3);padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem;border-bottom:1px solid var(--border)}
-.cavatar{width:36px;height:36px;border-radius:50%;background:var(--gold-light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem}
-.chat-head-info h4{font-size:.875rem;font-weight:600;color:var(--white)}
-.chat-head-info p{font-size:.7rem;color:#6fcf97;display:flex;align-items:center;gap:4px}
-.chat-head-info p::before{content:'';width:5px;height:5px;border-radius:50%;background:#6fcf97}
-.ai-badge{margin-left:auto;font-size:.65rem;background:var(--gold-light);border:1px solid var(--border);color:var(--gold);padding:2px 8px;border-radius:10px}
-.cclose{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.95rem;transition:color .2s}
-.cclose:hover{color:var(--white)}
-.chat-msgs{height:300px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.7rem}
-.chat-msgs::-webkit-scrollbar{width:3px}
-.chat-msgs::-webkit-scrollbar-thumb{background:var(--border)}
-.cmsg{max-width:88%;padding:.65rem .9rem;border-radius:12px;font-size:.83rem;line-height:1.65}
-.cmsg.bot{background:var(--navy3);color:rgba(255,255,255,.85);align-self:flex-start;border-bottom-left-radius:4px}
-.cmsg.usr{background:var(--gold);color:var(--navy);align-self:flex-end;border-bottom-right-radius:4px;font-weight:500}
-.cmsg.typ{background:var(--navy3);align-self:flex-start}
-.tdots{display:flex;gap:4px;padding:.2rem 0}
-.tdots span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce-dot .9s ease-in-out infinite}
-.tdots span:nth-child(2){animation-delay:.15s}
-.tdots span:nth-child(3){animation-delay:.3s}
-.chat-irow{display:flex;gap:.5rem;padding:.72rem 1rem;border-top:1px solid var(--border)}
-.cinput{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:.58rem .88rem;color:var(--white);font-family:'Outfit',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s}
-.cinput:focus{border-color:var(--gold)}
-.csend{background:var(--gold);border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:.85rem;flex-shrink:0;transition:opacity .2s}
-.csend:hover{opacity:.85}
-.chat-powered{font-size:.65rem;color:rgba(255,255,255,.25);text-align:center;padding:.4rem;border-top:1px solid var(--border)}
-
-@media(max-width:1024px){
-  .pillars{grid-template-columns:1fr 1fr}
-  .pkg-grid{grid-template-columns:1fr;max-width:500px;margin:0 auto}
-  .pkg.feat{transform:none}
-  .proc-steps{grid-template-columns:1fr 1fr}
-  .proc-steps::before{display:none}
-  .res-inner,.about-inner,.con-inner,.notion-inner{grid-template-columns:1fr;gap:2.5rem}
-  .hero-inner{grid-template-columns:1fr}
-  .hero-visual{display:none}
-}
-@media(max-width:768px){
-  .nav-links{display:none}
-  .hamburger{display:flex}
-  .pillars{grid-template-columns:1fr}
-  .frow{grid-template-columns:1fr}
-  .stats-strip{gap:1.5rem}
-  .chat-box{width:300px}
-  .dashboard{display:none}
-  .sgrid{grid-template-columns:1fr 1fr}
-  .notion-stats-row{grid-template-columns:repeat(3,1fr)}
-}
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Growthive Systems | Technology, business systems and digital growth</title>
+<meta name="description" content="Growthive Systems builds websites, web apps, business systems and digital growth for organisations in Nigeria and the UK. Makers of Growthive Monitor and Growthive Book.">
+<link rel="canonical" href="https://growthivesystems.com/">
+<meta name="theme-color" content="#0A1A3A">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Growthive Systems">
+<meta property="og:title" content="Growthive Systems | Technology, business systems and digital growth">
+<meta property="og:description" content="Growthive Systems builds websites, web apps, business systems and digital growth for organisations in Nigeria and the UK. Makers of Growthive Monitor and Growthive Book.">
+<meta property="og:url" content="https://growthivesystems.com/">
+<meta property="og:image" content="https://growthivesystems.com/assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/icon-32.png">
+<link rel="apple-touch-icon" href="assets/img/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Growthive Systems","url":"https://growthivesystems.com","logo":"https://growthivesystems.com/assets/img/icon-180.png","email":"growthivesystem@gmail.com","telephone":"+2349019875292","address":{"@type":"PostalAddress","addressLocality":"Abuja","addressCountry":"NG"},"founder":{"@type":"Person","name":"David Ayogu Abuchi"},"sameAs":["https://instagram.com/davidsystems","https://x.com/davidsystems","https://linkedin.com/company/growthivesystems"]}
+</script>
 </head>
 <body>
-
-<div id="loader">
-  <div class="loader-logo">G</div>
-  <div class="loader-bar"><div class="loader-fill"></div></div>
-</div>
-<div id="progressBar"></div>
-<div id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></div>
-
-<div class="dashboard">
-  <a href="#hero" class="dash-btn"><i class="fas fa-home"></i><span class="tip">Home</span></a>
-  <a href="#services" class="dash-btn"><i class="fas fa-layer-group"></i><span class="tip">Services</span></a>
-  <a href="#results" class="dash-btn"><i class="fas fa-chart-line"></i><span class="tip">Results</span></a>
-  <a href="#packages" class="dash-btn"><i class="fas fa-box"></i><span class="tip">Packages</span></a>
-  <a href="#process" class="dash-btn"><i class="fas fa-route"></i><span class="tip">Process</span></a>
-  <a href="#about" class="dash-btn"><i class="fas fa-user"></i><span class="tip">About</span></a>
-  <a href="#notion" class="dash-btn"><i class="fas fa-database"></i><span class="tip">Notion</span></a>
-  <a href="#contact" class="dash-btn"><i class="fas fa-envelope"></i><span class="tip">Contact</span></a>
-  <a href="portfolio.html" class="dash-btn"><i class="fas fa-briefcase"></i><span class="tip">Portfolio</span></a>
-</div>
-
-<nav id="navbar">
-  <div class="nav-logo">
-    <img class="logo-img" id="logoImg" src="assets/images/logo.png" alt="Growthive Systems Logo"
-         onload="this.classList.add('loaded');document.getElementById('logoFallback').style.display='none'"
-         onerror="this.style.display='none'">
-    <div class="logo-box-fallback" id="logoFallback">G</div>
-    <span class="nav-brand">Growthive <span>Systems</span></span>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Growthive Systems home">
+      <img src="assets/img/logo-mark.webp" alt="" width="36" height="32">
+      <span>Growthive Systems</span>
+    </a>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="solutions.html">Solutions</a>
+      <a href="products.html">Products</a>
+      <a href="work.html">Our work</a>
+      <a href="about.html">About</a>
+      <a class="btn btn-gold btn-sm" href="contact.html">Start a project</a>
+    </nav>
+    <button class="menu-btn" aria-label="Menu" aria-controls="site-nav" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
-  <div class="nav-links">
-    <a href="#hero">Home</a>
-    <a href="#services">Services</a>
-    <a href="#packages">Packages</a>
-    <a href="#about">About</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="#contact">Contact</a>
-    <a href="#contact" class="nav-cta">Get Started</a>
-  </div>
-  <div class="hamburger" onclick="toggleMob()"><span></span><span></span><span></span></div>
-</nav>
-<div class="mob-menu" id="mobMenu">
-  <a href="#hero" onclick="toggleMob()">Home</a>
-  <a href="#services" onclick="toggleMob()">Services</a>
-  <a href="#packages" onclick="toggleMob()">Packages</a>
-  <a href="#about" onclick="toggleMob()">About</a>
-  <a href="portfolio.html" onclick="toggleMob()">Portfolio</a>
-  <a href="#contact" onclick="toggleMob()">Contact</a>
-  <a href="#contact" onclick="toggleMob()" style="color:var(--gold);font-weight:600">Get Started →</a>
-</div>
+</header>
+<main id="main">
 
-<section class="hero" id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-orb"></div>
-  <div class="hero-inner">
-    <div>
-      <div class="hero-tag">Premium Agency · Strategy · Systems</div>
-      <h1 class="hero-h1">We help businesses grow through <em>strategy, design,</em> and systems that work.</h1>
-      <p class="hero-sub">Growthive helps small and medium businesses grow by combining branding, digital presence, and business strategy — giving your business the clarity and visibility it needs to scale.</p>
-      <div class="hero-pills">
-        <span class="hpill">Branding</span>
-        <span class="hpill">Strategy</span>
-        <span class="hpill">HR Systems</span>
-        <span class="hpill">Media</span>
-        <span class="hpill">Web Development</span>
+<section class="hero">
+  <div class="wrap">
+    <h1><span class="ln"><span>We engineer digital</span></span><span class="ln"><span>solutions for the way</span></span><span class="ln"><span>businesses work.</span></span></h1>
+    <p class="lede">Growthive Systems designs and builds websites, web apps and business tools for growing organisations. We also build and run our own software for small businesses, on the same foundations.</p>
+    <div class="hero-actions">
+      <a class="btn btn-gold" href="contact.html">Start a project</a>
+      <a class="btn btn-line" href="work.html">See our work</a>
+    </div>
+    <div class="hero-proof">
+      <span><strong>2,000 users</strong> on Growthive Monitor</span>
+      <span>Clients in <strong>Nigeria and the UK</strong></span>
+      <span>Built and run from <strong>Abuja</strong></span>
+    </div>
+    <div class="hero-stage">
+      <div class="hero-shot frame">
+        <div class="frame-bar"><i></i><i></i><i></i><span class="url">growthivesystems.github.io/monitor/dashboard</span></div>
+        <img src="assets/img/screens/m-dash.webp" width="1440" height="900" alt="Growthive Monitor dashboard showing today's sales split by cash, transfer and POS, monthly revenue, expenses, profit, debts and low-stock alerts" fetchpriority="high">
       </div>
-      <div class="hero-btns">
-        <a href="#contact" class="btn-gold">Get a Free Strategy Call</a>
-        <a href="#packages" class="btn-wht">View Packages</a>
-        <button class="btn-gld-out" onclick="openRegister()">Register With Us</button>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap solutions">
+    <div class="sticky">
+      <p class="kicker">What we do</p>
+      <h2 class="h-sec">Four connected ways we help a business work better.</h2>
+      <p class="lede" style="margin-top:1.2rem">Most of our clients need more than one. A shop that wants an online store usually also needs its stock and sales in order.</p>
+      <a class="btn btn-ink" style="margin-top:2rem" href="solutions.html">Explore our solutions</a>
+    </div>
+    <ul class="sol-list">
+      <li>
+        <h3><a href="solutions.html#technology">Technology solutions</a></h3>
+        <div><p>Websites, web apps, e-commerce and booking platforms built around how your business actually runs.</p>
+        <div class="tags"><span>Business websites</span><span>E-commerce</span><span>Web applications</span><span>MVPs</span></div></div>
+      </li>
+      <li>
+        <h3><a href="solutions.html#systems">Business systems</a></h3>
+        <div><p>Replace notebooks, scattered spreadsheets and WhatsApp threads with one organised system your team can rely on.</p>
+        <div class="tags"><span>Workflow design</span><span>Inventory and sales</span><span>Dashboards</span><span>Automation</span></div></div>
+      </li>
+      <li>
+        <h3><a href="solutions.html#data">Data and reporting</a></h3>
+        <div><p>Dashboards and reports that show what is selling, what it costs and where the money goes.</p>
+        <div class="tags"><span>Power BI dashboards</span><span>KPI tracking</span><span>Sales and stock analysis</span></div></div>
+      </li>
+      <li>
+        <h3><a href="solutions.html#growth">Digital growth</a></h3>
+        <div><p>Brand identity, campaign graphics and social content that make a business look as good as it is.</p>
+        <div class="tags"><span>Brand design</span><span>Campaigns</span><span>Social media</span><span>Content</span></div></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="section on-mist" id="products">
+  <div class="wrap">
+    <div class="seq" data-seq>
+      <div class="seq-steps">
+        <div class="seq-step" data-screen="m-dash" data-url="growthivesystems.github.io/monitor/dashboard" data-caption="Growthive Monitor, shown with sample data">
+          <p class="kicker">Products we build</p>
+          <h3>We don't only build for clients. We run our own software.</h3>
+          <p>Growthive Monitor and Growthive Book are products we design, build and support ourselves. They are the clearest proof of how we work.</p>
+          <img class="seq-inline" src="assets/img/screens/m-dash.webp" width="1440" height="900" alt="Monitor dashboard" loading="lazy">
+        </div>
+        <div class="seq-step" data-screen="m-dash" data-url="growthivesystems.github.io/monitor/dashboard" data-caption="Monitor dashboard, sample data">
+          <span class="badge badge-live">Live and free</span>
+          <h4>Growthive Monitor</h4>
+          <p>A record-keeping app for traders and small business owners. Record daily sales, see cash, transfer and POS takings separately, and know your profit without a calculator.</p>
+          <ul class="points"><li>Daily sales and expenses with automatic profit</li><li>Debts you owe and debts owed to you</li><li>English, Hausa, Yoruba and Igbo</li></ul>
+        </div>
+        <div class="seq-step" data-screen="m-inv" data-url="growthivesystems.github.io/monitor/inventory" data-caption="Monitor stock manager, sample data">
+          <h4>Know your stock before it runs out</h4>
+          <p>Every item has a low-stock alert. Monitor shows what your stock is worth, what you paid for it and the profit you should expect.</p>
+          <img class="seq-inline" src="assets/img/screens/m-inv.webp" width="1440" height="900" alt="Monitor inventory screen" loading="lazy">
+        </div>
+        <div class="seq-step" data-screen="m-rep" data-url="growthivesystems.github.io/monitor/reports" data-caption="Monitor reports, sample data">
+          <h4>Weekly, monthly and quarterly reports</h4>
+          <p>Revenue against expenses, profit trends and payment methods, with exports to PDF and Excel.</p>
+          <a class="btn btn-ink" href="products.html#monitor">Explore Monitor</a>
+          <img class="seq-inline" src="assets/img/screens/m-rep.webp" width="1440" height="900" alt="Monitor reports screen" loading="lazy">
+        </div>
+        <div class="seq-step" data-screen="b-book" data-url="growthivesystems.github.io/growthive-book/book.html" data-caption="A Growthive Book booking page, sample business">
+          <span class="badge badge-soon">Early access</span>
+          <h4>Growthive Book</h4>
+          <p>One booking link for salons, barbers, lash artists and other service businesses. Clients pick a service and an open time slot, with no back-and-forth on WhatsApp.</p>
+          <img class="seq-inline" src="assets/img/screens/b-book.webp" width="1440" height="900" alt="Growthive Book public booking page" loading="lazy">
+        </div>
+        <div class="seq-step" data-screen="b-hub" data-url="growthivesystems.github.io/growthive-book/business-hub.html" data-caption="Growthive Book business dashboard, sample data">
+          <h4>Every booking in one place</h4>
+          <p>Confirm, reschedule or decline bookings, mark no-shows and add walk-ins. Completed bookings can flow into Monitor as income.</p>
+          <a class="btn btn-ink" href="products.html#book">Discover Growthive Book</a>
+          <img class="seq-inline" src="assets/img/screens/b-hub.webp" width="1440" height="900" alt="Growthive Book business dashboard" loading="lazy">
+        </div>
       </div>
-      <a href="portfolio.html" class="portfolio-mega-btn">
-        <i class="fas fa-briefcase"></i>
-        Our Portfolio — See Our Work
-        <i class="fas fa-arrow-right"></i>
+      <div class="seq-visual" aria-hidden="true">
+        <div class="device">
+          <div class="frame-bar"><i></i><i></i><i></i><span class="url">growthivesystems.github.io/monitor/dashboard</span></div>
+          <div class="screens">
+            <img src="assets/img/screens/m-dash.webp" data-screen="m-dash" alt="" class="is-on">
+            <img src="assets/img/screens/m-inv.webp" data-screen="m-inv" alt="" loading="lazy">
+            <img src="assets/img/screens/m-rep.webp" data-screen="m-rep" alt="" loading="lazy">
+            <img src="assets/img/screens/b-book.webp" data-screen="b-book" alt="" loading="lazy">
+            <img src="assets/img/screens/b-hub.webp" data-screen="b-hub" alt="" loading="lazy">
+          </div>
+        </div>
+        <p class="seq-caption">Growthive Monitor, shown with sample data</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section on-ink" id="work">
+  <div class="wrap sec-head split">
+    <div><p class="kicker">Selected work</p><h2 class="h-sec">Real projects, live today.</h2></div>
+    <p class="lede">From a two-market e-commerce platform to campaigns for a grocery in Edinburgh. Scroll to see a few.</p>
+  </div>
+  <div class="hwork">
+    <div class="hwork-track">
+      <a class="hwork-card" href="work.html#molly-samuels">
+        <div class="shot"><img src="assets/img/screens/w-index.webp" width="1440" height="900" alt="Molly Samuels homepage" loading="lazy"></div>
+        <div class="meta"><h3>Molly Samuels</h3><span class="badge badge-live">Live</span></div>
+        <p>An e-commerce platform for a fashion label and a school-uniform maker, with Nigerian and UK pricing in one store.</p>
       </a>
-    </div>
-    <div class="hero-visual">
-      <div class="orbit-wrap">
-        <div class="ring r1">
-          <div class="odot p1"><span style="font-size:1.4rem">🎨</span><span>Design</span></div>
-          <div class="odot p2"><span style="font-size:1.4rem">📊</span><span>Strategy</span></div>
-        </div>
-        <div class="ring r2">
-          <div class="odot p3"><span style="font-size:1.4rem">👥</span><span>HR</span></div>
-          <div class="odot p4"><span style="font-size:1.4rem">📱</span><span>Media</span></div>
-        </div>
-        <div class="orbit-center"><span class="orbit-center-label">G</span></div>
+      <a class="hwork-card" href="work.html#monitor">
+        <div class="shot"><img src="assets/img/screens/m-rep.webp" width="1440" height="900" alt="Growthive Monitor reports" loading="lazy"></div>
+        <div class="meta"><h3>Growthive Monitor</h3><span class="badge badge-live">Live</span></div>
+        <p>Our own business management app, used by 2,000 people to track sales, stock, expenses and debts.</p>
+      </a>
+      <a class="hwork-card" href="work.html#preshy">
+        <div class="shot"><img src="assets/img/screens/w-preshy.webp" width="1440" height="900" alt="Preshy Beauty Global website" loading="lazy"></div>
+        <div class="meta"><h3>Preshy Beauty Global</h3><span class="badge badge-live">Live</span></div>
+        <p>A website for an Abuja nail studio and perfume brand, with service menus and booking requests.</p>
+      </a>
+      <a class="hwork-card" href="work.html#campaigns">
+        <div class="shot"><img src="assets/img/work/mightyolu-combo.webp" style="object-position:center 30%" width="828" height="1050" alt="MightyOlu Grocery promotion" loading="lazy"></div>
+        <div class="meta"><h3>Brand campaigns</h3></div>
+        <p>Product, recruitment and seasonal campaigns for Networld Computers, Benresa Consulting, Stargaze Empire and MightyOlu Grocery.</p>
+      </a>
+      <div class="hwork-end">
+        <h3>See every project in detail.</h3>
+        <a class="btn btn-gold" href="work.html">View all work</a>
       </div>
+    </div>
+    <div class="progress-line" aria-hidden="true"><span></span></div>
+  </div>
+  <div class="marquee" aria-label="Clients">
+    <div class="marquee-track">
+      <span>Molly Samuels</span><span>Preshy Beauty Global</span><span>Networld Computers</span><span>MightyOlu Grocery</span><span>Benresa Consulting</span><span>Stargaze Empire</span>
+      <span aria-hidden="true">Molly Samuels</span><span aria-hidden="true">Preshy Beauty Global</span><span aria-hidden="true">Networld Computers</span><span aria-hidden="true">MightyOlu Grocery</span><span aria-hidden="true">Benresa Consulting</span><span aria-hidden="true">Stargaze Empire</span>
     </div>
   </div>
 </section>
 
-<div class="stats-strip">
-  <div class="sstat"><span class="sstat-num" data-target="120">0</span><span class="sstat-lbl">Businesses Transformed</span></div>
-  <div class="sstat"><span class="sstat-num" data-target="95">0</span><span class="sstat-lbl">% Client Satisfaction</span></div>
-  <div class="sstat"><span class="sstat-num" data-target="200">0</span><span class="sstat-lbl">Projects Completed</span></div>
-  <div class="sstat"><span class="sstat-num" data-target="3">0</span><span class="sstat-lbl">Years of Excellence</span></div>
-</div>
-
-<section class="svc-bg" id="services">
-  <div class="section-inner">
-    <div class="sec-head center reveal">
-      <p class="stag">What We Do</p>
-      <h2 class="stitle dk">Four pillars. One unified system.</h2>
-      <p class="ssub dk">Branding, strategy, content, and organizational structure — everything your business needs to grow.</p>
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div><p class="kicker">How we work</p><h2 class="h-sec">A clear process, from first call to handover.</h2></div>
+      <p class="lede">You always know what is being built, what it costs and when it will be ready.</p>
     </div>
-    <div class="pillars">
-      <div class="pcard reveal">
-        <div class="picon">🌐</div>
-        <h3>Digital Presence</h3>
-        <p>We build powerful digital identities that position your business for visibility, credibility, and consistent growth.</p>
-        <ul class="plist">
-          <li>Brand identity design — logos & visual systems</li>
-          <li>Content & media creation — graphics and video</li>
-          <li>Social media positioning across platforms</li>
-          <li>Digital visibility & trust-building strategy</li>
-        </ul>
-        <a href="portfolio.html" class="plink">See Our Work <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="pcard reveal">
-        <div class="picon">📈</div>
-        <h3>Business Strategy</h3>
-        <p>We bring structure, goals, and scalable systems to ensure your business is strategically aligned for expansion.</p>
-        <ul class="plist">
-          <li>Clarity in business direction & positioning</li>
-          <li>Operational planning & growth roadmaps</li>
-          <li>Market positioning & competitive strategy</li>
-          <li>Business development frameworks</li>
-        </ul>
-        <a href="#packages" class="plink">Explore Packages <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="pcard reveal">
-        <div class="picon">📣</div>
-        <h3>Content & Visibility</h3>
-        <p>Being invisible online means losing clients. We manage your presence so you're seen by the right people at the right time.</p>
-        <ul class="plist">
-          <li>Social media strategy & content calendars</li>
-          <li>Post design & visual content creation</li>
-          <li>Community management & engagement</li>
-          <li>Growth tracking & performance reporting</li>
-        </ul>
-        <a href="portfolio.html" class="plink">See Content Work <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="pcard reveal">
-        <div class="picon">👥</div>
-        <h3>People Structure</h3>
-        <p>We design the internal structure your business needs to grow sustainably — from roles to workflow to team performance.</p>
-        <ul class="plist">
-          <li>Role & team hierarchy design</li>
-          <li>Workflow & operational systems</li>
-          <li>Hiring & team development guidance</li>
-          <li>HR analytics & performance tracking</li>
-        </ul>
-        <a href="#contact" class="plink">Learn More <i class="fas fa-arrow-right"></i></a>
-      </div>
+    <div class="process" role="list">
+      <span class="fill" aria-hidden="true"></span>
+      <div class="step" role="listitem"><span class="n">1</span><h3>Understand</h3><p>We learn how your business runs today and agree what needs to change.</p></div>
+      <div class="step" role="listitem"><span class="n">2</span><h3>Scope and design</h3><p>A written scope, timeline and price, then designs you approve before we build.</p></div>
+      <div class="step" role="listitem"><span class="n">3</span><h3>Build and test</h3><p>We build in stages and share working previews so you can test as we go.</p></div>
+      <div class="step" role="listitem"><span class="n">4</span><h3>Launch and support</h3><p>We launch, hand over your logins and stay available for fixes and improvements.</p></div>
     </div>
   </div>
 </section>
 
-<section class="res-bg" id="results">
-  <div class="section-inner">
-    <div class="res-inner">
+<section class="section-tight on-mist">
+  <div class="wrap">
+    <div class="sec-head"><p class="kicker">Who we work with</p><h2 class="h-sec">Built for businesses that are ready to grow.</h2></div>
+    <ul class="audience">
+      <li><h3>Traders and service businesses</h3><p>Shops, salons and service providers who want their records, bookings and online presence organised.</p></li>
+      <li><h3>Startups and founders</h3><p>Founders who need a first working product, a landing page or a booking system to test an idea.</p></li>
+      <li><h3>Growing organisations</h3><p>Teams in Nigeria and abroad that need better systems, reporting or a remote digital partner on a clear scope.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section cta">
+  <div class="wrap cta-inner">
+    <h2 data-reveal>Have a business problem worth solving?</h2>
+    <div class="actions">
+      <p>Tell us what you want to build, fix or organise. We will reply with practical next steps.</p>
+      <a class="btn btn-gold" href="contact.html">Start a project</a>
+      <a class="text-link" href="https://wa.me/2349019875292" target="_blank" rel="noopener">Or message us on WhatsApp</a>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html"><img src="assets/img/logo-mark.webp" alt="" width="36" height="32"><span>Growthive Systems</span></a>
+        <p>Technology. Systems. Growth. A technology and business solutions company in Abuja, building software, business systems and digital growth for organisations in Nigeria and abroad.</p>
+        <div class="socials">
+          <a href="https://wa.me/2349019875292" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.5-4.3a8.5 8.5 0 1 1 15.5-4.6Z"/><path d="M9.2 8.3c-.2 3.3 2.9 6.6 6.4 6.6l.9-1.5-1.9-1-.9.8a4.6 4.6 0 0 1-2.6-2.6l.8-.9-1-1.9Z" fill="currentColor" stroke-width="1"/></svg></a>
+          <a href="https://instagram.com/davidsystems" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.9"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://x.com/davidsystems" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4.5h4l11 15h-4z"/><path d="M19.5 4.5l-6.3 6.9M4.5 19.5l6.3-6.9" stroke-linecap="round"/></svg></a>
+          <a href="https://linkedin.com/company/growthivesystems" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.8V16.5M12 16.5v-3.7a2.2 2.2 0 0 1 4.4 0v3.7M12 10.8v5.7"/><circle cx="8" cy="7.6" r=".9" fill="currentColor" stroke="none"/></svg></a>
+          <a href="mailto:growthivesystem@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.8 6.8 8.2 6 8.2-6"/></svg></a>
+        </div>
+      </div>
       <div>
-        <div class="reveal">
-          <p class="stag">Results</p>
-          <h2 class="stitle lt">Real impact for real businesses.</h2>
-          <p class="ssub lt" style="margin-bottom:2rem">We deliver measurable transformation across branding, strategy, and systems.</p>
-        </div>
-        <div class="sgrid reveal">
-          <div class="scard"><span class="num">120+</span><span class="lbl">Businesses Served</span></div>
-          <div class="scard"><span class="num">95%</span><span class="lbl">Satisfaction Rate</span></div>
-          <div class="scard"><span class="num">3x</span><span class="lbl">Avg. Growth Rate</span></div>
-          <div class="scard"><span class="num">200+</span><span class="lbl">Projects Delivered</span></div>
-        </div>
-        <div class="tcard reveal">
-          <p>"Growthive Systems completely transformed how we show up online and how we operate internally. From brand identity to team structure — everything is now cohesive, professional, and working for us."</p>
-          <span class="tname">— A. Okonkwo</span><br>
-          <span class="trole">CEO, Lumina Ventures</span>
-        </div>
-      </div>
-      <div class="reveal">
-        <div class="ba-box">
-          <div class="ba-top">Client Transformation</div>
-          <div class="ba-cols">
-            <div class="ba-col">
-              <h4 class="h4-bef">Before Growthive</h4>
-              <div class="bitem"><i class="fas fa-times"></i> No brand identity</div>
-              <div class="bitem"><i class="fas fa-times"></i> Scattered strategy</div>
-              <div class="bitem"><i class="fas fa-times"></i> No online presence</div>
-              <div class="bitem"><i class="fas fa-times"></i> Disorganized team</div>
-              <div class="bitem"><i class="fas fa-times"></i> No systems in place</div>
-              <div class="bitem"><i class="fas fa-times"></i> Low client trust</div>
-            </div>
-            <div class="ba-div"></div>
-            <div class="ba-col">
-              <h4 class="h4-aft">After Growthive</h4>
-              <div class="bitem"><i class="fas fa-check"></i> Strong brand identity</div>
-              <div class="bitem"><i class="fas fa-check"></i> Clear growth roadmap</div>
-              <div class="bitem"><i class="fas fa-check"></i> Active digital presence</div>
-              <div class="bitem"><i class="fas fa-check"></i> Structured team & roles</div>
-              <div class="bitem"><i class="fas fa-check"></i> Automated systems</div>
-              <div class="bitem"><i class="fas fa-check"></i> Authority & trust built</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pkg-bg" id="packages">
-  <div class="section-inner">
-    <div class="sec-head center reveal">
-      <p class="stag">Packages</p>
-      <h2 class="stitle dk">Choose your growth path.</h2>
-      <p class="ssub dk">Structured offerings designed to meet you where you are and take you where you want to go.</p>
-    </div>
-    <div class="pkg-grid">
-      <div class="pkg reveal">
-        <div class="pkg-ico">🟢</div>
-        <h3>Starter</h3>
-        <p class="pkg-sub">For businesses just getting started</p>
-        <ul class="pkg-feats">
-          <li>Brand identity design (logo + colors)</li>
-          <li>Social media page setup & optimization</li>
-          <li>Basic landing page website</li>
-          <li>Brand guidelines document</li>
-          <li>1 strategy session</li>
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="solutions.html#technology">Technology solutions</a></li>
+          <li><a href="solutions.html#systems">Business systems</a></li>
+          <li><a href="solutions.html#data">Data and reporting</a></li>
+          <li><a href="solutions.html#growth">Digital growth</a></li>
         </ul>
-        <button class="pkg-btn" onclick="openRegister()">Register Now</button>
       </div>
-      <div class="pkg feat reveal">
-        <div class="pkg-badge">Most Popular</div>
-        <div class="pkg-ico">🔵</div>
-        <h3>Growth</h3>
-        <p class="pkg-sub">For businesses ready to scale</p>
-        <ul class="pkg-feats">
-          <li>Everything in Starter</li>
-          <li>Monthly content creation & posting</li>
-          <li>Full business strategy framework</li>
-          <li>Social media management (3 platforms)</li>
-          <li>Basic HR systems & workflows</li>
-          <li>Monthly performance reports</li>
-          <li>2 strategy sessions/month</li>
+      <div>
+        <h4>Products</h4>
+        <ul>
+          <li><a href="products.html#monitor">Growthive Monitor</a></li>
+          <li><a href="products.html#book">Growthive Book</a></li>
         </ul>
-        <button class="pkg-btn" onclick="openRegister()">Register Now</button>
       </div>
-      <div class="pkg reveal">
-        <div class="pkg-ico">🟣</div>
-        <h3>Scale</h3>
-        <p class="pkg-sub">For enterprises built for growth</p>
-        <ul class="pkg-feats">
-          <li>Everything in Growth</li>
-          <li>Full organizational structure design</li>
-          <li>Advanced HR analytics & tracking</li>
-          <li>Custom web application development</li>
-          <li>Notion-powered business dashboard</li>
-          <li>Dedicated account manager</li>
-          <li>Weekly strategy sessions</li>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="work.html">Our work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
         </ul>
-        <button class="pkg-btn" onclick="openRegister()">Register Now</button>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="proc-bg" id="process">
-  <div class="section-inner">
-    <div class="sec-head center reveal">
-      <p class="stag">How We Work</p>
-      <h2 class="stitle lt">From invisible to unforgettable.</h2>
-      <p class="ssub lt" style="margin:0 auto">A clear, structured process built for results — no guesswork, no wasted time.</p>
-    </div>
-    <div class="proc-steps">
-      <div class="pstep reveal"><div class="pstep-circle"><span>01</span></div><h3>Discovery</h3><p>We learn your business, audience, and goals in depth before building anything.</p></div>
-      <div class="pstep reveal"><div class="pstep-circle"><span>02</span></div><h3>Strategy</h3><p>We design a custom roadmap — messaging, systems, and content aligned to your vision.</p></div>
-      <div class="pstep reveal"><div class="pstep-circle"><span>03</span></div><h3>Execution</h3><p>We produce and implement deliverables — on time, on brand, and on target.</p></div>
-      <div class="pstep reveal"><div class="pstep-circle"><span>04</span></div><h3>Growth & Optimisation</h3><p>We track, refine, and scale what's working — continuously, not once.</p></div>
+    <div class="foot-bottom">
+      <span>&copy; <span data-year>2026</span> Growthive Systems. Abuja, Nigeria.</span>
+      <a href="mailto:growthivesystem@gmail.com">growthivesystem@gmail.com</a>
     </div>
   </div>
-</section>
-
-<section id="about">
-  <div class="section-inner">
-    <div class="about-inner">
-      <div class="founder-side reveal">
-        <div class="photo-box">
-          <img class="founder-img" src="assets/images/founder.jpeg" alt="David Ayogu — Founder & CEO"
-               onerror="this.style.display='none';document.getElementById('founderPh').style.display='flex'">
-          <div class="photo-ph" id="founderPh" style="display:none">
-            <i class="fas fa-user-circle"></i>
-            <p>Upload founder.jpeg<br>to assets/images/</p>
-          </div>
-        </div>
-        <div class="pbadge"><span class="bnum">3+</span><span class="blbl">Years of Impact</span></div>
-      </div>
-      <div class="reveal">
-        <p class="stag">Meet the Founder & CEO</p>
-        <h2 class="stitle dk">David Ayogu</h2>
-        <div class="about-q"><p>"Helping businesses move from scattered efforts to structured, scalable, high-performing systems."</p></div>
-        <p class="ssub dk">Growthive Systems was founded by David Ayogu, a business strategist and creative operator with a background in industrial/organisational psychology focused on helping small and medium enterprises achieve structured, sustainable growth.
-
-His work sits at the intersection of creative innovation and growth-driven strategy, where ideas are transformed into structured systems that enable businesses to scale with clarity and consistency.
-
-With experience across branding, digital media, and organizational development, he builds businesses that are not only visible, but also designed to perform, adapt, and expand in evolving markets.
-
-His approach integrates digital presence, strategic planning, and internal structure into a unified framework turning fragmented efforts into measurable progress and long-term value.
-
-Driven by discipline, purpose, and a commitment to excellence, David is focused on creating solutions that deliver both immediate impact and sustainable growth.</p>
-        <p class="ssub dk" style="margin-top:1rem">Beyond business, he is committed to building impact through his foundation, supporting growth, learning, and opportunities within communities.</p>
-        <div class="chips">
-          <span class="chip">IO Psychology</span><span class="chip">Graphic Design</span><span class="chip">Video Editing</span><span class="chip">HR Analytics</span><span class="chip">Business Strategy</span><span class="chip">Brand Systems</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     NOTION SECTION — ANIMATED LIVE DASHBOARD
-     ══════════════════════════════════════════ -->
-<section class="notion-bg" id="notion">
-  <div class="section-inner">
-    <div class="notion-inner">
-      <div class="reveal">
-        <p class="stag">Enagement Tracking</p>
-        <h2 class="stitle lt"> Just like us Your business can be automated.</h2>
-        <p class="ssub lt">Most lead, inquiry, and client interaction is automatically captured and organised in our Notion workspace  strictly on permisioms — Tracking real time Success.</p>
-        <div class="notion-steps">
-          <div class="nstep"><div class="nstep-num">1</div><div class="nstep-text"><h4>Client has submitted a form</h4><p>Contact form or Google registration form on this website</p></div></div>
-          <div class="nstep"><div class="nstep-num">2</div><div class="nstep-text"><h4>We capture the needed data</h4><p>The automation engine triggers instantly and request private or public report</p></div></div>
-          <div class="nstep"><div class="nstep-num">3</div><div class="nstep-text"><h4>Progress Leads Database updated</h4><p>Name, email, business type & message stored automatically</p></div></div>
-          <div class="nstep"><div class="nstep-num">4</div><div class="nstep-text"><h4>We deliver while you monitor progrss</h4><p>Check our Live dashboard and follow up with confidence</p></div></div>
-          <div class="nstep"><div class="nstep-num">5</div><div class="nstep-text"><h4>You get notified and project is executed</h4><p> Check our Notion dashboard and follow up with confidence</p></div></div>
-        </div>
-      </div>
-
-      <!-- ANIMATED NOTION VISUAL -->
-      <div class="reveal">
-        <div class="notion-visual">
-
-          <!-- Animated counter stats -->
-          <div class="notion-stats-row">
-            <div class="nstat">
-              <span class="nstat-num" id="nCount1">0</span>
-              <span class="nstat-lbl">Total Leads</span>
-            </div>
-            <div class="nstat">
-              <span class="nstat-num" id="nCount2">0</span>
-              <span class="nstat-lbl">Active</span>
-            </div>
-            <div class="nstat">
-              <span class="nstat-num" id="nCount3">0%</span>
-              <span class="nstat-lbl">Conversion</span>
-            </div>
-          </div>
-
-          <!-- Leads database — rows slide in and new ones appear -->
-          <div class="notion-db">
-            <div class="ndb-title"><i class="fas fa-database"></i> Leads Database — Live</div>
-            <div class="ndb-rows" id="leadsRows"></div>
-          </div>
-
-          <!-- Portfolio database -->
-          <div class="notion-db">
-            <div class="ndb-title"><i class="fas fa-folder"></i> Portfolio Database</div>
-            <div class="ndb-rows" id="portfolioRows"></div>
-          </div>
-
-          <!-- Live feed ticker -->
-          <div class="live-feed">
-            <div class="live-dot"></div>
-            <span class="live-label">Live</span>
-            <span class="live-text" id="liveFeedText">Waiting for new leads...</span>
-          </div>
-
-        </div>
-      </div>
-      <!-- END ANIMATED NOTION VISUAL -->
-
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     CONTACT SECTION — FORMSPREE POWERED
-     ══════════════════════════════════════════ -->
-<section class="con-bg" id="contact">
-  <div class="section-inner">
-    <div class="con-inner">
-      <div class="reveal">
-        <p class="stag">Get In Touch</p>
-        <h2 class="stitle lt">Ready to grow?<br>Let's talk.</h2>
-        <p class="ssub lt">Tell us about your business and we'll be in touch within 24 hours to set up your free strategy call.</p>
-        <div class="clinks">
-          <a href="mailto:growthivesystem@gmail.com" class="clink"><div class="clink-ico"><i class="fas fa-envelope"></i></div> growthivesystem@gmail.com</a>
-          <a href="https://wa.me/2349019875292" class="clink" target="_blank"><div class="clink-ico"><i class="fab fa-whatsapp"></i></div> Chat on WhatsApp</a>
-          <a href="https://www.instagram.com/david_systemz?igsh=MXhqejF2Z2Z1N2t3NQ%3D%3D&utm_source=qr" class="clink" target="_blank"><div class="clink-ico"><i class="fab fa-instagram"></i></div> @growthivesystems</a>
-          <a href="https://linkedin.com/company/growthivesystems" class="clink" target="_blank"><div class="clink-ico"><i class="fab fa-linkedin"></i></div> Growthive Systems</a>
-        </div>
-        <div class="soc-row">
-          <a href="https://www.instagram.com/david_systemz?igsh=MXhqejF2Z2Z1N2t3NQ%3D%3D&utm_source=qr" class="socbtn" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://linkedin.com/company/growthivesystems" class="socbtn" target="_blank"><i class="fab fa-linkedin"></i></a>
-          <a href="https://twitter.com/growthivesys" class="socbtn" target="_blank"><i class="fab fa-x-twitter"></i></a>
-          <a href="mailto:growthivesystem@gmail.com" class="socbtn"><i class="fas fa-envelope"></i></a>
-          <a href="https://wa.me/23481320279127" class="socbtn" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        </div>
-      </div>
-      <div class="reveal">
-        <div class="cform-wrap">
-          <div id="cForm">
-            <div class="f-error" id="fError">Hey man David is building me. I will be bark shortly send us a mail at growthivesystem@gmail.com.</div>
-            <div class="frow">
-              <div class="fg"><label>Full Name *</label><input type="text" id="fn" name="name" placeholder="Your full name" required></div>
-              <div class="fg"><label>Email Address *</label><input type="email" id="fe" name="email" placeholder="your@email.com" required></div>
-            </div>
-            <div class="frow">
-              <div class="fg"><label>Phone / WhatsApp</label><input type="tel" id="fp" name="phone" placeholder="+234 000 0000 000"></div>
-              <div class="fg"><label>Business Type</label>
-                <select id="fb" name="business_type">
-                  <option value="">Select type...</option>
-                  <option>Startup / New Business</option>
-                  <option>Small Business (SME)</option>
-                  <option>Medium Enterprise</option>
-                  <option>Large / Corporate</option>
-                  <option>Non-profit / NGO</option>
-                </select>
-              </div>
-            </div>
-            <div class="fg"><label>Service Interest</label>
-              <select id="fs" name="service_interest">
-                <option value="">What are you looking for?</option>
-                <option>Digital Presence & Branding</option>
-                <option>Business Strategy</option>
-                <option>Content & Social Media</option>
-                <option>HR & People Structure</option>
-                <option>Web / App Development</option>
-                <option>Full Growth Package</option>
-                <option>Not sure — need guidance</option>
-              </select>
-            </div>
-            <div class="fg"><label>Your Message *</label><textarea id="fm" name="message" placeholder="Tell us about your business and what you'd like to achieve..."></textarea></div>
-            <div class="tc-row">
-              <input type="checkbox" id="ftc" required>
-              <label for="ftc">I agree to the <a href="#" onclick="showTC();return false">Terms & Conditions</a> and consent to Growthive Systems storing my information to respond to my inquiry.</label>
-            </div>
-            <button class="sub-btn" id="submitBtn" onclick="submitForm()">Send Message — Let's Grow Together</button>
-          </div>
-          <div class="f-success" id="fSuccess">
-            <i class="fas fa-check-circle"></i>
-            <h4>Message received!</h4>
-            <p>We'll be in touch within 24 hours. Check your email for a confirmation.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="foot-logo">Growthive <span>Systems</span></div>
-  <div class="foot-links">
-    <a href="#hero">Home</a>
-    <a href="#services">Services</a>
-    <a href="#packages">Packages</a>
-    <a href="#process">Process</a>
-    <a href="#about">About</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <p class="foot-copy">© 2026 Growthive Systems. All rights reserved.</p>
 </footer>
-
-<!-- GOOGLE FORM MODAL -->
-<div class="modal-overlay" id="registerModal">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h3>Register With Growthive Systems</h3>
-      <button class="modal-close" onclick="closeRegister()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfzrQc6xHyzf8Nv468PwlO31tylDgrXZ8HX2Nay9vk6xvYjuw/viewform?embedded=true"
-              frameborder="0" marginheight="0" marginwidth="0" title="Register with Growthive Systems">
-        Loading form…
-      </iframe>
-    </div>
-    <div class="modal-note">Powered by Google Forms · Your data is secure and protected</div>
-  </div>
-</div>
-
-<!-- AI CHAT -->
-<div class="chat-bubble">
-  <div class="cpulse"></div>
-  <button class="chat-toggle" onclick="toggleChat()"><i class="fas fa-comment-dots"></i></button>
-  <div class="chat-box" id="chatBox">
-    <div class="chat-head">
-      <div class="cavatar">🤖</div>
-      <div class="chat-head-info">
-        <h4>Growthive AI Assistant</h4>
-        <p>Online — ask me anything</p>
-      </div>
-      <span class="ai-badge">AI</span>
-      <button class="cclose" onclick="toggleChat()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="chat-msgs" id="chatMsgs">
-      <div class="cmsg bot">👋 Hi! I'm the Growthive AI assistant. I know everything about Growthive Systems — our services, packages, founder, process, and more. How can I help you?</div>
-    </div>
-    <div class="chat-irow">
-      <input class="cinput" id="cinput" placeholder="Ask me anything about Growthive..." onkeydown="if(event.key==='Enter')sendChat()">
-      <button class="csend" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
-    </div>
-    <div class="chat-powered">Growthive Systems AI · Powered by Claude</div>
-  </div>
-</div>
-
-<script>
-// ── GROWTHIVE FULL KNOWLEDGE BASE ──
-const GROWTHIVE_CONTEXT = `You are the official AI assistant for Growthive Systems. You ONLY answer questions about Growthive Systems and related topics. Be warm, professional, and concise. Always encourage visitors to book a free strategy call or register via the form on the site.
-
-=== ABOUT GROWTHIVE SYSTEMS ===
-Name: Growthive Systems
-Tagline: Strategy. Design. Structure.
-Mission: Help small and medium businesses grow through clarity, strategy, design, and structured systems.
-Founded by: David Ayogu
-
-=== FOUNDER — DAVID AYOGU ===
-- Psychology graduate (Industrial-Organizational Psychology)
-- Skills: Graphic design, video editing, HR analytics, business strategy, brand systems
-- Vision: Help SMEs grow beyond visibility — into structured, scalable, high-performing systems
-- Values: Clarity, discipline, purpose, faith, leadership
-- Quote: "Helping businesses move from scattered efforts to structured, scalable, high-performing systems."
-
-=== 4 CORE SERVICES ===
-1. DIGITAL PRESENCE
-   - Brand identity design (logos, visual systems, guidelines)
-   - Content & media creation (graphics, videos)
-   - Social media positioning (Instagram, LinkedIn, Facebook)
-   - Digital visibility & trust-building strategy
-
-2. BUSINESS STRATEGY
-   - Business direction clarity & positioning
-   - Operational planning & growth roadmaps
-   - Market positioning & competitive strategy
-   - Business development frameworks
-
-3. CONTENT & VISIBILITY
-   - Social media strategy & content calendars
-   - Post design & visual content creation
-   - Community management & engagement
-   - Growth tracking & performance reporting
-
-4. PEOPLE STRUCTURE (HR)
-   - Role & team hierarchy design
-   - Workflow & operational systems
-   - Hiring & team development guidance
-   - HR analytics & performance tracking
-   - Onboarding systems
-
-=== 3 PACKAGES ===
-STARTER — For businesses just getting started:
-  - Brand identity design (logo + colors)
-  - Social media page setup & optimization
-  - Basic landing page website
-  - Brand guidelines document
-  - 1 strategy session
-
-GROWTH — For businesses ready to scale (Most Popular):
-  - Everything in Starter
-  - Monthly content creation & posting
-  - Full business strategy framework
-  - Social media management (3 platforms)
-  - Basic HR systems & workflows
-  - Monthly performance reports
-  - 2 strategy sessions/month
-
-SCALE — For enterprises built for growth:
-  - Everything in Growth
-  - Full organizational structure design
-  - Advanced HR analytics & tracking
-  - Custom web application development
-  - Notion-powered business dashboard
-  - Dedicated account manager
-  - Weekly strategy sessions
-
-=== HOW WE WORK (4-STEP PROCESS) ===
-Step 1 — Discovery: We learn your business, audience, and goals in depth before building anything.
-Step 2 — Strategy: We design a custom roadmap — messaging, systems, and content aligned to your vision.
-Step 3 — Execution: We produce and implement deliverables — on time, on brand, and on target.
-Step 4 — Growth & Optimisation: We track, refine, and scale what's working — continuously, not once.
-
-=== RESULTS ===
-- 120+ businesses served
-- 95% client satisfaction rate
-- 3x average growth rate for clients
-- 200+ projects delivered
-- Client testimonial: "Growthive Systems completely transformed how we show up online and how we operate internally." — A. Okonkwo, CEO, Lumina Ventures
-
-=== CONTACT & SOCIAL ===
-Email: growthivesystem@gmail.com
-WhatsApp: Available via website
-Instagram: systems
-LinkedIn: Growthive Systems
-Twitter: sys
-Register form: Available on the website — click "Register With Us"
-
-If someone asks something not about Growthive, politely redirect them: "I'm specifically trained on Growthive Systems. For that question, I'd recommend reaching out to us at growthivesystem@gmail.com — we'd love to help!"`;
-
-// ── LOADER ──
-window.addEventListener('load',()=>{
-  setTimeout(()=>{
-    document.getElementById('loader').classList.add('hide');
-    setTimeout(()=>document.getElementById('loader').style.display='none',700);
-  },1800);
-});
-
-// ── SCROLL ──
-window.addEventListener('scroll',()=>{
-  const el=document.documentElement;
-  const pct=(el.scrollTop/(el.scrollHeight-el.clientHeight))*100;
-  document.getElementById('progressBar').style.width=pct+'%';
-  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>55);
-  document.getElementById('backTop').classList.toggle('show',window.scrollY>400);
-});
-
-// ── CURSOR TRAIL ──
-document.addEventListener('mousemove',e=>{
-  const t=document.createElement('div');
-  t.className='trail';
-  t.style.cssText=`left:${e.clientX-4}px;top:${e.clientY-4}px`;
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(),600);
-});
-
-// ── MOBILE MENU ──
-function toggleMob(){document.getElementById('mobMenu').classList.toggle('open');}
-
-// ── REVEAL ──
-const rObs=new IntersectionObserver((entries)=>{
-  entries.forEach((e,i)=>{
-    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*85);rObs.unobserve(e.target);}
-  });
-},{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>rObs.observe(el));
-
-// ── COUNTERS ──
-function runCounter(el){
-  const target=parseInt(el.dataset.target);
-  const lbl=el.closest('.sstat').querySelector('.sstat-lbl').textContent;
-  const suffix=lbl.includes('%')?'%':lbl.includes('x')?'x':'+';
-  let start=0;const dur=1800;
-  const go=ts=>{
-    if(!start)start=ts;
-    const p=Math.min((ts-start)/dur,1);
-    el.textContent=Math.floor(p*target)+(p<1?'':suffix);
-    if(p<1)requestAnimationFrame(go);
-    else el.textContent=target+suffix;
-  };
-  requestAnimationFrame(go);
-}
-const cObs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){runCounter(e.target);cObs.unobserve(e.target);}});
-},{threshold:.5});
-document.querySelectorAll('[data-target]').forEach(el=>cObs.observe(el));
-
-// ── GOOGLE FORM MODAL ──
-function openRegister(){document.getElementById('registerModal').classList.add('open');}
-function closeRegister(){document.getElementById('registerModal').classList.remove('open');}
-document.getElementById('registerModal').addEventListener('click',function(e){if(e.target===this)closeRegister();});
-
-// ══════════════════════════════════════════
-// CONTACT FORM — FORMSPREE INTEGRATION
-// ══════════════════════════════════════════
-async function submitForm(){
-  const name    = document.getElementById('fn').value.trim();
-  const email   = document.getElementById('fe').value.trim();
-  const phone   = document.getElementById('fp').value.trim();
-  const bizType = document.getElementById('fb').value;
-  const service = document.getElementById('fs').value;
-  const message = document.getElementById('fm').value.trim();
-  const tc      = document.getElementById('ftc').checked;
-
-  // Validation
-  if(!name||!email||!message){alert('Please fill in Name, Email, and Message.');return;}
-  if(!tc){alert('Please agree to the Terms & Conditions.');return;}
-
-  const btn = document.getElementById('submitBtn');
-  const errDiv = document.getElementById('fError');
-  errDiv.style.display = 'none';
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-
-  try {
-    const res = await fetch('https://formspree.io/f/xnjljdpq', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        name:             name,
-        email:            email,
-        phone:            phone || 'Not provided',
-        business_type:    bizType || 'Not specified',
-        service_interest: service || 'Not specified',
-        message:          message
-      })
-    });
-
-    if(res.ok){
-      document.getElementById('cForm').style.display='none';
-      document.getElementById('fSuccess').style.display='block';
-    } else {
-      const data = await res.json();
-      throw new Error(data.error || 'Submission failed');
-    }
-  } catch(err){
-    errDiv.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'Send Message — Let\'s Grow Together';
-  }
-}
-
-function showTC(){
-  alert('Terms & Conditions — Growthive Systems\n\nBy submitting this form, you consent to Growthive Systems storing and using your information solely to respond to your inquiry and provide relevant services. Your data will not be shared with third parties without your consent.\n\n© 2026 Growthive Systems. All rights reserved.');
-}
-
-// ══════════════════════════════════════════
-// NOTION ANIMATED DASHBOARD
-// ══════════════════════════════════════════
-(function(){
-  // Seed leads data
-  const allLeads = [
-    {label:'Chioma Obi — Digital Presence',   val:'New',         dot:'green'},
-    {label:'Emeka Ltd — Scale Package',        val:'In Progress', dot:'gold'},
-    {label:'StartupNG — Business Strategy',    val:'Closed',      dot:'blue'},
-    {label:'Adaeze Corp — Branding',           val:'New',         dot:'green'},
-    {label:'BizHive — Growth Package',         val:'In Progress', dot:'gold'},
-    {label:'Zara Interiors — Web Dev',         val:'New',         dot:'green'},
-    {label:'TechPrime — HR Systems',           val:'Closed',      dot:'blue'},
-    {label:'Oluwaseun Ltd — Full Scale',       val:'In Progress', dot:'gold'},
-  ];
-
-  const portfolioData = [
-    {label:'Brand Identity — Lumina',  val:'Branding', dot:'gold'},
-    {label:'HR System — TechCo',       val:'HR',        dot:'green'},
-    {label:'Web App — BizHive',        val:'Dev',       dot:'blue'},
-  ];
-
-  const feedMessages = [
-    'New lead: Chioma Obi submitted a contact form',
-    'Emeka Ltd moved to "In Progress" stage',
-    'Strategy session booked — Adaeze Corp',
-    'New inquiry: Zara Interiors — Web Development',
-    'Lead converted: TechPrime — HR Package',
-    'New lead: BizHive registered via website',
-    'Follow-up sent: Oluwaseun Ltd — Scale Package',
-    'New lead: StartupNG — Business Strategy',
-  ];
-
-  let leadsVisible = 0;
-  let feedIdx = 0;
-  let totalLeads = 0;
-  let activeLeads = 0;
-  let notionStarted = false;
-
-  function makeRow(data, animate){
-    const div = document.createElement('div');
-    div.className = 'ndb-row' + (animate ? ' slide-in' : '');
-    const isNew = data.val === 'New';
-    div.innerHTML = `
-      <div class="ndb-dot ${data.dot}${isNew?' pulse':''}"></div>
-      <div class="ndb-label">${data.label}</div>
-      <div class="ndb-val${isNew?' new-badge':''}">${data.val}</div>`;
-    if(isNew) setTimeout(()=>div.classList.add('highlight'),300);
-    return div;
-  }
-
-  function animateNotionCounter(elId, target, suffix){
-    const el = document.getElementById(elId);
-    if(!el) return;
-    let val = 0;
-    const step = Math.ceil(target / 40);
-    const t = setInterval(()=>{
-      val = Math.min(val + step, target);
-      el.textContent = val + (suffix||'');
-      if(val >= target) clearInterval(t);
-    }, 35);
-  }
-
-  function startNotionAnimation(){
-    if(notionStarted) return;
-    notionStarted = true;
-
-    // Build portfolio rows immediately (static)
-    const pRows = document.getElementById('portfolioRows');
-    portfolioData.forEach((d,i)=>{
-      setTimeout(()=>{
-        pRows.appendChild(makeRow(d, true));
-      }, i*200);
-    });
-
-    // Slide in first 3 leads immediately
-    const lRows = document.getElementById('leadsRows');
-    for(let i=0;i<3;i++){
-      setTimeout(()=>{
-        lRows.appendChild(makeRow(allLeads[i], true));
-        leadsVisible++;
-        totalLeads++;
-        if(allLeads[i].dot==='gold') activeLeads++;
-        updateNotionStats();
-      }, i*300);
-    }
-
-    // Animate stats
-    setTimeout(()=>{
-      animateNotionCounter('nCount1', 47, '+');
-      animateNotionCounter('nCount2', 18, '');
-      animateNotionCounter('nCount3', 62, '%');
-    }, 600);
-
-    // Add new leads periodically (live feed effect)
-    setInterval(()=>{
-      if(leadsVisible < allLeads.length){
-        const lead = allLeads[leadsVisible];
-        // Limit rows shown to 4 — remove oldest if > 4
-        if(lRows.children.length >= 4){
-          lRows.removeChild(lRows.firstChild);
-        }
-        lRows.appendChild(makeRow(lead, true));
-        leadsVisible++;
-        totalLeads++;
-        if(lead.dot==='gold') activeLeads++;
-        updateNotionStats();
-      } else {
-        // Loop: reset to keep simulating new leads
-        leadsVisible = 3;
-      }
-      // Update live feed text
-      const feedEl = document.getElementById('liveFeedText');
-      if(feedEl){
-        feedEl.style.opacity='0';
-        setTimeout(()=>{
-          feedEl.textContent = feedMessages[feedIdx % feedMessages.length];
-          feedEl.style.opacity='1';
-          feedIdx++;
-        },300);
-      }
-    }, 2800);
-
-    // Pulse dots randomly
-    setInterval(()=>{
-      const dots = document.querySelectorAll('#leadsRows .ndb-dot.green');
-      dots.forEach(d=>{
-        d.classList.add('pulse');
-        setTimeout(()=>d.classList.remove('pulse'), 1500);
-      });
-    }, 3500);
-  }
-
-  function updateNotionStats(){
-    const n1 = document.getElementById('nCount1');
-    const n2 = document.getElementById('nCount2');
-    if(n1) n1.textContent = (47 + totalLeads) + '+';
-    if(n2) n2.textContent = (18 + activeLeads);
-  }
-
-  // Trigger when notion section scrolls into view
-  const notionSection = document.getElementById('notion');
-  if(notionSection){
-    const notionObs = new IntersectionObserver((entries)=>{
-      if(entries[0].isIntersecting){
-        startNotionAnimation();
-        notionObs.disconnect();
-      }
-    },{threshold:0.2});
-    notionObs.observe(notionSection);
-  }
-
-  // Smooth live feed text transition
-  const feedEl = document.getElementById('liveFeedText');
-  if(feedEl) feedEl.style.transition = 'opacity 0.3s ease';
-})();
-
-// ── AI CHAT (Claude-powered via Anthropic API) ──
-let chatHistory=[];
-
-function toggleChat(){document.getElementById('chatBox').classList.toggle('open');}
-
-function addMsg(text,type){
-  const msgs=document.getElementById('chatMsgs');
-  const d=document.createElement('div');
-  d.className='cmsg '+type;
-  d.textContent=text;
-  msgs.appendChild(d);
-  msgs.scrollTop=msgs.scrollHeight;
-  return d;
-}
-
-function showTyping(){
-  const msgs=document.getElementById('chatMsgs');
-  const d=document.createElement('div');
-  d.className='cmsg typ';d.id='tind';
-  d.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';
-  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
-}
-
-async function sendChat(){
-  const inp=document.getElementById('cinput');
-  const txt=inp.value.trim();
-  if(!txt)return;
-  addMsg(txt,'usr');
-  inp.value='';
-  showTyping();
-
-  chatHistory.push({role:'user',content:txt});
-
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:400,
-        system: GROWTHIVE_CONTEXT,
-        messages: chatHistory
-      })
-    });
-    const data=await res.json();
-    const reply=data.content?.[0]?.text||'Sorry, I had a connection issue. Please email growthivesystem@gmail.com or try again!';
-    const t=document.getElementById('tind');if(t)t.remove();
-    addMsg(reply,'bot');
-    chatHistory.push({role:'assistant',content:reply});
-    if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
-  }catch(err){
-    const t=document.getElementById('tind');if(t)t.remove();
-    addMsg('Sorry, I had a connection issue. Please email growthivesystem@gmail.com or try again!','bot');
-  }
-}
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="assets/js/site.js" defer></script>
 </body>
 </html>
