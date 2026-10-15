@@ -593,3 +593,30 @@ body.page-enter main{animation:pageIn .6s var(--ease) both}
   .vtext{max-width:none;width:100%}
 }
 @media (prefers-reduced-motion:reduce){.yt-play{animation:none}}
+
+/* Homepage: See Growthive in action ("deal" layout) */
+.deal{overflow:hidden;background:radial-gradient(50% 45% at 50% 30%,rgba(210,178,107,.12),transparent 70%),var(--paper)}
+.deal-head{text-align:center;display:grid;justify-items:center;margin-bottom:clamp(40px,6vw,72px)}
+.deal-head .h-sec{max-width:18ch}
+.deal-frames,.deal-copies{display:grid;grid-template-columns:repeat(2,minmax(0,360px));justify-content:center;column-gap:clamp(40px,9vw,140px)}
+.deal-frame{position:relative;border-radius:22px;will-change:transform}
+.deal-frame .yt-frame{width:100%}
+.deal-frame.dr{z-index:2}
+.deal-frame .yt-player{transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.deal-frame:hover .yt-player:not(.is-floating){transform:translateY(-10px);box-shadow:0 40px 90px rgba(10,26,58,.38)}
+.deal-frame.glow::before{inset:-6px;border-radius:28px;padding:2px;z-index:3}
+.float-host{transform:none!important}
+.deal-copies{margin-top:clamp(36px,5vw,56px);row-gap:2.5rem}
+.deal-copy .kicker{margin-bottom:.7rem}
+.dq{margin:0 0 1rem;font-size:var(--step-1);line-height:1.4;font-weight:500;color:var(--text);min-height:2.8em;border-left:3px solid var(--brass-lt);padding-left:1rem}
+.dq .cur{display:inline-block;width:2px;height:1em;background:var(--brass);vertical-align:-.12em;margin-left:2px;animation:blink 1s steps(1) infinite}
+.deal-copy > p:not(.kicker):not(.vmeta){color:var(--muted);margin-bottom:1.2rem}
+@media (max-width:760px){
+  .deal-frames{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px}
+  .deal-copies{grid-template-columns:1fr}
+  .deal-frame .yt-play{width:58px;height:58px;margin:-29px 0 0 -29px}
+  .deal-frame .yt-tri{border-left-width:17px;border-top-width:11px;border-bottom-width:11px;margin-left:4px}
+  .deal-frame .yt-label{font-size:.85rem;left:.7rem;right:.7rem;bottom:.7rem}
+  .deal-frame .yt-frame::before{inset:-8px}
+}
+.deal-frame .yt-frame{transform:none}

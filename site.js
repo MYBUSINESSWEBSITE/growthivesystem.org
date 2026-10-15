@@ -298,7 +298,7 @@
   /* ---------- YouTube frames: custom cover, one at a time, floating player ---------- */
   var ytFrames = Array.prototype.slice.call(document.querySelectorAll('[data-yt]'));
   function ytCmd(f, func) { var ifr = f.querySelector('iframe'); if (ifr && ifr.contentWindow) ifr.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: [] }), '*'); }
-  function unfloat(f) { var pl = f.querySelector('.yt-player'); pl.classList.remove('is-floating'); f.classList.remove('has-float'); }
+  function unfloat(f) { var pl = f.querySelector('.yt-player'); pl.classList.remove('is-floating'); f.classList.remove('has-float'); var h = f.closest('[data-float-host]'); if (h) h.classList.remove('float-host'); }
   ytFrames.forEach(function (f) {
     var cover = f.querySelector('.yt-cover'), pl = f.querySelector('.yt-player');
     cover.addEventListener('click', function () {
@@ -330,10 +330,24 @@
       entries.forEach(function (en) {
         var f = en.target, pl = f.querySelector('.yt-player');
         if (en.isIntersecting) { unfloat(f); f.dataset.dismissed = '0'; }
-        else if (f.dataset.active && f.dataset.playing === '1' && f.dataset.dismissed !== '1') { f.classList.add('has-float'); pl.classList.add('is-floating'); }
+        else if (f.dataset.active && f.dataset.playing === '1' && f.dataset.dismissed !== '1') { var h = f.closest('[data-float-host]'); if (h) h.classList.add('float-host'); f.classList.add('has-float'); pl.classList.add('is-floating'); }
       });
     }, { threshold: .2 });
     ytFrames.forEach(function (f) { yio.observe(f); });
+  }
+
+  /* Typed quotes */
+  var typed = document.querySelectorAll('[data-type]');
+  if (typed.length && !reduce && 'IntersectionObserver' in window) {
+    var tio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return; tio.unobserve(en.target);
+        var el = en.target, full = el.textContent, i = 0, cur = document.createElement('span'); cur.className = 'cur';
+        el.setAttribute('aria-label', full); el.textContent = ''; var txt = document.createTextNode(''); el.appendChild(txt); el.appendChild(cur);
+        (function t() { i++; txt.nodeValue = full.slice(0, i); if (i < full.length) setTimeout(t, 26); else setTimeout(function () { cur.remove(); }, 1600); })();
+      });
+    }, { threshold: .8 });
+    typed.forEach(function (el) { tio.observe(el); });
   }
 
   /* ---------- Scroll motion (GSAP + Lenis) ---------- */
@@ -477,13 +491,23 @@
   if (reel) gsap.fromTo(reel, { scale: .82, rotateX: 16, opacity: .6 }, { scale: 1, rotateX: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: '.reel-stage', start: 'top 90%', end: 'top 25%', scrub: .6 } });
 
   /* About videos: slanted frames straighten and grow as they arrive */
-  gsap.utils.toArray('.yt-frame').forEach(function (f) {
+  gsap.utils.toArray('.videos .yt-frame').forEach(function (f) {
     var left = f.classList.contains('tilt-l');
     gsap.fromTo(f, { rotate: left ? -7 : 7, scale: .86, x: left ? -60 : 60, opacity: .4 }, { rotate: left ? -1.5 : 1.5, scale: 1, x: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: f, start: 'top 95%', end: 'center 55%', scrub: .6 } });
   });
   gsap.utils.toArray('.vtext').forEach(function (t) {
     gsap.from(t.children, { y: 30, opacity: 0, duration: .8, stagger: .1, ease: 'power3.out', scrollTrigger: { trigger: t, start: 'top 80%', once: true } });
   });
+
+  /* Homepage "deal": two frames start stacked in the centre, then fan out */
+  var dl = document.querySelector('.deal-frame.dl'), dr = document.querySelector('.deal-frame.dr');
+  if (dl && dr) {
+    var dealTl = gsap.timeline({ scrollTrigger: { trigger: '.deal-frames', start: 'top 90%', end: 'center 50%', scrub: .7 } });
+    var gapX = function () { return (dr.getBoundingClientRect().left - dl.getBoundingClientRect().left) / 2; };
+    dealTl.fromTo(dl, { x: function () { return gapX(); }, rotate: 8, scale: .9 }, { x: 0, rotate: -4, scale: 1, ease: 'power2.out' }, 0)
+          .fromTo(dr, { x: function () { return -gapX(); }, rotate: -8, scale: .9 }, { x: 0, rotate: 4, scale: 1, ease: 'power2.out' }, 0);
+    gsap.from('.deal-copy', { y: 40, opacity: 0, duration: .9, stagger: .15, ease: 'power3.out', scrollTrigger: { trigger: '.deal-copies', start: 'top 85%', once: true } });
+  }
 
   /* Parallax */
   gsap.utils.toArray('[data-parallax]').forEach(function (el) {
