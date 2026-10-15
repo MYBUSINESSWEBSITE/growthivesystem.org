@@ -295,6 +295,47 @@
     });
   });
 
+  /* ---------- YouTube frames: custom cover, one at a time, floating player ---------- */
+  var ytFrames = Array.prototype.slice.call(document.querySelectorAll('[data-yt]'));
+  function ytCmd(f, func) { var ifr = f.querySelector('iframe'); if (ifr && ifr.contentWindow) ifr.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: [] }), '*'); }
+  function unfloat(f) { var pl = f.querySelector('.yt-player'); pl.classList.remove('is-floating'); f.classList.remove('has-float'); }
+  ytFrames.forEach(function (f) {
+    var cover = f.querySelector('.yt-cover'), pl = f.querySelector('.yt-player');
+    cover.addEventListener('click', function () {
+      ytFrames.forEach(function (o) { if (o !== f && o.dataset.active) { ytCmd(o, 'pauseVideo'); o.dataset.playing = '0'; unfloat(o); } });
+      var ifr = document.createElement('iframe');
+      ifr.src = 'https://www.youtube-nocookie.com/embed/' + f.dataset.yt + '?autoplay=1&rel=0&playsinline=1&modestbranding=1&enablejsapi=1&origin=' + encodeURIComponent(location.origin);
+      ifr.title = f.dataset.ytTitle; ifr.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; ifr.allowFullscreen = true;
+      ifr.addEventListener('load', function () { try { ifr.contentWindow.postMessage(JSON.stringify({ event: 'listening' }), '*'); } catch (e) {} });
+      cover.replaceWith(ifr); f.dataset.active = '1'; f.dataset.playing = '1'; f.dataset.dismissed = '0';
+    });
+    f.querySelector('.yt-close').addEventListener('click', function () { ytCmd(f, 'pauseVideo'); f.dataset.playing = '0'; f.dataset.dismissed = '1'; unfloat(f); });
+    f.querySelector('.yt-back').addEventListener('click', function () { unfloat(f); f.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); });
+  });
+  window.addEventListener('message', function (e) {
+    if (!/youtube(-nocookie)?\.com$/.test((e.origin || '').replace(/^https?:\/\//, ''))) return;
+    var d; try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch (x) { return; }
+    if (!d || !d.info || d.info.playerState === undefined) return;
+    ytFrames.forEach(function (f) {
+      var ifr = f.querySelector('iframe');
+      if (ifr && ifr.contentWindow === e.source) {
+        var st = d.info.playerState; f.dataset.playing = st === 1 || st === 3 ? '1' : '0';
+        if (st === 1) ytFrames.forEach(function (o) { if (o !== f && o.dataset.playing === '1') { ytCmd(o, 'pauseVideo'); o.dataset.playing = '0'; unfloat(o); } });
+        if (st === 0) unfloat(f);
+      }
+    });
+  });
+  if ('IntersectionObserver' in window && ytFrames.length) {
+    var yio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var f = en.target, pl = f.querySelector('.yt-player');
+        if (en.isIntersecting) { unfloat(f); f.dataset.dismissed = '0'; }
+        else if (f.dataset.active && f.dataset.playing === '1' && f.dataset.dismissed !== '1') { f.classList.add('has-float'); pl.classList.add('is-floating'); }
+      });
+    }, { threshold: .2 });
+    ytFrames.forEach(function (f) { yio.observe(f); });
+  }
+
   /* ---------- Scroll motion (GSAP + Lenis) ---------- */
   if (reduce || !window.gsap || !window.ScrollTrigger) return;
   var gsap = window.gsap, ST = window.ScrollTrigger;
@@ -434,6 +475,15 @@
   /* Showreel frame grows from tilted to full as you scroll in */
   var reel = document.querySelector('[data-reel-scale]');
   if (reel) gsap.fromTo(reel, { scale: .82, rotateX: 16, opacity: .6 }, { scale: 1, rotateX: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: '.reel-stage', start: 'top 90%', end: 'top 25%', scrub: .6 } });
+
+  /* About videos: slanted frames straighten and grow as they arrive */
+  gsap.utils.toArray('.yt-frame').forEach(function (f) {
+    var left = f.classList.contains('tilt-l');
+    gsap.fromTo(f, { rotate: left ? -7 : 7, scale: .86, x: left ? -60 : 60, opacity: .4 }, { rotate: left ? -1.5 : 1.5, scale: 1, x: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: f, start: 'top 95%', end: 'center 55%', scrub: .6 } });
+  });
+  gsap.utils.toArray('.vtext').forEach(function (t) {
+    gsap.from(t.children, { y: 30, opacity: 0, duration: .8, stagger: .1, ease: 'power3.out', scrollTrigger: { trigger: t, start: 'top 80%', once: true } });
+  });
 
   /* Parallax */
   gsap.utils.toArray('[data-parallax]').forEach(function (el) {
