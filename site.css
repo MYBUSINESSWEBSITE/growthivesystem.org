@@ -527,3 +527,23 @@ body.page-enter main{animation:pageIn .6s var(--ease) both}
 .div-line{display:block;height:2px;width:100%;background:linear-gradient(90deg,var(--brass-lt),transparent);transform-origin:left;margin-bottom:clamp(40px,5vw,64px)}
 .division{border-top:0}
 @media (max-width:860px){.division .head > div:first-child{position:static}}
+
+/* Demo videos */
+.vid-wrap{position:relative;background:#0F1220;line-height:0}
+.vid-wrap video{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top left;display:block}
+.vid-toggle{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(10,26,58,.75);backdrop-filter:blur(6px);color:#fff;display:grid;place-items:center;cursor:pointer;opacity:.85;transition:opacity .2s,background .2s}
+.vid-toggle:hover{opacity:1;background:var(--brass-lt);color:var(--ink)}
+.vid-toggle .i-pause,.vid-toggle .i-play{display:block;width:14px;height:14px;position:relative}
+.vid-toggle .i-pause::before,.vid-toggle .i-pause::after{content:"";position:absolute;top:0;width:4px;height:14px;background:currentColor;border-radius:1px}
+.vid-toggle .i-pause::before{left:2px}.vid-toggle .i-pause::after{right:2px}
+.vid-toggle .i-play{width:0;height:0;border-left:13px solid currentColor;border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:3px}
+.showreel{overflow:hidden}
+.reel-tabs{display:inline-flex;gap:.35rem;padding:.35rem;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);margin-bottom:2rem}
+.reel-tabs button{font:inherit;font-size:.95rem;font-weight:500;padding:.6rem 1.2rem;border-radius:999px;border:0;background:transparent;color:var(--on-ink-muted);cursor:pointer;transition:background .25s,color .25s}
+.reel-tabs button[aria-selected="true"]{background:var(--brass-lt);color:var(--ink)}
+.reel-stage{perspective:1600px}
+.reel{border-radius:var(--radius-lg);overflow:hidden;transform-origin:50% 30%;box-shadow:0 40px 120px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.12)}
+.reel-panel[hidden]{display:none}
+.reel-panel.is-on{animation:reelIn .5s var(--ease)}
+@keyframes reelIn{from{opacity:0;transform:scale(1.02)}to{opacity:1;transform:none}}
+.shots .main .vid-wrap video{aspect-ratio:16/10}
