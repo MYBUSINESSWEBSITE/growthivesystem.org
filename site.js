@@ -302,6 +302,7 @@
   ytFrames.forEach(function (f) {
     var cover = f.querySelector('.yt-cover'), pl = f.querySelector('.yt-player');
     cover.addEventListener('click', function () {
+      if ((function () { try { return window.localStorage.getItem('gs_cookies') === 'essential'; } catch (e) { return false; } })()) { window.open('https://www.youtube.com/watch?v=' + f.dataset.yt, '_blank', 'noopener'); return; }
       ytFrames.forEach(function (o) { if (o !== f && o.dataset.active) { ytCmd(o, 'pauseVideo'); o.dataset.playing = '0'; unfloat(o); } });
       var ifr = document.createElement('iframe');
       ifr.src = 'https://www.youtube-nocookie.com/embed/' + f.dataset.yt + '?autoplay=1&rel=0&playsinline=1&modestbranding=1&enablejsapi=1&origin=' + encodeURIComponent(location.origin);
@@ -348,6 +349,53 @@
       });
     }, { threshold: .8 });
     typed.forEach(function (el) { tio.observe(el); });
+  }
+
+  /* ---------- Cookie notice ---------- */
+  var ls = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+  var cookieBox = null;
+  function cookieChoice() { return ls.get('gs_cookies'); }
+  function showCookie() {
+    if (!cookieBox) {
+      cookieBox = document.createElement('div'); cookieBox.className = 'cookie'; cookieBox.setAttribute('role', 'dialog'); cookieBox.setAttribute('aria-live', 'polite'); cookieBox.setAttribute('aria-label', 'Cookie settings');
+      var priv = (document.querySelector('.foot-grid a[href*="privacy"]') || {}).getAttribute ? document.querySelector('.foot-grid a[href*="privacy"]').getAttribute('href') : 'privacy.html';
+      cookieBox.innerHTML = '<h2>🍪 Cookies on this site</h2><p>We only use essential browser storage to remember your settings. Our YouTube videos may set cookies when you play them. <a href="' + priv + '#cookies">Read our cookie policy</a>.</p><div class="row"><button type="button" class="btn btn-gold" data-ck="all">Accept all</button><button type="button" class="btn btn-line" data-ck="essential">Essential only</button></div>';
+      document.body.appendChild(cookieBox);
+      cookieBox.addEventListener('click', function (e) { var b = e.target.closest('[data-ck]'); if (!b) return; ls.set('gs_cookies', b.dataset.ck); cookieBox.classList.remove('show'); });
+    }
+    requestAnimationFrame(function () { requestAnimationFrame(function () { cookieBox.classList.add('show'); }); });
+  }
+  if (!cookieChoice()) setTimeout(showCookie, 1800 + introDelay * 1000);
+  document.querySelectorAll('[data-cookie-open]').forEach(function (b) { b.addEventListener('click', showCookie); });
+
+  /* ---------- Copy email ---------- */
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var done = function () { b.classList.add('done'); var l = b.querySelector('.cbtn-copy-label'); if (l) l.textContent = 'Copied'; setTimeout(function () { b.classList.remove('done'); if (l) l.textContent = 'Copy'; }, 2000); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(b.dataset.copy).then(done, function () { window.prompt('Copy this email address:', b.dataset.copy); });
+      else window.prompt('Copy this email address:', b.dataset.copy);
+    });
+  });
+
+  /* ---------- Send enquiry on WhatsApp ---------- */
+  var waBtn = document.getElementById('send-wa');
+  if (waBtn && form) {
+    waBtn.addEventListener('click', function () {
+      var name = form.querySelector('#name'), msg = form.querySelector('#message'), sel2 = form.querySelector('#interest');
+      if (!name.value.trim()) { name.reportValidity(); name.focus(); return; }
+      if (!msg.value.trim()) { msg.reportValidity(); msg.focus(); return; }
+      var val = function (id) { var el = form.querySelector('#' + id); return el && el.value.trim(); };
+      var opt = sel2 && sel2.value ? sel2.options[sel2.selectedIndex].text : '';
+      var lines = ['Hi Growthive Systems, I\'d like to start a project.', '', 'Name: ' + val('name')];
+      if (val('email')) lines.push('Email: ' + val('email'));
+      if (val('company')) lines.push('Company: ' + val('company'));
+      if (opt) lines.push('Service: ' + opt);
+      if (val('budget')) lines.push('Budget: ' + form.querySelector('#budget').options[form.querySelector('#budget').selectedIndex].text);
+      if (val('timeline')) lines.push('Timeline: ' + form.querySelector('#timeline').options[form.querySelector('#timeline').selectedIndex].text);
+      lines.push('', val('message'));
+      var url = waBtn.dataset.wa + '?text=' + encodeURIComponent(lines.join('\n'));
+      var w = window.open(url, '_blank', 'noopener'); if (!w) location.href = url;
+    });
   }
 
   /* ---------- Scroll motion (GSAP + Lenis) ---------- */

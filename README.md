@@ -19,7 +19,7 @@ Static website for Growthive Systems. Plain HTML, CSS and JavaScript for GitHub 
 4. Once the domain verifies, tick "Enforce HTTPS" in Settings > Pages.
 
 ## Things to know
-- Contact form posts to Formspree form `xnjljdpq`. Submissions arrive in the email linked to that Formspree account.
+- Contact form posts to Formspree form `xdayvwlk`. Submissions arrive in the email linked to that Formspree account.
 - Scroll effects use GSAP 3.12.5 + ScrollTrigger (cdnjs) and Lenis 1.1.13 (unpkg). If they fail to load, every page still shows all content. Visitors with "reduce motion" switched on get no scroll effects.
 - Product screenshots in screens are the real Monitor and Book interfaces rendered with sample data, and are labelled as sample data on the site.
 - Shared header and footer are repeated in each HTML file. If you change a nav link, change it on every page.
